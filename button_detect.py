@@ -25,17 +25,13 @@ port = 65432
 # PIN 20: OUTPUT, Servo 3
 # PIN 21: OUTPUT, Servo 4
 
-<<<<<<< HEAD
-def test():
-    print("btn clicked")
+def test(i):
+    print("btn clicked ", i)
 
 
-=======
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
->>>>>>> 77f32bd8e26bcdefcc30765822207614126b74aa
 GPIO.setup(24, GPIO.OUT)
 
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # main button
 
 # reacting to control panel button pushes
 GPIO.setup(6, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k4 (lowest)
