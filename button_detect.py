@@ -25,14 +25,22 @@ port = 65432
 # PIN 20: OUTPUT, Servo 3
 # PIN 21: OUTPUT, Servo 4
 
-GPIO.setup(18, GPIO.IN)
+def test():
+    print("btn clicked")
+
+
 GPIO.setup(24, GPIO.OUT)
 
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # main button
+
 # reacting to control panel button pushes
-GPIO.setup(6, GPIO.OUT)  # k4 (lowest)
-GPIO.setup(13, GPIO.OUT)  # k3 (3rd bttn)
-GPIO.setup(19, GPIO.OUT)  # k2 (2nd bttn)
-GPIO.setup(26, GPIO.OUT)  # k1 (highest button)
+GPIO.setup(6, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k4 (lowest)
+GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k3 (3rd bttn)
+GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k2 (2nd bttn)
+GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k1 (highest button)
+
+
+GPIO.add_event_detect(26, GPIO.FALLING, callback=test)
 
 activated = False  # if the main button is pressed
 mode = 2  # mode it is currently in
