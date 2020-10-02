@@ -86,8 +86,6 @@ def registerPress(i):
     #   k3 = set mode to 0          <--
     #   k4 = reset to normal        (smoke machine) // extra
 
-    if (not activated) and i == 4:
-
     if not activated:
         timer_since_mode_switch = 30
         if i == PIN_K1:
@@ -182,22 +180,21 @@ while True:
             mode = 2
 
     # if not connected: try to reconnect
-    if and timer >= 10:
+    if timer >= 10:
         print("attempting to send message")
-        message = "ping")
-           try:
-                clientSocket.send(message.encode())
-            except socket.error:          # set connection status and recreate socket
-                connected=False
-                clientSocket=socket.socket()
-                print("message could not be sent... attempting reconnect")
-                try:  # try to connect
-                    clientSocket.connect((ip, port))
-                    connected=True
-                    print("re-connection successful")
-                except socket.error:
-                    print(
-                        "connection could not be made, continuing without connection'")
+        message = "ping"
+        try:
+            clientSocket.send(message.encode())
+        except socket.error:          # set connection status and recreate socket
+            connected=False
+            clientSocket=socket.socket()
+            print("message could not be sent... attempting reconnect")
+            try:  # try to connect
+                clientSocket.connect((IP_ADDRESS, PORT))
+                connected=True
+                print("re-connection successful")
+            except socket.error:
+                print("connection could not be made, continuing without connection'")
         timer=0
 
     timer=timer + SLEEP_DURATION
