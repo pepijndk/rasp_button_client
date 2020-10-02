@@ -60,7 +60,7 @@ connected = False
 
 
 # time since button is pressed
-timer_since_on = 0
+timer = 0
 
 # counts down from 30 when k-button is clicked, mode back to 2 if at 0
 timer_since_mode_switch = 0
@@ -108,8 +108,7 @@ def registerPress(i):
                 print("turn music off'")  # todo
 
             # make sure lights are in mode 1
-            sc.activate_stage_0()
-            sc.activate_stage_1()
+            sc.activate()
 
         if i == PIN_K3:
             if mode == 2:  # if the music was on, turn it off
@@ -117,6 +116,7 @@ def registerPress(i):
 
             # make sure lights are in mode 0
             sc.activate_stage_0()
+            sleep(0.5)
             sc.deactivate_stage_1()
 
         if i == PIN_K4:
@@ -134,8 +134,9 @@ def call():
     global activated
     global timer
     global connected
+    global clientSocket
 
-    print("call ", GPIO.input(18), "mode ", mode)
+    print("call", GPIO.input(18), "mode", mode, "connected", connected)
 
     # Button is clicked when everything is off
     if GPIO.input(18) and activated == False:
@@ -161,6 +162,17 @@ def call():
             print("sending message to server to stop music")
 
 
+# start of script
+sc.deactivate()
+
+try:
+    clientSocket.connect((IP_ADDRESS, PORT))
+    connected = True
+    print("connection successful")
+except socket.error:
+    print("connection could not be established")
+
+
 while True:
     call()
 
@@ -169,6 +181,26 @@ while True:
         if timer_since_mode_switch <= 0:
             mode = 2
 
+    # if not connected: try to reconnect
+    if and timer >= 10:
+        print("attempting to send message")
+        message = "ping")
+           try:
+                clientSocket.send(message.encode())
+            except socket.error:          # set connection status and recreate socket
+                connected=False
+                clientSocket=socket.socket()
+                print("message could not be sent... attempting reconnect")
+                try:  # try to connect
+                    clientSocket.connect((ip, port))
+                    connected=True
+                    print("re-connection successful")
+                except socket.error:
+                    print(
+                        "connection could not be made, continuing without connection'")
+        timer=0
+
+    timer=timer + SLEEP_DURATION
     sleep(SLEEP_DURATION)
 
 
