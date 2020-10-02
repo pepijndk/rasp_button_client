@@ -25,7 +25,7 @@ port = 65432
 # PIN 20: OUTPUT, Servo 3
 # PIN 21: OUTPUT, Servo 4
 
-GPIO.setup(18, GPIO.IN)
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(24, GPIO.OUT)
 
 # reacting to control panel button pushes
