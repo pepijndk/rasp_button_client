@@ -15,10 +15,10 @@ import socket
 #
 
 # GPIO pins
-PIN_K1 = 26  # First button
-PIN_K2 = 19  # Second button
-PIN_K3 = 13  # Third button
-PIN_K4 = 6  # Fourth button
+PIN_K1 = 6  # First button
+PIN_K2 = 13 # Second button
+PIN_K3 = 19 # Third button
+PIN_K4 = 26  # Fourth button
 
 PIN_MAIN_BUTTON = 18
 PIN_LED_RED = 24
@@ -72,6 +72,10 @@ timer_since_mode_switch = 0
 
 
 def registerPress(i):
+    global timer_since_mode_switch
+    global activated
+    global mode
+
     print("btn clicked ", i)
 
     # differentiate between if activated is true.
@@ -82,20 +86,23 @@ def registerPress(i):
     #   k3 = set mode to 0          <--
     #   k4 = reset to normal        (smoke machine) // extra
 
+    if (not activated) and i == 4:
+        print("resetting")
+
     if not activated and i != PIN_K4:
         timer_since_mode_switch = 30
-        if i = PIN_K1:
+        if i == PIN_K1:
             mode = 2
-        if i = PIN_K2:
+        if i == PIN_K2:
             mode = 1
-        if i = PIN_K3:
+        if i == PIN_K3:
             mode = 0
 
     elif activated:
-        if i = PIN_K1:
+        if i == PIN_K1:
             if mode == 2:  # if music was playing, play next song
                 print("next song")  # todo
-        if i = PIN_K2:
+        if i == PIN_K2:
             if mode == 2:  # if the music was on, turn it off
                 print("turn music off'")  # todo
 
@@ -103,7 +110,7 @@ def registerPress(i):
             sc.activate_stage_0()
             sc.activate_stage_1()
 
-        if i = PIN_K3:
+        if i == PIN_K3:
             if mode == 2:  # if the music was on, turn it off
                 print("turn music off'")  # todo
 
@@ -111,7 +118,7 @@ def registerPress(i):
             sc.activate_stage_0()
             sc.deactivate_stage_1()
 
-        if i = PIN_K4:
+        if i == PIN_K4:
             print("activating smoke machine")
 
 
@@ -127,7 +134,7 @@ def call():
     global timer
     global connected
 
-    print("call ", GPIO.input(18))
+    print("call ", GPIO.input(18), "mode ", mode)
 
     # Button is clicked when everything is off
     if GPIO.input(18) and activated == False:
@@ -157,11 +164,11 @@ while True:
     call()
 
     if timer_since_mode_switch > 0:
-        timer_since_mode_switch = timer_since_mode_switch - step_size
-        if timer_since_mode_switch = < 0:
+        timer_since_mode_switch = timer_since_mode_switch - SLEEP_DURATION
+        if timer_since_mode_switch <= 0:
             mode = 2
 
-    sleep(step_size)
+    sleep(SLEEP_DURATION)
 
 
 # GPIO.output(24, GPIO.HIGH)
