@@ -10,11 +10,28 @@ import servo_controller as sc
 import socket
 # import message_server_pythonversion as server
 
+#
+# Constants
+#
+
+# GPIO pins
+PIN_K1 = 26  # First button
+PIN_K2 = 19  # Second button
+PIN_K3 = 13  # Third button
+PIN_K4 = 6  # Fourth button
+
+PIN_MAIN_BUTTON = 18
+PIN_LED_RED = 24
+
+# other
+IP_ADDRESS = "192.168.0.61"
+PORT = 65432
+SLEEP_DURATION = 0.1
+
 GPIO.setmode(GPIO.BCM)
-ip = "192.168.0.61"
+
 
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-port = 65432
 
 
 # PIN 18: INPUT, Button input
@@ -25,34 +42,83 @@ port = 65432
 # PIN 20: OUTPUT, Servo 3
 # PIN 21: OUTPUT, Servo 4
 
-def test(i):
-    print("btn clicked ", i)
 
-
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(24, GPIO.OUT)
 
 
 # reacting to control panel button pushes
-GPIO.setup(6, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k4 (lowest)
-GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k3 (3rd bttn)
-GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k2 (2nd bttn)
-GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # k1 (highest button)
+GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-
-GPIO.add_event_detect(26, GPIO.FALLING, callback=test)
 
 activated = False  # if the main button is pressed
 mode = 2  # mode it is currently in
 connected = False
 
+
+# time since button is pressed
 timer_since_on = 0
+
+# counts down from 30 when k-button is clicked, mode back to 2 if at 0
 timer_since_mode_switch = 0
 
 # Modes:
 # 0 = party lights on
 # 1 = party lights on & normal lights off
 # 2 = party lights on & normal lights off & music on (everything)
+
+
+def registerPress(i):
+    print("btn clicked ", i)
+
+    # differentiate between if activated is true.
+    # if it is not activated it will set itself to that mode for 30 seconds
+    #   if false:                   if true:
+    #   k1 = set mode to 2          (next song) // extra feature
+    #   k2 = set mode to 1          <--
+    #   k3 = set mode to 0          <--
+    #   k4 = reset to normal        (smoke machine) // extra
+
+    if not activated and i != PIN_K4:
+        timer_since_mode_switch = 30
+        if i = PIN_K1:
+            mode = 2
+        if i = PIN_K2:
+            mode = 1
+        if i = PIN_K3:
+            mode = 0
+
+    elif activated:
+        if i = PIN_K1:
+            if mode == 2:  # if music was playing, play next song
+                print("next song")  # todo
+        if i = PIN_K2:
+            if mode == 2:  # if the music was on, turn it off
+                print("turn music off'")  # todo
+
+            # make sure lights are in mode 1
+            sc.activate_stage_0()
+            sc.activate_stage_1()
+
+        if i = PIN_K3:
+            if mode == 2:  # if the music was on, turn it off
+                print("turn music off'")  # todo
+
+            # make sure lights are in mode 0
+            sc.activate_stage_0()
+            sc.deactivate_stage_1()
+
+        if i = PIN_K4:
+            print("activating smoke machine")
+
+
+GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
+GPIO.add_event_detect(PIN_K2, GPIO.FALLING, callback=registerPress)
+GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
+GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
 
 
 def call():
@@ -89,7 +155,13 @@ def call():
 
 while True:
     call()
-    sleep(0.1)
+
+    if timer_since_mode_switch > 0:
+        timer_since_mode_switch = timer_since_mode_switch - step_size
+        if timer_since_mode_switch = < 0:
+            mode = 2
+
+    sleep(step_size)
 
 
 # GPIO.output(24, GPIO.HIGH)
