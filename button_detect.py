@@ -16,8 +16,8 @@ import socket
 
 # GPIO pins
 PIN_K1 = 6  # First button
-PIN_K2 = 13 # Second button
-PIN_K3 = 19 # Third button
+PIN_K2 = 13  # Second button
+PIN_K3 = 19  # Third button
 PIN_K4 = 26  # Fourth button
 
 PIN_MAIN_BUTTON = 18
@@ -87,9 +87,8 @@ def registerPress(i):
     #   k4 = reset to normal        (smoke machine) // extra
 
     if (not activated) and i == 4:
-        print("resetting")
 
-    if not activated and i != PIN_K4:
+    if not activated:
         timer_since_mode_switch = 30
         if i == PIN_K1:
             mode = 2
@@ -97,6 +96,8 @@ def registerPress(i):
             mode = 1
         if i == PIN_K3:
             mode = 0
+        if i == PIN_K4:
+            sc.deactivate()
 
     elif activated:
         if i == PIN_K1:
