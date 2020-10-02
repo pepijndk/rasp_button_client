@@ -17,8 +17,7 @@ clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 port = 65432
 
 
-# PIN 18: OUTPUT, Script is running
-# PIN 23: INPUT, Button input
+# PIN 18: INPUT, Button input
 # PIN 24: OUTPUT, Active is true
 
 # PIN 12: OUTPUT, Servo 1
@@ -26,8 +25,7 @@ port = 65432
 # PIN 20: OUTPUT, Servo 3
 # PIN 21: OUTPUT, Servo 4
 
-GPIO.setup(18, GPIO.OUT)
-GPIO.setup(23, GPIO.IN)
+GPIO.setup(18, GPIO.IN)
 GPIO.setup(24, GPIO.OUT)
 
 # reacting to control panel button pushes
@@ -38,6 +36,8 @@ GPIO.setup(26, GPIO.OUT)  # k1 (highest button)
 
 activated = False  # if the main button is pressed
 mode = 2  # mode it is currently in
+connected = False
+
 timer_since_on = 0
 timer_since_mode_switch = 0
 
@@ -51,11 +51,12 @@ def call():
     global mode
     global activated
     global timer
+    global connected
 
-    print("call ", GPIO.input(23), "    state", state)
+    print("call ", GPIO.input(18))
 
     # Button is clicked when everything is off
-    if GPIO.input(23) and activated == False:
+    if GPIO.input(18) and activated == False:
         print("activating")
         activated = True
 
@@ -68,11 +69,11 @@ def call():
                 print("sending message to server to start music")
             sc.activate()
 
-    elif not GPIO.input(23) and activated == True:
+    elif not GPIO.input(18) and activated == True:
         print("deactivation noticed")
         sleep(3)  # prevent false positive
 
-        if not GPIO.input(23):
+        if not GPIO.input(18):
             sc.deactivate()
             activated = False
             print("sending message to server to stop music")
