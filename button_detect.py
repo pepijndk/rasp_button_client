@@ -56,8 +56,6 @@ clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(24, GPIO.OUT)
 
-# Pin for smoke machine
-GPIO.setup(PIN_SMOKE, GPIO.OUT)
 
 
 # reacting to control panel button pushes
@@ -94,6 +92,11 @@ def activateSmoke():
 
     date_smoke = datetime.datetime.now()
     smoke_active = True
+    sc.activateSmokeMachine()
+    
+    # workaround for bug
+    sleep(0.1)
+    sc.deactivateSmokeMachine()
     sc.activateSmokeMachine()
 
 
@@ -190,7 +193,7 @@ def call():
                 message = "start"
                 clientSocket.send(message.encode())
             sc.activate()
-        date_smoke = datetime.datetime.now()
+            activateSmoke()
 
     elif not GPIO.input(18) and activated == True:
         print("deactivation noticed")
@@ -240,17 +243,19 @@ while True:
 
         # check if its time for smoke.
         # in here so it doesn't check every cycle, doesn't matter if not accurate
-        time_diff = (datetime.datetime.now() - date_smoke) * 24 * 3600
+        time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff", time_diff)
         if time_diff > 3600:  # if there has been no smoke in 10 minutes
             activateSmoke()
 
     # deactivate smoke if it has been on for a certain amount of time
     if smoke_active:
-        time_diff = (datetime.datetime.now() - date_smoke) * 24 * 3600
+        time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff2", time_diff)
-        if time_diff > SMOKE_INTERVAL:  # if there has been no smoke in 10 minutes
+        if time_diff > SMOKE_MACHINE_DURATION:  # if there has been no smoke in 10 minutes
             # deactivate smoke
+            print("deactivating smoke")
+
             smoke_active = False
             sc.deactivateSmokeMachine()
 

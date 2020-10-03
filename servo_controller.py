@@ -28,6 +28,7 @@ GPIO.setup(20, GPIO.OUT)
 GPIO.setup(21, GPIO.OUT)
 
 GPIO.setup(PIN_SMOKE, GPIO.OUT)
+s = GPIO.PWM(PIN_SMOKE, 50)
 
 
 def activate_servo(num):  # Hier de pins veranderen als er ooit een kapot gaat.
@@ -80,17 +81,19 @@ def deactivate():
     deactivate_stage_1()
 
 
-def activateSmokeMachine(dur):
-    p = GPIO.PWM(PIN_SMOKE, 50)
-    p.start(9)
-    sleep(0.1)
-    p.stop()
-    sleep(0.2)
+def activateSmokeMachine():
+    s.start(9)
+    #s.ChangeDutyCycle(9)
+    sleep(1)
+    s.ChangeDutyCycle(9)
+    #s.stop()
+   # p.ChangeDutyCycle(9)
+   # p.stop()
 
-
-def deactivateSmokeMachine(dur):
-    p = GPIO.PWM(PIN_SMOKE, 50)
-    p.start(11)
-    sleep(0.1)
-    p.stop()
-    sleep(0.2)
+def deactivateSmokeMachine():
+    # p = GPIO.PWM(PIN_SMOKE, 50)
+    #s.start(11)
+    s.ChangeDutyCycle(11)
+    #sleep(0.1)
+    s.stop()
+    # sleep(0.2)
