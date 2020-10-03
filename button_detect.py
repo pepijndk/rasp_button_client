@@ -230,11 +230,12 @@ while True:
             mode = 2
 
     # if not connected: try to reconnect
-    if timer % 10 == 0:
+    if int(timer) == 0:
         print("attempting to send message")
         message = "ping"
         try:
             clientSocket.send(message.encode())
+            print("message sent")
         except socket.error:          # set connection status and recreate socket
             connected = False
             fl.setStatus(1)
@@ -252,7 +253,7 @@ while True:
         # in here so it doesn't check every cycle, doesn't matter if not accurate
         time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff", time_diff)
-        if time_diff > SMOKE_INTERVAL:  # if there has been no smoke in 10 minutes
+        if time_diff > SMOKE_INTERVAL and activated:  # if there has been no smoke in 10 minutes
             activateSmoke()
 
     # deactivate smoke if it has been on for a certain amount of time
@@ -265,6 +266,9 @@ while True:
 
             smoke_active = False
             sc.deactivateSmokeMachine()
+
+    if timer > 10000:
+        timer = 0
 
     timer = timer + SLEEP_DURATION
     sleep(SLEEP_DURATION)
