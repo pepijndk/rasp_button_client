@@ -43,6 +43,7 @@ GPIO.setmode(GPIO.BCM)
 
 
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+clientSocket.settimeout(5)
 
 
 # PIN 18: INPUT, Button input
@@ -168,7 +169,12 @@ def sendToServer(command):
     global connected
 
     if connected:
-        clientSocket.send(command.encode())
+        try:
+            clientSocket.send(command.encode())
+        except socket.error:
+            print("Message could not be sent")
+            fl.setStatus(1)
+            connected = False
 
 
 def call():
@@ -231,7 +237,6 @@ while True:
             mode = 2
 
     # if not connected: try to reconnect
-    print(int(timer), "timer")
     if int(timer) % 10 == 0:
         timer = timer + 1
         print("attempting to send message")
