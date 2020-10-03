@@ -32,7 +32,7 @@ def colorWipe(strip, color, wait_ms=50):
 
 def colorWipeNoTail(strip, color, width=20, wait_ms=0):
     """Wipe color across display a pixel at a time."""
-    for i in range((strip.numPixels() + width) / 2):
+    for i in range(int((strip.numPixels() + width) / 2)):
         pixel = i * 2
         strip.setPixelColor(pixel, color)
         strip.setPixelColor(pixel + 1, color)
@@ -42,7 +42,7 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0):
         strip.show()
         time.sleep(wait_ms/1000.0)
 
-    for i in reversed(range((strip.numPixels() + width) / 2)):
+    for i in reversed(int(range((strip.numPixels() + width) / 2))):
         pixel = i * 2
         strip.setPixelColor(i, color)
         strip.setPixelColor(i + 1, color)
