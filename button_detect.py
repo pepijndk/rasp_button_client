@@ -7,6 +7,7 @@ import threading
 from subprocess import call, Popen
 import subprocess
 import servo_controller as sc
+import feedback_led as fl
 import socket
 import datetime
 # import message_server_pythonversion as server
@@ -206,13 +207,18 @@ def call():
 
 # start of script
 sc.deactivate()
+fl.setStatus(0)
+sleep(2S)
+
 
 try:
     clientSocket.connect((IP_ADDRESS, PORT))
     connected = True
+    fl.setStatus(2)
     print("connection successful")
 except socket.error:
     print("connection could not be established")
+    fl.setStatus(1)
 
 
 while True:
@@ -231,11 +237,13 @@ while True:
             clientSocket.send(message.encode())
         except socket.error:          # set connection status and recreate socket
             connected = False
+            fl.setStatus(1)
             clientSocket = socket.socket()
             print("message could not be sent... attempting reconnect")
             try:  # try to connect
                 clientSocket.connect((IP_ADDRESS, PORT))
                 connected = True
+                fl.setStatus(2)
                 print("re-connection successful")
             except socket.error:
                 print("connection could not be made, continuing without connection'")
