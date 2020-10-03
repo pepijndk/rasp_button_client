@@ -31,7 +31,7 @@ SMOKE_MACHINE_DURATION = 15
 # how long to sleep when a song starts before activating smoke (in s)
 SLEEP_UNTIL_SMOKE = 4
 # after how long of no smoke it activates the smoke machine (in s)
-SMOKE_INTERVAL = 60
+SMOKE_INTERVAL = 3600
 
 
 # other
@@ -208,7 +208,7 @@ def call():
 # start of script
 sc.deactivate()
 fl.setStatus(0)
-sleep(2S)
+sleep(2)
 
 
 try:
@@ -230,7 +230,9 @@ while True:
             mode = 2
 
     # if not connected: try to reconnect
-    if int(timer) == 0:
+    print(int(timer), "timer")
+    if int(timer) % 10 == 0:
+        timer = timer + 1
         print("attempting to send message")
         message = "ping"
         try:
