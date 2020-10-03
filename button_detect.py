@@ -57,7 +57,6 @@ GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(24, GPIO.OUT)
 
 
-
 # reacting to control panel button pushes
 GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -93,7 +92,7 @@ def activateSmoke():
     date_smoke = datetime.datetime.now()
     smoke_active = True
     sc.activateSmokeMachine()
-    
+
     # workaround for bug
     sleep(0.1)
     sc.deactivateSmokeMachine()
@@ -245,7 +244,7 @@ while True:
         # in here so it doesn't check every cycle, doesn't matter if not accurate
         time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff", time_diff)
-        if time_diff > 3600:  # if there has been no smoke in 10 minutes
+        if time_diff > SMOKE_INTERVAL:  # if there has been no smoke in 10 minutes
             activateSmoke()
 
     # deactivate smoke if it has been on for a certain amount of time
@@ -261,42 +260,3 @@ while True:
 
     timer = timer + SLEEP_DURATION
     sleep(SLEEP_DURATION)
-
-
-# GPIO.output(24, GPIO.HIGH)
-# sc.deactivate()
-
-
-# while clientSocket.connect_ex((ip, port)) != 0:
-#     print("waiting to connect")
-#     sleep(5)
-
-# connected = True
-# print("connected to server")
-# i = 0
-
-# # try:
-# #     while True:      # attempt to send and receive wave, otherwise reconnect
-# #         message = "ping " + str(int(i / 100))
-# #         if i % 100 == 0:
-# #             try:
-# #                 clientSocket.send(message.encode())
-# #             except socket.error:          # set connection status and recreate socket
-# #                 connected = False
-# #                 clientSocket = socket.socket()
-# #                 print("connection lost... reconnecting")
-# #                 while not connected:              # attempt to reconnect, otherwise sleep for 2 seconds
-# #                     try:
-# #                         clientSocket.connect((ip, port))
-# #                         connected = True
-# #                         print("re-connection successful")
-# #                     except socket.error:
-# #                         sleep(2)
-# #         i = i + 1
-# #         if i > 1000000:
-# #             i = 0
-# #         call()
-# #         sleep(0.1)
-# # finally:
-# #     clientSocket.close()
-# #     GPIO.cleanup()

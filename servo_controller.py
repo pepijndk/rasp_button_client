@@ -83,17 +83,17 @@ def deactivate():
 
 def activateSmokeMachine():
     s.start(9)
-    #s.ChangeDutyCycle(9)
-    sleep(1)
+    # s.ChangeDutyCycle(9)
     s.ChangeDutyCycle(9)
-    #s.stop()
+    # s.stop()
    # p.ChangeDutyCycle(9)
    # p.stop()
 
+
 def deactivateSmokeMachine():
     # p = GPIO.PWM(PIN_SMOKE, 50)
-    #s.start(11)
+    # s.start(11)
     s.ChangeDutyCycle(11)
-    #sleep(0.1)
+    # sleep(0.1)
     s.stop()
     # sleep(0.2)
