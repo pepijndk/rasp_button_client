@@ -58,6 +58,7 @@ def strobe(strip, color, wait_ms=0, sections=5, iterations=30):
     """strobe"""
 
     size = int(LED_COUNT / sections)
+    prev_prev_section
     prev_section = 0
 
     for i in range(iterations):
@@ -67,15 +68,19 @@ def strobe(strip, color, wait_ms=0, sections=5, iterations=30):
 
         for old in range(size):
             print("old", section)
-            strip.setPixelColor(old + (prev_section * size), 0)
+            strip.setPixelColor(old + (prev_prev_section * size), 0)
 
         for new in range(size):
             print("new", section)
             strip.setPixelColor(new + (section * size), color)
 
+        prev_prev_section = prev_section
         prev_section = section
         strip.show()
         time.sleep(wait_ms/1000.0)
+
+    for i in range(strip.numPixels()):
+        strip.setPixelColor(i, 0)
 
 
 def theaterChase(strip, color, wait_ms=50, iterations=10):
