@@ -42,9 +42,9 @@ def activate_servo(num):  # Hier de pins veranderen als er ooit een kapot gaat.
 
     p = GPIO.PWM(gpio_pin, 50)
     p.start(9)
-    sleep(0.1)
+    sleep(0.2)
     p.ChangeDutyCycle(11)
-    # sleep(0.1)
+    sleep(0.1)
     p.stop()
     sleep(0.1)
 
