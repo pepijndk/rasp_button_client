@@ -43,7 +43,7 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=2):
         strip.show()
         time.sleep(wait_ms/1000.0)
 
-    sleep(1)
+    time.sleep(1)
 
     for i in range(int((strip.numPixels() + width) / speed)):
         pixel = LED_COUNT - (i * speed)
