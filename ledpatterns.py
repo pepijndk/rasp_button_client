@@ -64,14 +64,11 @@ def strobe(strip, color, wait_ms=0, sections=5, iterations=30):
     for i in range(iterations):
 
         section = int(random() * (sections))
-        print("section", section)
 
         for old in range(size):
-            print("old", section)
             strip.setPixelColor(old + (prev_prev_section * size), 0)
 
         for new in range(size):
-            print("new", section)
             strip.setPixelColor(new + (section * size), color)
 
         prev_prev_section = prev_section
