@@ -33,7 +33,7 @@ status = 0
 #
 
 
-def setStatus(status: int):
+def setStatus(status):
     GPIO.output(PIN_LED_RED, GPIO.LOW)
     GPIO.output(PIN_LED_GREEN, GPIO.LOW)
     GPIO.output(PIN_LED_BLUE, GPIO.LOW)

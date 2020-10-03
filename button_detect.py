@@ -208,7 +208,7 @@ def call():
 # start of script
 sc.deactivate()
 fl.setStatus(0)
-sleep(2S)
+sleep(2)
 
 
 try:
@@ -229,8 +229,11 @@ while True:
         if timer_since_mode_switch <= 0:
             mode = 2
 
+
     # if not connected: try to reconnect
-    if timer % 10 == 0:
+    print(int(timer), "timer")
+    if int(timer) % 10 == 0:
+        timer = timer + 1
         print("attempting to send message")
         message = "ping"
         try:
