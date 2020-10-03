@@ -162,10 +162,14 @@ if __name__ == '__main__':
             strobe(strip, Color(255, 255, 255))  # white wipe
             strobe(strip, Color(0, 255, 0))  # Blue wipe
             print('Color wipe animations.')
-            colorWipeNoTail(strip, Color((int(random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # random wipe
-            colorWipeNoTail(strip, Color((int(random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
-            colorWipeNoTail(strip, Color((int(random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
-            colorWipeNoTail(strip, Color((int(random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
+            colorWipeNoTail(strip, Color(int(random() * 255), int(random()
+                                                                  * 255), int(random() * 255)), 20, 0, 4)  # random wipe
+            colorWipeNoTail(strip, Color(int(
+                random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
+            colorWipeNoTail(strip, Color(int(
+                random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
+            colorWipeNoTail(strip, Color(int(
+                random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
             colorWipeNoTail(strip, Color(255, 0, 0), 20, 0, 4)  # Red wipe
             colorWipeNoTail(strip, Color(0, 255, 0), 20, 0, 4)  # Blue wipe
             colorWipeNoTail(strip, Color(0, 0, 255), 20, 4)  # Green wipe
