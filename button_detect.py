@@ -23,7 +23,7 @@ PIN_K3 = 19  # Third button
 PIN_K4 = 26  # Fourth button
 
 
-PIN_MAIN_BUTTON = 18
+PIN_MAIN_BUTTON = 23
 PIN_LED_RED = 24
 SMOKE_MACHINE_DURATION = 15
 
