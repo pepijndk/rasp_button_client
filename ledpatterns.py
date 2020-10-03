@@ -54,7 +54,7 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=2):
         time.sleep(wait_ms/1000.0)
 
 
-def strobe(strip, color, wait_ms=0, sections=5, iterations=30):
+def strobe(strip, color, wait_ms=30, sections=5, iterations=50):
     """strobe"""
 
     size = int(LED_COUNT / sections)
@@ -160,9 +160,9 @@ if __name__ == '__main__':
             strobe(strip, Color(255, 255, 255))  # white wipe
             strobe(strip, Color(0, 255, 0))  # Blue wipe
             print('Color wipe animations.')
-            colorWipeNoTail(strip, Color(255, 0, 0), 20, 0)  # Red wipe
-            colorWipeNoTail(strip, Color(0, 255, 0), 20, 0)  # Blue wipe
-            colorWipeNoTail(strip, Color(0, 0, 255), 20, 0)  # Green wipe
+            colorWipeNoTail(strip, Color(255, 0, 0), 20, 1000, 4)  # Red wipe
+            colorWipeNoTail(strip, Color(0, 255, 0), 20, 10000, 4)  # Blue wipe
+            colorWipeNoTail(strip, Color(0, 0, 255), 20, 0, 4)  # Green wipe
             print('Theater chase animations.')
             theaterChase(strip, Color(127, 127, 127))  # White theater chase
             theaterChase(strip, Color(127,   0,   0))  # Red theater chase
