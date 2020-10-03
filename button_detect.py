@@ -127,7 +127,7 @@ def registerPress(i):
 
     elif activated:
         if i == PIN_K1:
-            if mode == 2:  # if music was playing, play next song
+            if mode == 2 and connected:  # if music was playing, play next song
                 print("next song")
                 message = "next"
                 clientSocket.send(message.encode())
@@ -139,7 +139,7 @@ def registerPress(i):
                 clientSocket.send(message.encode())
 
         if i == PIN_K2:
-            if mode == 2:  # if the music was on, turn it off
+            if mode == 2 and connected:  # if the music was on, turn it off
                 print("turn music off'")
                 message = "stop"
                 clientSocket.send(message.encode())
@@ -148,7 +148,7 @@ def registerPress(i):
             sc.activate()
 
         if i == PIN_K3:
-            if mode == 2:  # if the music was on, turn it off
+            if mode == 2 and connected:  # if the music was on, turn it off
                 print("turn music off'")
                 message = "stop"
                 clientSocket.send(message.encode())
