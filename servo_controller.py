@@ -7,11 +7,14 @@ import argparse
 
 from time import sleep
 
+PIN_SMOKE = 25  # Pin for smoke
 
 # PIN 12: OUTPUT, Servo 1
 # PIN 16: OUTPUT, Servo 2
 # PIN 20: OUTPUT, Servo 3
 # PIN 21: OUTPUT, Servo 4
+
+# pin 17: OUTPUT, Smoke machine
 
 
 # Zet de pinmode op Broadcom SOC.
@@ -23,6 +26,8 @@ GPIO.setup(12, GPIO.OUT)
 GPIO.setup(16, GPIO.OUT)
 GPIO.setup(20, GPIO.OUT)
 GPIO.setup(21, GPIO.OUT)
+
+GPIO.setup(PIN_SMOKE, GPIO.OUT)
 
 
 def activate_servo(num):  # Hier de pins veranderen als er ooit een kapot gaat.
@@ -38,8 +43,9 @@ def activate_servo(num):  # Hier de pins veranderen als er ooit een kapot gaat.
     p.start(9)
     sleep(0.2)
     p.ChangeDutyCycle(11)
-    sleep(0.2)
+    sleep(0.1)
     p.stop()
+    sleep(0.2)
 
 # stages: (correspond with modes in button_detect)
 # 0 = party lights on
@@ -72,3 +78,19 @@ def deactivate():
     deactivate_stage_0()
     sleep(0.5)
     deactivate_stage_1()
+
+
+def activateSmokeMachine(dur):
+    p = GPIO.PWM(PIN_SMOKE, 50)
+    p.start(9)
+    sleep(0.1)
+    p.stop()
+    sleep(0.2)
+
+
+def deactivateSmokeMachine(dur):
+    p = GPIO.PWM(PIN_SMOKE, 50)
+    p.start(11)
+    sleep(0.1)
+    p.stop()
+    sleep(0.2)

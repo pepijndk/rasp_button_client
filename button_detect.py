@@ -8,6 +8,7 @@ from subprocess import call, Popen
 import subprocess
 import servo_controller as sc
 import socket
+import datetime
 # import message_server_pythonversion as server
 
 #
@@ -20,8 +21,17 @@ PIN_K2 = 13  # Second button
 PIN_K3 = 19  # Third button
 PIN_K4 = 26  # Fourth button
 
+
 PIN_MAIN_BUTTON = 18
 PIN_LED_RED = 24
+SMOKE_MACHINE_DURATION = 15
+
+
+# how long to sleep when a song starts before activating smoke (in s)
+SLEEP_UNTIL_SMOKE = 4
+# after how long of no smoke it activates the smoke machine (in s)
+SMOKE_INTERVAL = 60
+
 
 # other
 IP_ADDRESS = "192.168.0.61"
@@ -46,6 +56,9 @@ clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(24, GPIO.OUT)
 
+# Pin for smoke machine
+GPIO.setup(PIN_SMOKE, GPIO.OUT)
+
 
 # reacting to control panel button pushes
 GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -53,22 +66,35 @@ GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-
-activated = False  # if the main button is pressed
-mode = 2  # mode it is currently in
-connected = False
-
-
-# time since button is pressed
-timer = 0
-
-# counts down from 30 when k-button is clicked, mode back to 2 if at 0
-timer_since_mode_switch = 0
-
 # Modes:
 # 0 = party lights on
 # 1 = party lights on & normal lights off
 # 2 = party lights on & normal lights off & music on (everything)
+
+
+activated = False  # if the main button is pressed
+mode = 2  # mode it is currently in
+connected = False
+start_time = 0
+# time since button is pressed
+timer = 0
+
+smoke_active = False
+
+# counts down from 30 when k-button is clicked, mode back to 2 if at 0
+timer_since_mode_switch = 0
+
+# date when smoke machine was last activated
+date_smoke = datetime.datetime.now()
+
+
+def activateSmoke():
+    global smoke_active
+    global date_smoke
+
+    date_smoke = datetime.datetime.now()
+    smoke_active = True
+    sc.activateSmokeMachine()
 
 
 def registerPress(i):
@@ -81,7 +107,7 @@ def registerPress(i):
     # differentiate between if activated is true.
     # if it is not activated it will set itself to that mode for 30 seconds
     #   if false:                   if true:
-    #   k1 = set mode to 2          (next song) // extra feature
+    #   k1 = set mode to 2          next song
     #   k2 = set mode to 1          <--
     #   k3 = set mode to 0          <--
     #   k4 = reset to normal        (smoke machine) // extra
@@ -100,17 +126,30 @@ def registerPress(i):
     elif activated:
         if i == PIN_K1:
             if mode == 2:  # if music was playing, play next song
-                print("next song")  # todo
+                print("next song")
+                message = "next"
+                clientSocket.send(message.encode())
+                sleep(4)
+                activateSmoke()
+            else:
+                print("start")
+                message = "start"
+                clientSocket.send(message.encode())
+
         if i == PIN_K2:
             if mode == 2:  # if the music was on, turn it off
-                print("turn music off'")  # todo
+                print("turn music off'")
+                message = "stop"
+                clientSocket.send(message.encode())
 
             # make sure lights are in mode 1
             sc.activate()
 
         if i == PIN_K3:
             if mode == 2:  # if the music was on, turn it off
-                print("turn music off'")  # todo
+                print("turn music off'")
+                message = "stop"
+                clientSocket.send(message.encode())
 
             # make sure lights are in mode 0
             sc.activate_stage_0()
@@ -119,6 +158,7 @@ def registerPress(i):
 
         if i == PIN_K4:
             print("activating smoke machine")
+            activateSmoke()
 
 
 GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
@@ -147,8 +187,10 @@ def call():
             sc.activate()
         elif mode == 2:
             if connected:
-                print("sending message to server to start music")
+                message = "start"
+                clientSocket.send(message.encode())
             sc.activate()
+        date_smoke = datetime.datetime.now()
 
     elif not GPIO.input(18) and activated == True:
         print("deactivation noticed")
@@ -180,24 +222,39 @@ while True:
             mode = 2
 
     # if not connected: try to reconnect
-    if timer >= 10:
+    if timer % 10 == 0:
         print("attempting to send message")
         message = "ping"
         try:
             clientSocket.send(message.encode())
         except socket.error:          # set connection status and recreate socket
-            connected=False
-            clientSocket=socket.socket()
+            connected = False
+            clientSocket = socket.socket()
             print("message could not be sent... attempting reconnect")
             try:  # try to connect
                 clientSocket.connect((IP_ADDRESS, PORT))
-                connected=True
+                connected = True
                 print("re-connection successful")
             except socket.error:
                 print("connection could not be made, continuing without connection'")
-        timer=0
 
-    timer=timer + SLEEP_DURATION
+        # check if its time for smoke.
+        # in here so it doesn't check every cycle, doesn't matter if not accurate
+        time_diff = (datetime.datetime.now() - date_smoke) * 24 * 3600
+        print("time diff", time_diff)
+        if time_diff > 3600:  # if there has been no smoke in 10 minutes
+            activateSmoke()
+
+    # deactivate smoke if it has been on for a certain amount of time
+    if smoke_active:
+        time_diff = (datetime.datetime.now() - date_smoke) * 24 * 3600
+        print("time diff2", time_diff)
+        if time_diff > SMOKE_INTERVAL:  # if there has been no smoke in 10 minutes
+            # deactivate smoke
+            smoke_active = False
+            sc.deactivateSmokeMachine()
+
+    timer = timer + SLEEP_DURATION
     sleep(SLEEP_DURATION)
 
 
