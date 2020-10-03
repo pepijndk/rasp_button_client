@@ -8,6 +8,7 @@
 import time
 from rpi_ws281x import *
 import argparse
+from random import random
 
 # LED strip configuration:
 LED_COUNT = 315      # Number of LED pixels.
@@ -47,10 +48,30 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=2):
 
         for p in range(3):
             strip.setPixelColor(pixel + p, color)
-            strip.setPixelColor(pixel - width - p, 0)
+            strip.setPixelColor(pixel + width - p, 0)
 
         strip.show()
         time.sleep(wait_ms/1000.0)
+
+
+def strobe(strip, color, wait_ms=0, sections=4, iterations=20):
+    """strobe"""
+
+    size = int(LED_COUNT / sections)
+    prev_section = 0
+
+    for i in range(10):
+
+        section = random().randint(0, sections - 1)
+
+        for old in range(size):
+            strip.setPixelColor(old + prev_section, 0)
+
+        for new in range(size):
+            strip.setPixelColor(new + section, color)
+
+        prev_section = section
+        strip.show()
 
 
 def theaterChase(strip, color, wait_ms=50, iterations=10):
@@ -129,6 +150,8 @@ if __name__ == '__main__':
     try:
 
         while True:
+            strobe(strip, Color(0, 0, 0))  # Red wipe
+            strobe(strip, Color(0, 255, 0))  # Blue wipe
             print('Color wipe animations.')
             colorWipeNoTail(strip, Color(255, 0, 0), 20, 0)  # Red wipe
             colorWipeNoTail(strip, Color(0, 255, 0), 20, 0)  # Blue wipe
@@ -137,10 +160,6 @@ if __name__ == '__main__':
             theaterChase(strip, Color(127, 127, 127))  # White theater chase
             theaterChase(strip, Color(127,   0,   0))  # Red theater chase
             theaterChase(strip, Color(0,   0, 127))  # Blue theater chase
-            print('Rainbow animations.')
-            rainbow(strip)
-            rainbowCycle(strip)
-            theaterChaseRainbow(strip)
 
     except KeyboardInterrupt:
         if args.clear:
