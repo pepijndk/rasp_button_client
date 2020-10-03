@@ -42,11 +42,11 @@ def activate_servo(num):  # Hier de pins veranderen als er ooit een kapot gaat.
 
     p = GPIO.PWM(gpio_pin, 50)
     p.start(9)
-    sleep(0.2)
-    p.ChangeDutyCycle(11)
     sleep(0.1)
+    p.ChangeDutyCycle(11)
+    # sleep(0.1)
     p.stop()
-    sleep(0.2)
+    sleep(0.1)
 
 # stages: (correspond with modes in button_detect)
 # 0 = party lights on

@@ -125,34 +125,27 @@ def registerPress(i):
             mode = 0
         if i == PIN_K4:
             sc.deactivate()
+            sendToServer("reset")
 
     elif activated:
         if i == PIN_K1:
-            if mode == 2 and connected:  # if music was playing, play next song
-                print("next song")
-                message = "next"
-                clientSocket.send(message.encode())
+            if mode == 2:  # if music was playing, play next song
+                sendToServer("start")
                 sleep(4)
                 activateSmoke()
-            else:
-                print("start")
-                message = "start"
-                clientSocket.send(message.encode())
+            else:  # else start song
+                sendToServer("start")
 
         if i == PIN_K2:
-            if mode == 2 and connected:  # if the music was on, turn it off
-                print("turn music off'")
-                message = "stop"
-                clientSocket.send(message.encode())
+            if mode == 2:  # if the music was on, turn it off
+                sendToServer("stop")
 
             # make sure lights are in mode 1
             sc.activate()
 
         if i == PIN_K3:
             if mode == 2 and connected:  # if the music was on, turn it off
-                print("turn music off'")
-                message = "stop"
-                clientSocket.send(message.encode())
+                sendToServer("stop")
 
             # make sure lights are in mode 0
             sc.activate_stage_0()
@@ -170,12 +163,19 @@ GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
 
 
+def sendToServer(command):
+    global clientSocket
+    global connected
+
+    if connected:
+        clientSocket.send(command.encode())
+
+
 def call():
     global mode
     global activated
     global timer
     global connected
-    global clientSocket
 
     print("call", GPIO.input(18), "mode", mode, "connected", connected)
 
@@ -189,11 +189,11 @@ def call():
         elif mode == 1:
             sc.activate()
         elif mode == 2:
-            if connected:
-                message = "start"
-                clientSocket.send(message.encode())
+            sendToServer("start")
             sc.activate()
-            activateSmoke()
+
+        sleep(4)
+        activateSmoke()
 
     elif not GPIO.input(18) and activated == True:
         print("deactivation noticed")
@@ -202,7 +202,8 @@ def call():
         if not GPIO.input(18):
             sc.deactivate()
             activated = False
-            print("sending message to server to stop music")
+
+            sendToServer("stop")
 
 
 # start of script
