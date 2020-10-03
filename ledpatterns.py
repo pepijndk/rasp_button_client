@@ -58,7 +58,7 @@ def strobe(strip, color, wait_ms=0, sections=5, iterations=30):
     """strobe"""
 
     size = int(LED_COUNT / sections)
-    prev_prev_section
+    prev_prev_section = 0
     prev_section = 0
 
     for i in range(iterations):
