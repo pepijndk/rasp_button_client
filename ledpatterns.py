@@ -159,27 +159,53 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         strip.setPixelColor(i, 0)
 
 
-def dots(strip, wait_ms=100, iterations=300, newDotsPerCycle=2):
+def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
-    dots = []
+    brightness = {
+        0: 0
+        1: 1
+        2: 2
+        3: 3
+        4: 5
+        5: 7
+        6: 10
+        7: 15
+        8: 20
+        9: 25
+        10: 30
+        11: 40
+        12: 50
+        13: 60
+        14: 70
+        15: 80
+        16: 90
+        17: 100
+        18: 120
+        19: 140
+        20: 180
+    }
 
-    def createNewDot(strip, coord):
-        activatePixel(strip, coord - 2, Color(50, 0, 50))
-        activatePixel(strip, coord - 1, Color(100, 0, 100))
-        activatePixel(strip, coord + 0, Color(250, 0, 250))
-        activatePixel(strip, coord + 1, Color(100, 0, 50))
-        activatePixel(strip, coord + 2, Color(50, 0, 50))
+    dots = {}
+
+    def colorDot(coord, level):
+        for w in range(width):
+            activatePixel(strip, coord + w,
+                          Color(brightness[level], 0, brightness[level]))
 
     for i in range(iterations):
-        for n in range(2):
-            coord = int(2 + random() * (LED_BRIGHTNESS - 4))
-            createNewDot(strip, coord)
-            dots.append(coord)
+        if random() > 0.9:
 
-        for d in dots:
-            print(strip.getPixelColor(d))
+            coord = int(2 + random() * (LED_BRIGHTNESS - 4))
+
+            print("new dot made at", coord)
+            dots[coord] = 20
+
+        for key, value in dots:
+            colorDot(key, value)
 
         time.sleep(wait_ms / 1000)
+
+    clearStrip(strip)
 
 
 def theaterChase(strip, color, wait_ms=50, iterations=10):
