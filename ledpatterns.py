@@ -137,6 +137,33 @@ def theaterChaseRainbow(strip, wait_ms=50):
                 strip.setPixelColor(i+q, 0)
 
 
+def randomColor():
+    # types:
+    # type 1: 1 color (0.25)
+    # type 2: primary + secundary (0.5)
+    # type 3: primary + secundary + tertiary + 0.25 (0.5)
+
+    rand_colors = [
+        Color(255, 0, 0),
+        Color(0, 255, 0),
+        Color(0, 0, 255),
+
+        Color(255, 255, 0),
+        Color(0, 255, 255),
+        Color(255, 0, 255),
+
+        Color(255, 180, 80),
+        Color(80, 180, 255),
+        Color(255, 180, 255)
+
+        Color(255, 255, 80),
+        Color(80, 255, 255),
+        Color(255, 80, 255)
+    ]
+
+    return rand_colors[int(random() * (len(rand_colors) - 1))]
+
+
 # Main program logic follows:
 if __name__ == '__main__':
     # Process arguments
@@ -162,14 +189,8 @@ if __name__ == '__main__':
             strobe(strip, Color(255, 255, 255))  # white wipe
             strobe(strip, Color(0, 255, 0))  # Blue wipe
             print('Color wipe animations.')
-            colorWipeNoTail(strip, Color(int(random() * 255), int(random()
-                                                                  * 255), int(random() * 255)), 20, 0, 4)  # random wipe
-            colorWipeNoTail(strip, Color(int(
-                random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
-            colorWipeNoTail(strip, Color(int(
-                random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
-            colorWipeNoTail(strip, Color(int(
-                random() * 255), int(random() * 255), int(random() * 255)), 20, 0, 4)  # Red wipe
+            colorWipeNoTail(strip, randomColor(), 20, 0, 4)  # random wipe
+
             colorWipeNoTail(strip, Color(255, 0, 0), 20, 0, 4)  # Red wipe
             colorWipeNoTail(strip, Color(0, 255, 0), 20, 0, 4)  # Blue wipe
             colorWipeNoTail(strip, Color(0, 0, 255), 20, 4)  # Green wipe
