@@ -119,6 +119,31 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
     clearStrip(strip)
 
 
+def strobeRainbow(strip, wait_ms=40, sections=5, iterations=150):
+    """strobe"""
+
+    size = int(LED_COUNT / sections)
+    prev_prev_section = 0
+    prev_section = 0
+
+    for i in range(iterations):
+
+        section = int(random() * (sections))
+
+        for old in range(size):
+            strip.setPixelColor(old + (prev_prev_section * size) - 1, 0)
+
+        for new in range(size):
+            strip.setPixelColor(new + (section * size) - 1, wheel(i & 255))
+
+        prev_prev_section = prev_section
+        prev_section = section
+        strip.show()
+        time.sleep(wait_ms/1000.0)
+
+    clearStrip(strip)
+
+
 def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sections=5, iterations=60, percentage_random=1):
     """strobe"""
 
@@ -285,7 +310,7 @@ def strobeColorToColor(strip, color1, color2, wait_ms=40, sections=5, iterations
            sections=sections, iterations=iterations)
     strobeTransition(strip,  color2, color1=color1, wait_ms=wait_ms, sections=sections,
                      iterations=iterations, percentage_random=percentage_random)  # Blue wipe
-    strobe(strip, Color(0, 255, 0), wait_ms=wait_ms,
+    strobe(strip, color2, wait_ms=wait_ms,
            sections=sections, iterations=iterations)
 
 
@@ -301,13 +326,14 @@ try:
     while True:
         print("back and forth")
 
-        dots(strip)
+        strobeRainbow(strip)
+        # dots(strip)
 
         colorWipeNoTailRainbow(strip, 20, 1, 3)  # rainbow wipe
 
         strobeColorToColor(strip, Color(255, 255, 255), Color(255, 0, 255))
-        strobeColorToColor(strip, Color(255, 0, 255), Color(0, 0, 255))
-        strobe(strip, Color(0, 0, 255))
+        # strobeColorToColor(strip, Color(255, 0, 255), Color(0, 0, 255))
+        # strobe(strip, Color(0, 0, 255))
 
         colorWipeBackandForth(strip, randomColor())
         colorWipeBackandForth(strip, randomColor())
