@@ -154,7 +154,7 @@ def randomColor():
 
         Color(255, 180, 80),
         Color(80, 180, 255),
-        Color(255, 180, 255)
+        Color(255, 180, 255),
 
         Color(255, 255, 80),
         Color(80, 255, 255),
