@@ -90,7 +90,8 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         length_transition = int(0.4 * iterations)
         start_transition = int(iterations / 2) - int(length_transition / 2)
         color_num = i - start_transition / length_transition
-        if color_num <= 0.5:
+        random_num = -random() * color1 + random() * (1-color_num)
+        if random_num <= 0:
             return color1
         else:
             return color2
