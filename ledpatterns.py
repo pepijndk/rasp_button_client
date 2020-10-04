@@ -177,7 +177,7 @@ def dots(strip, wait_ms=100, iterations=300, newDotsPerCycle=2):
             dots.append(coord)
 
         for d in dots:
-            print(strip.getPixelColor(x))
+            print(strip.getPixelColor(d))
 
         time.sleep(wait_ms / 1000)
 
