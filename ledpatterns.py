@@ -46,7 +46,7 @@ def clearStrip(strip, color=Color(0, 0, 0)):
 def colorWipe(strip, color, wait_ms=50):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
-        activatePixel(i, color)
+        activatePixel(strip, i, color)
         strip.show()
         time.sleep(wait_ms/1000.0)
 
@@ -116,10 +116,11 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
         section = int(random() * (sections))
 
         for old in range(size):
-            activatePixel(old + (prev_prev_section * size) - 1, Color(0, 0, 0))
+            activatePixel(
+                strip, old + (prev_prev_section * size) - 1, Color(0, 0, 0))
 
         for new in range(size):
-            activatePixel(new + (section * size) - 1, color)
+            activatePixel(strip, new + (section * size) - 1, color)
 
         prev_prev_section = prev_section
         prev_section = section
@@ -141,10 +142,11 @@ def strobeRainbow(strip, wait_ms=40, sections=5, iterations=150):
         section = int(random() * (sections))
 
         for old in range(size):
-            activatePixel(old + (prev_prev_section * size) - 1, Color(0, 0, 0))
+            activatePixel(
+                strip, old + (prev_prev_section * size) - 1, Color(0, 0, 0))
 
         for new in range(size):
-            activatePixel(new + (section * size) - 1, wheel(i & 255))
+            activatePixel(strip, new + (section * size) - 1, wheel(i & 255))
 
         prev_prev_section = prev_section
         prev_section = section
@@ -180,10 +182,11 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         section = int(random() * (sections))
 
         for old in range(size):
-            activatePixel(old + (prev_prev_section * size) - 1, Color(0, 0, 0))
+            activatePixel(
+                strip, old + (prev_prev_section * size) - 1, Color(0, 0, 0))
 
         for new in range(size):
-            activatePixel(new + (section * size) - 1, color)
+            activatePixel(strip, new + (section * size) - 1, color)
 
         prev_prev_section = prev_section
         prev_section = section
@@ -191,7 +194,7 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         time.sleep(wait_ms/1000.0)
 
     for i in range(strip.numPixels()):
-        activatePixel(i, Color(0, 0, 0))
+        activatePixel(strip, i, Color(0, 0, 0))
 
 
 def dots(strip, wait_ms=100, iterations=1000, width=5, newDotsPerCycle=1):
@@ -241,11 +244,11 @@ def theaterChase(strip, color, wait_ms=50, iterations=10):
     for j in range(iterations):
         for q in range(3):
             for i in range(0, strip.numPixels(), 3):
-                activatePixel(i+q, color)
+                activatePixel(strip, i+q, color)
             strip.show()
             time.sleep(wait_ms/1000.0)
             for i in range(0, strip.numPixels(), 3):
-                activatePixel(i+q, Color(0, 0, 0))
+                activatePixel(strip, i+q, Color(0, 0, 0))
 
 
 def wheel(pos):
