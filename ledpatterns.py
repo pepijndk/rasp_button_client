@@ -46,7 +46,7 @@ def colorWipe(strip, color, wait_ms=50):
         time.sleep(wait_ms/1000.0)
 
 
-def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=2, inverted=False):
+def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False):
     """Wipe color across display a pixel at a time."""
     for i in range(int((strip.numPixels() + width) / speed)):
         pixel = i * speed
@@ -62,7 +62,7 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=2, inverted=False):
         time.sleep(wait_ms/1000.0)
 
 
-def colorWipBackandForth(strip, color, width=20, wait_ms=0, speed=2):
+def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=3):
     colorWipeNoTail(strip, color, width=width, wait_ms=wait_ms, speed=speed)
     sleep(1)
     colorWipeNoTail(strip, color, width=width, wait_ms=wait_ms,
@@ -81,10 +81,10 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
         section = int(random() * (sections))
 
         for old in range(size):
-            strip.setPixelColor(old + (prev_prev_section * size), 0)
+            strip.setPixelColor(old + (prev_prev_section * size) - 1, 0)
 
         for new in range(size):
-            strip.setPixelColor(new + (section * size), color)
+            strip.setPixelColor(new + (section * size) - 1, color)
 
         prev_prev_section = prev_section
         prev_section = section
@@ -238,6 +238,10 @@ if __name__ == '__main__':
     try:
 
         while True:
+            print("back and forth")
+            colorWipBackandForth(strip, randomColor())
+            colorWipBackandForth(strip, randomColor())
+            colorWipBackandForth(strip, randomColor())
             print("strobe")
             strobe(strip, Color(255, 255, 255))  # white wipe
             strobeTransition(strip, Color(0, 255, 0))  # Blue wipe
