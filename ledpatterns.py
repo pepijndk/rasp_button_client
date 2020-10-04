@@ -82,7 +82,7 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
         strip.setPixelColor(i, 0)
 
 
-def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sections=5, iterations=50, percentage_random=0.8):
+def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sections=5, iterations=60, percentage_random=1):
     """strobe"""
 
     def getColor(i):
@@ -91,10 +91,12 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         start_transition = int(iterations / 2) - int(length_transition / 2)
         color_num = (i - start_transition) / length_transition
 
-        # print("i ", i, "colornum ", color_num)
+        #
         if random() <= color_num:
+            print("i ", i, "colornum ", color_num, "color2")
             return color2
         else:
+            print("i ", i, "colornum ", color_num, "color1")
             return color1
 
     size = int(LED_COUNT / sections)
