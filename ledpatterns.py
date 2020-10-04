@@ -46,7 +46,7 @@ def clearStrip(strip, color=Color(0, 0, 0)):
 def colorWipe(strip, color, wait_ms=50):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
-        strip.setPixelColor(i, color)
+        activatePixel(i, color)
         strip.show()
         time.sleep(wait_ms/1000.0)
 
@@ -69,7 +69,8 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, 
         strip.show()
         time.sleep(wait_ms/1000.0)
 
-    clearStrip(strip)
+    if not tail:
+        clearStrip(strip)
 
 
 def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=3, tail=False):
@@ -79,7 +80,7 @@ def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=3, tail=False
     else:
         colorWipeNoTail(strip, color, width=width,
                         wait_ms=wait_ms, speed=speed, tail=True)
-    time.sleep(1)
+    time.sleep(0.6)
     colorWipeNoTail(strip, color, width=width, wait_ms=wait_ms,
                     speed=speed, inverted=True)
 
@@ -114,10 +115,10 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
         section = int(random() * (sections))
 
         for old in range(size):
-            strip.setPixelColor(old + (prev_prev_section * size) - 1, 0)
+            activatePixel(old + (prev_prev_section * size) - 1, 0)
 
         for new in range(size):
-            strip.setPixelColor(new + (section * size) - 1, color)
+            activatePixel(new + (section * size) - 1, color)
 
         prev_prev_section = prev_section
         prev_section = section
@@ -139,10 +140,10 @@ def strobeRainbow(strip, wait_ms=40, sections=5, iterations=150):
         section = int(random() * (sections))
 
         for old in range(size):
-            strip.setPixelColor(old + (prev_prev_section * size) - 1, 0)
+            activatePixel(old + (prev_prev_section * size) - 1, 0)
 
         for new in range(size):
-            strip.setPixelColor(new + (section * size) - 1, wheel(i & 255))
+            activatePixel(new + (section * size) - 1, wheel(i & 255))
 
         prev_prev_section = prev_section
         prev_section = section
@@ -178,10 +179,10 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         section = int(random() * (sections))
 
         for old in range(size):
-            strip.setPixelColor(old + (prev_prev_section * size) - 1, 0)
+            activatePixel(old + (prev_prev_section * size) - 1, 0)
 
         for new in range(size):
-            strip.setPixelColor(new + (section * size) - 1, color)
+            activatePixel(new + (section * size) - 1, color)
 
         prev_prev_section = prev_section
         prev_section = section
@@ -189,7 +190,7 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         time.sleep(wait_ms/1000.0)
 
     for i in range(strip.numPixels()):
-        strip.setPixelColor(i, 0)
+        activatePixel(i, 0)
 
 
 def dots(strip, wait_ms=100, iterations=1000, width=5, newDotsPerCycle=1):
@@ -239,11 +240,11 @@ def theaterChase(strip, color, wait_ms=50, iterations=10):
     for j in range(iterations):
         for q in range(3):
             for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, color)
+                activatePixel(i+q, color)
             strip.show()
             time.sleep(wait_ms/1000.0)
             for i in range(0, strip.numPixels(), 3):
-                strip.setPixelColor(i+q, 0)
+                activatePixel(i+q, 0)
 
 
 def wheel(pos):
@@ -327,6 +328,7 @@ strip = Adafruit_NeoPixel(
 strip.begin()
 
 print("strobe")
+strobe(strip, Color(255, 255, 255), iterations=100)
 strobeColorToColor(strip, Color(255, 255, 255), Color(0, 255, 0))
 strobeColorToColor(strip, Color(0, 255, 0), Color(255, 255, 0))
 strobe(strip, Color(255, 255, 0))
@@ -339,11 +341,12 @@ colorWipeNoTailRainbow(strip, 30, 1, 3)  # rainbow wipe
 colorWipeBackandForth(strip, randomColor(), tail=True)
 theaterChase(strip, randomColor())
 
-colorWipeNoTailRainbow(strip, 30, 1, 3, tail=False)  # rainbow wipe
-sleep(1)
+colorWipeNoTailRainbow(strip, 30, 1, 3, tail=True)  # rainbow wipe
+time.sleep(1)
 colorWipeNoTail(strip, Color(0, 0, 0))
 
-dots(strip)
+dots(strip, iterations=100)
+strobeRainbow(strip, iterations=300)
 
 try:
 
@@ -361,12 +364,14 @@ try:
         elif random > 0.90 and random < 0.93:
             theaterChase(strip, randomColor())
         elif random > 0.93 and random < 0.95:
-            colorWipeNoTailRainbow(strip, 30, 1, 3, tail=False)  # rainbow wipe
+            colorWipeNoTailRainbow(strip, 30, 1, 3, tail=True)  # rainbow wipe
             sleep(1)
             colorWipeNoTail(strip, Color(0, 0, 0))
-        elif random > 0.95 and random < 1:
+        elif random > 0.95 and random < 0.99:
             dots(strip)
             continue
+        elif random > 0.99 and random < 1:
+            strobeRainbow(strip, iterations=300)
 
             # strobeRainbow(strip)
             # dots(strip)
@@ -375,5 +380,4 @@ try:
         sleep(30)
 
 except KeyboardInterrupt:
-    args.clear:
-        colorWipe(strip, Color(0, 0, 0), 10)
+    colorWipe(strip, Color(0, 0, 0), 10)
