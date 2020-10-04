@@ -373,7 +373,6 @@ try:
             colorWipeNoTail(strip, Color(0, 0, 0))
         elif random > 0.95 and random < 0.99:
             dots(strip)
-            continue
         elif random > 0.99 and random < 1:
             strobeRainbow(strip, iterations=300)
 
