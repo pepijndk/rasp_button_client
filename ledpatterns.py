@@ -159,7 +159,7 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         strip.setPixelColor(i, 0)
 
 
-def dots(strip, wait_ms=100, iterations=3000, width=5, newDotsPerCycle=1):
+def dots(strip, wait_ms=100, iterations=1000, width=5, newDotsPerCycle=1):
 
     clearStrip(strip)
 
@@ -183,7 +183,6 @@ def dots(strip, wait_ms=100, iterations=3000, width=5, newDotsPerCycle=1):
 
             coord = int(2 + random() * (LED_BRIGHTNESS - 4))
 
-            print("new dot made at", coord)
             dots[coord] = 50
 
         for key, value in dots.items():
@@ -281,49 +280,51 @@ def randomColor():
     return rand_colors[int(random() * (len(rand_colors) - 1))]
 
 
-# Main program logic follows:
-if __name__ == '__main__':
-    # Process arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--clear', action='store_true',
-                        help='clear the display on exit')
-    args = parser.parse_args()
+def strobeColorToColor(strip, color1, color2, wait_ms=40, sections=5, iterations=60, percentage_random=1):
+    strobe(strip, color1, wait_ms=wait_ms,
+           sections=sections, iterations=iterations)
+    strobeTransition(strip,  color2, color1=color1, wait_ms=wait_ms, sections=sections,
+                     iterations=iterations, percentage_random=percentage_random)  # Blue wipe
+    strobe(strip, Color(0, 255, 0), wait_ms=wait_ms,
+           sections=sections, iterations=iterations)
 
-    # Create NeoPixel object with appropriate configuration.
-    strip = Adafruit_NeoPixel(
-        LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-    # Intialize the library (must be called once before other functions).
-    strip.begin()
 
-    print('Press Ctrl-C to quit.')
-    if not args.clear:
-        print('Use "-c" argument to clear LEDs on exit')
+strip = Adafruit_NeoPixel(
+    LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+strip.begin()
 
-    try:
 
-        while True:
-            print("back and forth")
+# Main program logic:
 
-            dots(strip)
+try:
 
-            colorWipeNoTailRainbow(strip, 20, 1, 3)  # rainbow wipe
+    while True:
+        print("back and forth")
 
-            colorWipeBackandForth(strip, randomColor())
-            colorWipeBackandForth(strip, randomColor())
-            colorWipeBackandForth(strip, randomColor())
-            print("strobe")
-            strobe(strip, Color(255, 255, 255))  # white wipe
-            strobeTransition(strip, Color(0, 255, 0))  # Blue wipe
-            strobe(strip, Color(0, 255, 0))
-            strobeTransition(strip, Color(255, 255, 0),
-                             color1=Color(0, 255, 0))  # Blue wipe
-            strobe(strip, Color(255, 255, 0))
-            print('Color wipe animations.')
-            colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
-            colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
-            colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
-            colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
+        dots(strip)
 
-    except KeyboardInterrupt:
-        if args.clear:
-            colorWipe(strip, Color(0, 0, 0), 10)
+        colorWipeNoTailRainbow(strip, 20, 1, 3)  # rainbow wipe
+
+        strobeColorToColor(strip, Color(255, 255, 255), Color(255, 0, 255))
+        strobeColorToColor(strip, Color(255, 0, 255), Color(0, 0, 255))
+        strobe(strip, Color(0, 0, 255))
+
+        colorWipeBackandForth(strip, randomColor())
+        colorWipeBackandForth(strip, randomColor())
+        colorWipeBackandForth(strip, randomColor())
+        print("strobe")
+        strobe(strip, Color(255, 255, 255))  # white wipe
+        strobeTransition(strip, Color(0, 255, 0))  # Blue wipe
+        strobe(strip, Color(0, 255, 0))
+        strobeTransition(strip, Color(255, 255, 0),
+                         color1=Color(0, 255, 0))  # Blue wipe
+        strobe(strip, Color(255, 255, 0))
+        print('Color wipe animations.')
+        colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
+        colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
+        colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
+        colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
+
+except KeyboardInterrupt:
+    if args.clear:
+        colorWipe(strip, Color(0, 0, 0), 10)
