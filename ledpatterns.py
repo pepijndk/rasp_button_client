@@ -82,7 +82,7 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
         strip.setPixelColor(i, 0)
 
 
-def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sections=5, iterations=50, percentage_random=0.4):
+def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sections=5, iterations=50, percentage_random=0.8):
     """strobe"""
 
     def getColor(i):
@@ -224,6 +224,10 @@ if __name__ == '__main__':
             print("strobe")
             strobe(strip, Color(255, 255, 255))  # white wipe
             strobeTransition(strip, Color(0, 255, 0))  # Blue wipe
+            strobe(strip, Color(0, 255, 0))
+            strobeTransition(strip, Color(255, 255, 0),
+                             color1=Color(0, 255, 0))  # Blue wipe
+            strobe(strip, Color(255, 255, , 0))
             print('Color wipe animations.')
             colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
             colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
