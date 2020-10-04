@@ -93,10 +93,8 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
 
         #
         if random() <= color_num:
-            print("i ", i, "colornum ", color_num, "color2")
             return color2
         else:
-            print("i ", i, "colornum ", color_num, "color1")
             return color1
 
     size = int(LED_COUNT / sections)
