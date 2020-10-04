@@ -225,6 +225,7 @@ if __name__ == '__main__':
     try:
 
         while True:
+            rainbow(strip)
             print("strobe")
             strobe(strip, Color(255, 255, 255))  # white wipe
             strobeTransition(strip, Color(0, 255, 0))  # Blue wipe
