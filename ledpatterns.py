@@ -200,7 +200,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
             print("new dot made at", coord)
             dots[coord] = 20
 
-        for key, value in dots:
+        for key, value in dots.items():
             colorDot(key, value)
 
         time.sleep(wait_ms / 1000)
