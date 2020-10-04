@@ -359,21 +359,21 @@ try:
 
         rand = random()
 
-        if random > 0.5 and random < 0.8:
+        if rand > 0.5 and rand < 0.8:
             colorWipeBackandForth(strip, randomColor())
-        elif random > 0.8 and random < 0.85:
+        elif rand > 0.8 and rand < 0.85:
             colorWipeNoTailRainbow(strip, 30, 1, 3)  # rainbow wipe
-        elif random > 0.85 and random < 0.9:
+        elif rand > 0.85 and rand < 0.9:
             colorWipeBackandForth(strip, randomColor(), tail=True)
-        elif random > 0.90 and random < 0.93:
+        elif rand > 0.90 and rand < 0.93:
             theaterChase(strip, randomColor())
-        elif random > 0.93 and random < 0.95:
+        elif rand > 0.93 and rand < 0.95:
             colorWipeNoTailRainbow(strip, 30, 1, 3, tail=True)  # rainbow wipe
             sleep(1)
             colorWipeNoTail(strip, Color(0, 0, 0))
-        elif random > 0.95 and random < 0.99:
+        elif rand > 0.95 and rand < 0.99:
             dots(strip)
-        elif random > 0.99 and random < 1:
+        elif rand > 0.99 and rand < 1:
             strobeRainbow(strip, iterations=300)
 
             # strobeRainbow(strip)
