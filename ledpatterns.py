@@ -215,7 +215,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
             coord = int(2 + random() * (LED_BRIGHTNESS - 4))
 
             print("new dot made at", coord)
-            dots[coord] = 20
+            dots[coord] = 30
 
         for key, value in dots.items():
             colorDot(key, value)
@@ -229,7 +229,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
         strip.show()
 
-        if chance = 0.9 and i > 0.8 * iterations:
+        if chance == 0.9 and i > 0.8 * iterations:
             chance = 0.98
 
     clearStrip(strip)
