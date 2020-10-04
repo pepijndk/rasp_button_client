@@ -159,45 +159,14 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         strip.setPixelColor(i, 0)
 
 
-def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
+def dots(strip, wait_ms=100, iterations=3000, width=5, newDotsPerCycle=1):
 
     clearStrip(strip)
 
     chance = 0.9
 
-    brightness = {
-        0: 0,
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5,
-        6: 6,
-        7: 7,
-        8: 8,
-        9: 9,
-        10: 10,
-        11: 12,
-        12: 14,
-        13: 16,
-        14: 18,
-        15: 20,
-        16: 25,
-        17: 30,
-        18: 35,
-        19: 40,
-        20: 50,
-        21: 60,
-        22: 70,
-        23: 80,
-        24: 90,
-        25: 100,
-        26: 110,
-        27: 120,
-        28: 130,
-        29: 140,
-        30: 150
-    }
+    def brightness(level):
+        return int(0.1 * (level ** 2))
 
     dots = dict()
 
@@ -207,7 +176,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
             #print("activating ", coord + w, level)
             #activatePixel(strip, coord + w, Color(155, 0, 155))
             activatePixel(strip, coord + w,
-                          Color(brightness[level], 0, brightness[level]))
+                          Color(brightness(level), 0, brightness(level)))
 
     for i in range(iterations):
         if random() > chance:
@@ -215,7 +184,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
             coord = int(2 + random() * (LED_BRIGHTNESS - 4))
 
             print("new dot made at", coord)
-            dots[coord] = 30
+            dots[coord] = 50
 
         for key, value in dots.items():
             colorDot(key, value)
