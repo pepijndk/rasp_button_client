@@ -227,7 +227,8 @@ if __name__ == '__main__':
         while True:
             print("strobe")
             strobe(strip, Color(255, 255, 255))  # white wipe
-            strobeTransition(strip, Color(0, 255, 0))  # Blue wipe
+            strobeTransition(strip, Color(0, 255, 0),
+                             wait_ms=2000)  # Blue wipe
             strobe(strip, Color(0, 255, 0))
             strobeTransition(strip, Color(255, 255, 0),
                              color1=Color(0, 255, 0))  # Blue wipe
