@@ -82,6 +82,42 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
         strip.setPixelColor(i, 0)
 
 
+def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sections=5, iterations=50, percentage_random=0.4):
+    """strobe"""
+
+    def getColor(i):
+        # length transition period
+        length_transition = int(0.4 * iterations)
+        start_transition = int(iterations / 2) - int(length_transition / 2)
+        color_num = i - start_transition / length_transition
+        if color_num <= 0.5:
+            return color1
+        else:
+            return color2
+
+    size = int(LED_COUNT / sections)
+    prev_prev_section = 0
+    prev_section = 0
+
+    for i in range(iterations):
+
+        section = int(random() * (sections))
+
+        for old in range(size):
+            strip.setPixelColor(old + (prev_prev_section * size), 0)
+
+        for new in range(size):
+            strip.setPixelColor(new + (section * size), color)
+
+        prev_prev_section = prev_section
+        prev_section = section
+        strip.show()
+        time.sleep(wait_ms/1000.0)
+
+    for i in range(strip.numPixels()):
+        strip.setPixelColor(i, 0)
+
+
 def theaterChase(strip, color, wait_ms=50, iterations=10):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
@@ -187,16 +223,13 @@ if __name__ == '__main__':
         while True:
             print("strobe")
             strobe(strip, Color(255, 255, 255))  # white wipe
-            strobe(strip, Color(0, 255, 0))  # Blue wipe
+            strobeTransition(strip, Color(0, 255, 0))  # Blue wipe
             print('Color wipe animations.')
             colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
             colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
             colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
             colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
 
-            colorWipeNoTail(strip, Color(255, 0, 0), 20, 1, 3)  # Red wipe
-            colorWipeNoTail(strip, Color(0, 255, 0), 20, 1, 3)  # Blue wipe
-            colorWipeNoTail(strip, Color(0, 0, 255), 20, 1, 3)  # Green wipe
             print('Theater chase animations.')
             theaterChase(strip, Color(127, 127, 127))  # White theater chase
             theaterChase(strip, Color(127,   0,   0))  # Red theater chase
