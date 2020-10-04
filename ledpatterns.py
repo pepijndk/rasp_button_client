@@ -91,11 +91,11 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         start_transition = int(iterations / 2) - int(length_transition / 2)
         color_num = (i - start_transition) / length_transition
 
-        print("i ", i, "colornum ", color_num)
+        # print("i ", i, "colornum ", color_num)
         if random() <= color_num:
-            return color1
-        else:
             return color2
+        else:
+            return color1
 
     size = int(LED_COUNT / sections)
     prev_prev_section = 0
@@ -103,13 +103,15 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
 
     for i in range(iterations):
 
+        color = getColor(i)
+
         section = int(random() * (sections))
 
         for old in range(size):
             strip.setPixelColor(old + (prev_prev_section * size), 0)
 
         for new in range(size):
-            strip.setPixelColor(new + (section * size), getColor(i))
+            strip.setPixelColor(new + (section * size), color)
 
         prev_prev_section = prev_section
         prev_section = section
