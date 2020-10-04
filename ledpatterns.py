@@ -107,7 +107,7 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
             strip.setPixelColor(old + (prev_prev_section * size), 0)
 
         for new in range(size):
-            strip.setPixelColor(new + (section * size), color)
+            strip.setPixelColor(new + (section * size), getColor(i))
 
         prev_prev_section = prev_section
         prev_section = section
