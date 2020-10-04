@@ -185,7 +185,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
         20: 180,
     }
 
-    dots = {}
+    dots = dict()
 
     def colorDot(coord, level):
         for w in range(width):
