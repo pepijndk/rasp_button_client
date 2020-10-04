@@ -189,8 +189,9 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
     def colorDot(coord, level):
         for w in range(width):
-            activatePixel(strip, coord + w,
-                          Color(brightness[level], 0, brightness[level]))
+            print("activating ", coord + w, level)
+            activatePixel(strip, coord + w, Color(155, 0, 155))
+            # activatePixel(strip, coord + w,Color(brightness[level], 0, brightness[level]))
 
     for i in range(iterations):
         if random() > 0.9:
