@@ -204,6 +204,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
         for key, value in dots.items():
             colorDot(key, value)
+            dots[key] = value - 1
 
         time.sleep(wait_ms / 1000)
 
