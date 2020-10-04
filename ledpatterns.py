@@ -222,8 +222,6 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
             if value > 0:
                 dots[key] = value - 1
-            else:
-                dots.pop(key)
 
         time.sleep(wait_ms / 1000)
 
