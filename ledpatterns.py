@@ -21,6 +21,10 @@ LED_BRIGHTNESS = 50     # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
+# ideeen:
+# regenboog colorwipe
+# paarse punten
+
 
 def activatePixel(strip, pixel, color, inverted=False):
     if pixel > LED_COUNT or pixel < 0:
@@ -42,14 +46,14 @@ def colorWipe(strip, color, wait_ms=50):
         time.sleep(wait_ms/1000.0)
 
 
-def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=2):
+def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=2, inverted=False):
     """Wipe color across display a pixel at a time."""
     for i in range(int((strip.numPixels() + width) / speed)):
         pixel = i * speed
 
         for p in range(speed):
-            activatePixel(strip, pixel + p, color)
-            activatePixel(strip, pixel - width - p, 0)
+            activatePixel(strip, pixel + p, color, inverted=inverted)
+            activatePixel(strip, pixel - width - p, 0, inverted=inverted)
 
             # strip.setPixelColor(pixel + p, color)
             # strip.setPixelColor(pixel - width - p, 0)
@@ -57,17 +61,12 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=2):
         strip.show()
         time.sleep(wait_ms/1000.0)
 
-    # time.sleep(1)
 
-    # for i in range(int((strip.numPixels() + width) / speed)):
-    #     pixel = LED_COUNT - (i * speed)
-
-    #     for p in range(speed):
-    #         strip.setPixelColor(pixel + p, color)
-    #         strip.setPixelColor(pixel + width - p, 0)
-
-    #     strip.show()
-    #     time.sleep(wait_ms/1000.0)
+def colorWipBackandForth(strip, color, width=20, wait_ms=0, speed=2):
+    colorWipeNoTail(strip, color, width=width, wait_ms=wait_ms, speed=speed)
+    sleep(1)
+    colorWipeNoTail(strip, color, width=width, wait_ms=wait_ms,
+                    speed=speed, inverted=True)
 
 
 def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
