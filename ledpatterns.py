@@ -161,6 +161,8 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
 
 def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
+    clearStrip(strip)
+
     brightness = {
         0: 0,
         1: 1,
@@ -188,6 +190,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
     dots = dict()
 
     def colorDot(coord, level):
+
         for w in range(width):
             #print("activating ", coord + w, level)
             #activatePixel(strip, coord + w, Color(155, 0, 155))
@@ -204,6 +207,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
         for key, value in dots.items():
             colorDot(key, value)
+            dots[key] = value - 1
 
         time.sleep(wait_ms / 1000)
 
