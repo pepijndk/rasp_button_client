@@ -227,7 +227,7 @@ if __name__ == '__main__':
             strobe(strip, Color(0, 255, 0))
             strobeTransition(strip, Color(255, 255, 0),
                              color1=Color(0, 255, 0))  # Blue wipe
-            strobe(strip, Color(255, 255, , 0))
+            strobe(strip, Color(255, 255, 0))
             print('Color wipe animations.')
             colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
             colorWipeNoTail(strip, randomColor(), 20, 1, 3)  # random wipe
