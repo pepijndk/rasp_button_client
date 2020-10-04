@@ -163,28 +163,40 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
     clearStrip(strip)
 
+    chance = 0.9
+
     brightness = {
         0: 0,
         1: 1,
         2: 2,
         3: 3,
-        4: 5,
-        5: 7,
-        6: 10,
-        7: 15,
-        8: 20,
-        9: 25,
-        10: 30,
-        11: 40,
-        12: 50,
-        13: 60,
-        14: 70,
-        15: 80,
-        16: 90,
-        17: 100,
-        18: 120,
-        19: 140,
-        20: 180,
+        4: 4,
+        5: 5,
+        6: 6,
+        7: 7,
+        8: 8,
+        9: 9,
+        10: 10,
+        11: 12,
+        12: 14,
+        13: 16,
+        14: 18,
+        15: 20,
+        16: 25,
+        17: 30,
+        18: 35,
+        19: 40,
+        20: 50,
+        21: 60,
+        22: 70,
+        23: 80,
+        24: 90,
+        25: 100,
+        26: 110,
+        27: 120,
+        28: 130,
+        29: 140,
+        30: 150
     }
 
     dots = dict()
@@ -198,7 +210,7 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
                           Color(brightness[level], 0, brightness[level]))
 
     for i in range(iterations):
-        if random() > 0.9:
+        if random() > chance:
 
             coord = int(2 + random() * (LED_BRIGHTNESS - 4))
 
@@ -207,11 +219,18 @@ def dots(strip, wait_ms=100, iterations=300, width=5, newDotsPerCycle=1):
 
         for key, value in dots.items():
             colorDot(key, value)
-            dots[key] = value - 1
+
+            if value > 0:
+                dots[key] = value - 1
+            else:
+                dots.pop(key)
 
         time.sleep(wait_ms / 1000)
 
         strip.show()
+
+        if chance = 0.9 and i > 0.8 * iterations:
+            chance = 0.98
 
     clearStrip(strip)
 
