@@ -71,6 +71,8 @@ def call():
     global mode
     global timer
 
+    print("mode", mode)
+
     if mode == 0:
         ls.activatePixel(ls.strip, 0, Color(0, 255, 0))
         ls.activatePixel(ls.strip, 1, Color(0, 255, 0))
