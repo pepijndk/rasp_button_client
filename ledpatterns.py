@@ -379,7 +379,7 @@ Main program logic:
                 # dots(strip)
 
                 #
-            time.sleep(20)
+            time.sleep(10)
 
     except KeyboardInterrupt:
         colorWipe(strip, Color(0, 0, 0), 10)
