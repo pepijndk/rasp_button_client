@@ -345,6 +345,9 @@ colorWipeNoTailRainbow(strip, 30, 1, 3)  # rainbow wipe
 colorWipeBackandForth(strip, randomColor(), tail=True)
 theaterChase(strip, randomColor())
 
+for p in range(int(random() * 10)):
+    colorWipeNoTail(strip, randomColor(), speed=4)
+
 colorWipeNoTailRainbow(strip, 30, 1, 3, tail=True)  # rainbow wipe
 time.sleep(1)
 colorWipeNoTail(strip, Color(0, 0, 0))
@@ -359,10 +362,13 @@ try:
 
         rand = random()
 
-        if rand > 0.5 and rand < 0.8:
+        if rand > 0.5 and rand < 0.7:
             colorWipeBackandForth(strip, randomColor())
-        elif rand > 0.8 and rand < 0.85:
+        elif rand > 0.7 and rand < 0.8:
             colorWipeNoTailRainbow(strip, 30, 1, 3)  # rainbow wipe
+        elif rand > 0.8 and rand < 0.85:
+            for p in range(int(random() * 10)):
+                colorWipeNoTail(strip, randomColor(), speed=4)
         elif rand > 0.85 and rand < 0.9:
             colorWipeBackandForth(strip, randomColor(), tail=True)
         elif rand > 0.90 and rand < 0.93:
