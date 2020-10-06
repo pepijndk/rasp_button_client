@@ -333,51 +333,51 @@ strip = Adafruit_NeoPixel(
     LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 strip.begin()
 
-print("strobe")
-randomColor1 = randomColor()
-randomColor2 = randomColor()
+# print("strobe")
+# randomColor1 = randomColor()
+# randomColor2 = randomColor()
 
-sc.activateSmokeMachine()
+# sc.activateSmokeMachine()
 
-strobe(strip, Color(255, 255, 255), iterations=100)
-strobeColorToColor(strip, Color(255, 255, 255), randomColor1)
-sc.deactivateSmokeMachine()
-strobeColorToColor(strip, randomColor1, randomColor2)
-strobe(strip, randomColor2)
-# Main program logic:
+# strobe(strip, Color(255, 255, 255), iterations=100)
+# strobeColorToColor(strip, Color(255, 255, 255), randomColor1)
+# sc.deactivateSmokeMachine()
+# strobeColorToColor(strip, randomColor1, randomColor2)
+# strobe(strip, randomColor2)
+# # Main program logic:
 
 
-try:
-    while True:
-        print("loop")
+# try:
+#     while True:
+#         print("loop")
 
-        rand = random()
+#         rand = random()
 
-        if rand > 0.5 and rand < 0.7:
-            colorWipeBackandForth(strip, randomColor())
-        elif rand > 0.7 and rand < 0.75:
-            colorWipeNoTailRainbow(strip, 30, 1, 3)  # rainbow wipe
-        elif rand > 0.75 and rand < 0.85:
-            for p in range(3 + int(random() * 10)):
-                colorWipeNoTail(strip, randomColor(), speed=4)
-        elif rand > 0.85 and rand < 0.9:
-            colorWipeBackandForth(strip, randomColor(), tail=True)
-        elif rand > 0.90 and rand < 0.93:
-            theaterChase(strip, randomColor())
-        elif rand > 0.93 and rand < 0.95:
-            colorWipeNoTailRainbow(strip, 30, 1, 3, tail=True)  # rainbow wipe
-            sleep(1)
-            colorWipeNoTail(strip, Color(0, 0, 0))
-        elif rand > 0.95 and rand < 0.99:
-            dots(strip)
-        elif rand > 0.99 and rand < 1:
-            strobeRainbow(strip, iterations=300)
+#         if rand > 0.5 and rand < 0.7:
+#             colorWipeBackandForth(strip, randomColor())
+#         elif rand > 0.7 and rand < 0.75:
+#             colorWipeNoTailRainbow(strip, 30, 1, 3)  # rainbow wipe
+#         elif rand > 0.75 and rand < 0.85:
+#             for p in range(3 + int(random() * 10)):
+#                 colorWipeNoTail(strip, randomColor(), speed=4)
+#         elif rand > 0.85 and rand < 0.9:
+#             colorWipeBackandForth(strip, randomColor(), tail=True)
+#         elif rand > 0.90 and rand < 0.93:
+#             theaterChase(strip, randomColor())
+#         elif rand > 0.93 and rand < 0.95:
+#             colorWipeNoTailRainbow(strip, 30, 1, 3, tail=True)  # rainbow wipe
+#             sleep(1)
+#             colorWipeNoTail(strip, Color(0, 0, 0))
+#         elif rand > 0.95 and rand < 0.99:
+#             dots(strip)
+#         elif rand > 0.99 and rand < 1:
+#             strobeRainbow(strip, iterations=300)
 
-            # strobeRainbow(strip)
-            # dots(strip)
+#             # strobeRainbow(strip)
+#             # dots(strip)
 
-            #
-        time.sleep(20)
+#             #
+#         time.sleep(20)
 
-except KeyboardInterrupt:
-    colorWipe(strip, Color(0, 0, 0), 10)
+# except KeyboardInterrupt:
+#     colorWipe(strip, Color(0, 0, 0), 10)
