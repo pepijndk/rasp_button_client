@@ -9,6 +9,8 @@ import time
 from rpi_ws281x import *
 import argparse
 from random import random
+import servo_controller as sc
+
 
 # LED strip configuration:
 LED_COUNT = 307      # Number of LED pixels.
@@ -332,42 +334,32 @@ strip = Adafruit_NeoPixel(
 strip.begin()
 
 print("strobe")
-strobe(strip, Color(255, 255, 255), iterations=100)
-strobeColorToColor(strip, Color(255, 255, 255), Color(0, 255, 0))
-strobeColorToColor(strip, Color(0, 255, 0), Color(255, 255, 0))
-strobe(strip, Color(255, 255, 0))
+randomColor1 = randomColor()
+randomColor2 = randomColor()
 
+sc.activateSmokeMachine()
+
+strobe(strip, Color(255, 255, 255), iterations=100)
+strobeColorToColor(strip, Color(255, 255, 255), randomColor1)
+strobeColorToColor(strip, randomColor1, randomColor2)
+strobe(strip, randomColor2)
 # Main program logic:
 
+sc.deactivateSmokeMachine()
 
-colorWipeBackandForth(strip, randomColor())
-colorWipeNoTailRainbow(strip, 30, 1, 3)  # rainbow wipe
-colorWipeBackandForth(strip, randomColor(), tail=True)
-theaterChase(strip, randomColor())
-
-for p in range(int(random() * 10)):
-    colorWipeNoTail(strip, randomColor(), speed=4)
-
-colorWipeNoTailRainbow(strip, 30, 1, 3, tail=True)  # rainbow wipe
-time.sleep(1)
-colorWipeNoTail(strip, Color(0, 0, 0))
-
-dots(strip, iterations=100)
-strobeRainbow(strip, iterations=300)
 
 try:
-
     while True:
-        print("back and forth")
+        print("loop")
 
         rand = random()
 
         if rand > 0.5 and rand < 0.7:
             colorWipeBackandForth(strip, randomColor())
-        elif rand > 0.7 and rand < 0.8:
+        elif rand > 0.7 and rand < 0.75:
             colorWipeNoTailRainbow(strip, 30, 1, 3)  # rainbow wipe
-        elif rand > 0.8 and rand < 0.85:
-            for p in range(int(random() * 10)):
+        elif rand > 0.75 and rand < 0.85:
+            for p in range(3 + int(random() * 10)):
                 colorWipeNoTail(strip, randomColor(), speed=4)
         elif rand > 0.85 and rand < 0.9:
             colorWipeBackandForth(strip, randomColor(), tail=True)
