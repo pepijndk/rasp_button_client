@@ -366,7 +366,7 @@ strip.begin()
 #             theaterChase(strip, randomColor())
 #         elif rand > 0.93 and rand < 0.95:
 #             colorWipeNoTailRainbow(strip, 30, 1, 3, tail=True)  # rainbow wipe
-#             sleep(1)
+#             time.sleep(1)
 #             colorWipeNoTail(strip, Color(0, 0, 0))
 #         elif rand > 0.95 and rand < 0.99:
 #             dots(strip)

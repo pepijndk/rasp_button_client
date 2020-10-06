@@ -77,8 +77,8 @@ def call():
 
     if mode == 1:
 
-        randomColor1 = randomColor()
-        randomColor2 = randomColor()
+        randomColor1 = ls.randomColor()
+        randomColor2 = ls.randomColor()
 
         sc.activateSmokeMachine()
 
@@ -93,25 +93,25 @@ def call():
         rand = random()
 
         if rand > 0.5 and rand < 0.7:
-            colorWipeBackandForth(ls.strip, randomColor())
+            ls.colorWipeBackandForth(ls.strip, randomColor())
         elif rand > 0.7 and rand < 0.75:
-            colorWipeNoTailRainbow(ls.strip, 30, 1, 3)  # rainbow wipe
+            ls.colorWipeNoTailRainbow(ls.strip, 30, 1, 3)  # rainbow wipe
         elif rand > 0.75 and rand < 0.85:
             for p in range(3 + int(random() * 10)):
-                colorWipeNoTail(ls.strip, randomColor(), speed=4)
+                ls.colorWipeNoTail(ls.strip, randomColor(), speed=4)
         elif rand > 0.85 and rand < 0.9:
-            colorWipeBackandForth(ls.strip, randomColor(), tail=True)
+            ls.colorWipeBackandForth(ls.strip, randomColor(), tail=True)
         elif rand > 0.90 and rand < 0.93:
-            theaterChase(ls.strip, randomColor())
+            ls.theaterChase(ls.strip, randomColor())
         elif rand > 0.93 and rand < 0.95:
-            colorWipeNoTailRainbow(
+            ls.colorWipeNoTailRainbow(
                 ls.strip, 30, 1, 3, tail=True)  # rainbow wipe
-            sleep(1)
-            colorWipeNoTail(ls.strip, Color(0, 0, 0))
+            time.sleep(1)
+            ls.colorWipeNoTail(ls.strip, Color(0, 0, 0))
         elif rand > 0.95 and rand < 0.99:
-            dots(ls.strip, )
+            ls.dots(ls.strip)
         elif rand > 0.99 and rand < 1:
-            strobeRainbow(ls.strip, iterations=300)
+            ls.strobeRainbow(ls.strip, iterations=300)
 
 
 while True:
