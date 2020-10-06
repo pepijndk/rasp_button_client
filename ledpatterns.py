@@ -380,7 +380,7 @@ try:
             # dots(strip)
 
             #
-        sleep(30)
+        time.sleep(20)
 
 except KeyboardInterrupt:
     colorWipe(strip, Color(0, 0, 0), 10)
