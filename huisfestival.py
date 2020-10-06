@@ -56,13 +56,14 @@ def registerPress(i):
     global mode
 
     if i == PIN_K1:
-            mode = 0
-        if i == PIN_K2:
-            mode = 1
-        if i == PIN_K3:
-            mode = 3
-        if i == PIN_K4:
-            activateSmoke()
+        mode = 0
+    if i == PIN_K2:
+        mode = 1
+    if i == PIN_K3:
+        mode = 3
+    if i == PIN_K4:
+        activateSmoke()
+
 
 def call():
     global mode
@@ -104,7 +105,8 @@ def call():
         elif rand > 0.90 and rand < 0.93:
             theaterChase(ls.strip, randomColor())
         elif rand > 0.93 and rand < 0.95:
-            colorWipeNoTailRainbow(ls.strip, 30, 1, 3, tail=True)  # rainbow wipe
+            colorWipeNoTailRainbow(
+                ls.strip, 30, 1, 3, tail=True)  # rainbow wipe
             sleep(1)
             colorWipeNoTail(ls.strip, Color(0, 0, 0))
         elif rand > 0.95 and rand < 0.99:
@@ -112,12 +114,13 @@ def call():
         elif rand > 0.99 and rand < 1:
             strobeRainbow(ls.strip, iterations=300)
 
+
 while True:
     call()
 
     # if not connected: try to reconnect
-        # check if its time for smoke.
-        # in here so it doesn't check every cycle, doesn't matter if not accurate
+    # check if its time for smoke.
+    # in here so it doesn't check every cycle, doesn't matter if not accurate
     time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
     if time_diff > SMOKE_INTERVAL and mode > 0:  # if there has been no smoke in 10 minutes
         activateSmoke()
