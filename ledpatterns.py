@@ -73,7 +73,7 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, 
         clearStrip(strip)
 
 
-def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=3, tail=False):
+def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=4, tail=False):
     if not tail:
         colorWipeNoTail(strip, color, width=width,
                         wait_ms=wait_ms, speed=speed)
@@ -318,11 +318,11 @@ def randomColor():
     return rand_colors[int(random() * (len(rand_colors) - 1))]
 
 
-def strobeColorToColor(strip, color1, color2, wait_ms=40, sections=5, iterations=60, percentage_random=1):
+def strobeColorToColor(strip, color1, color2, wait_ms=40, sections=5, iterations=40, percentage_random=1):
     strobe(strip, color1, wait_ms=wait_ms,
            sections=sections, iterations=iterations)
     strobeTransition(strip,  color2, color1=color1, wait_ms=wait_ms, sections=sections,
-                     iterations=iterations, percentage_random=percentage_random)  # Blue wipe
+                     iterations=iterations * 2, percentage_random=percentage_random)  # Blue wipe
     strobe(strip, color2, wait_ms=wait_ms,
            sections=sections, iterations=iterations)
 
