@@ -341,11 +341,10 @@ sc.activateSmokeMachine()
 
 strobe(strip, Color(255, 255, 255), iterations=100)
 strobeColorToColor(strip, Color(255, 255, 255), randomColor1)
+sc.deactivateSmokeMachine()
 strobeColorToColor(strip, randomColor1, randomColor2)
 strobe(strip, randomColor2)
 # Main program logic:
-
-sc.deactivateSmokeMachine()
 
 
 try:
