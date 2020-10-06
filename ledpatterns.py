@@ -334,18 +334,18 @@ strip = Adafruit_NeoPixel(
 strip.begin()
 
 
-print("strobe")
+print("start")
 
-randomColor1 = randomColor()
-randomColor2 = randomColor()
+# randomColor1 = randomColor()
+# randomColor2 = randomColor()
 
-sc.activateSmokeMachine()
+# sc.activateSmokeMachine()
 
-strobe(strip, Color(255, 255, 255), iterations=100)
-strobeColorToColor(strip, Color(255, 255, 255), randomColor1)
-sc.deactivateSmokeMachine()
-strobeColorToColor(strip, randomColor1, randomColor2)
-strobe(strip, randomColor2)
+# strobe(strip, Color(255, 255, 255), iterations=100)
+# strobeColorToColor(strip, Color(255, 255, 255), randomColor1)
+# sc.deactivateSmokeMachine()
+# strobeColorToColor(strip, randomColor1, randomColor2)
+# strobe(strip, randomColor2)
 # Main program logic:
 
 

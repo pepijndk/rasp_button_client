@@ -56,6 +56,7 @@ def activateSmoke():
 
 def registerPress(i):
     global mode
+    print("i", i)
 
     if i == PIN_K1:
         mode = 0
@@ -85,6 +86,8 @@ def call():
         ls.activatePixel(ls.strip, 2, Color(0, 255, 0))
 
     if mode == 1:
+
+        print("mode 1")
 
         randomColor1 = ls.randomColor()
         randomColor2 = ls.randomColor()
