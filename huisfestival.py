@@ -30,7 +30,7 @@ SLEEP_DURATION = 0.1
 
 # time since button is pressed
 timer = 0
-mode = 0
+mode = 1
 
 # reacting to control panel button pushes
 smoke_active = False
@@ -69,8 +69,6 @@ def registerPress(i):
 def call():
     global mode
     global timer
-
-    print("loop")
 
     if mode == 0:
         ls.activatePixel(ls.strip, 0, Color(0, 255, 0))
