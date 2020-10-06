@@ -71,7 +71,7 @@ def call():
 
     print("loop")
 
-    if mode = 0:
+    if mode == 0:
         ls.activatePixel(ls.strip, 0, Color(0, 255, 0))
         ls.activatePixel(ls.strip, 1, Color(0, 255, 0))
         ls.activatePixel(ls.strip, 2, Color(0, 255, 0))
