@@ -63,7 +63,7 @@ def registerPress(i):
     if i == PIN_K2:
         mode = 1
     if i == PIN_K3:
-        mode = 3
+        mode = 2
     if i == PIN_K4:
         activateSmoke()
 
