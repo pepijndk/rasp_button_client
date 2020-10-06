@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 import servo_controller as sc
 import datetime
 from rpi_ws281x import *
+from random import random
 
 SMOKE_MACHINE_DURATION = 15
 
@@ -30,7 +31,7 @@ SLEEP_DURATION = 0.1
 
 # time since button is pressed
 timer = 0
-mode = 1
+mode = 0
 
 # reacting to control panel button pushes
 smoke_active = False
