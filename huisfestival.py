@@ -4,6 +4,7 @@ from time import sleep
 import RPi.GPIO as GPIO
 import servo_controller as sc
 import datetime
+from rpi_ws281x import *
 
 SMOKE_MACHINE_DURATION = 15
 
