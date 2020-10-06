@@ -54,12 +54,6 @@ def activateSmoke():
     sc.activateSmokeMachine()
 
 
-GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
-GPIO.add_event_detect(PIN_K2, GPIO.FALLING, callback=registerPress)
-GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
-GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
-
-
 def registerPress(i):
     global mode
 
@@ -71,6 +65,12 @@ def registerPress(i):
         mode = 3
     if i == PIN_K4:
         activateSmoke()
+
+
+GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
+GPIO.add_event_detect(PIN_K2, GPIO.FALLING, callback=registerPress)
+GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
+GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
 
 
 def call():
