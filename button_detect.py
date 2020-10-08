@@ -183,10 +183,11 @@ def call():
     global timer
     global connected
 
-    print("call", GPIO.input(18), "mode", mode, "connected", connected)
+    print("call", GPIO.input(PIN_MAIN_BUTTON),
+          "mode", mode, "connected", connected)
 
     # Button is clicked when everything is off
-    if GPIO.input(18) and activated == False:
+    if GPIO.input(PIN_MAIN_BUTTON) and activated == False:
         print("activating")
         activated = True
 
@@ -201,11 +202,11 @@ def call():
         sleep(4)
         activateSmoke()
 
-    elif not GPIO.input(18) and activated == True:
+    elif not GPIO.input(PIN_MAIN_BUTTON) and activated == True:
         print("deactivation noticed")
         sleep(3)  # prevent false positive
 
-        if not GPIO.input(18):
+        if not GPIO.input(PIN_MAIN_BUTTON):
             sc.deactivate()
             activated = False
 
