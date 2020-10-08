@@ -18,7 +18,7 @@ LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 50     # Set to 0 for darkest and 255 for brightest
 # True to invert the signal (when using NPN transistor level shift)
 LED_INVERT = False
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
@@ -334,18 +334,18 @@ strip = Adafruit_NeoPixel(
 strip.begin()
 
 
-print("start")
+# print("start")
 
-randomColor1 = randomColor()
-randomColor2 = randomColor()
+# randomColor1 = randomColor()
+# randomColor2 = randomColor()
 
-sc.activateSmokeMachine()
+# sc.activateSmokeMachine()
 
-strobe(strip, Color(255, 255, 255), iterations=100)
-strobeColorToColor(strip, Color(255, 255, 255), randomColor1)
-sc.deactivateSmokeMachine()
-strobeColorToColor(strip, randomColor1, randomColor2)
-strobe(strip, randomColor2)
+# strobe(strip, Color(255, 255, 255), iterations=100)
+# strobeColorToColor(strip, Color(255, 255, 255), randomColor1)
+# sc.deactivateSmokeMachine()
+# strobeColorToColor(strip, randomColor1, randomColor2)
+# strobe(strip, randomColor2)
 
 try:
     while True:
