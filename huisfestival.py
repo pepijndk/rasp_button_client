@@ -80,6 +80,7 @@ GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
 def call():
     global mode
     global timer
+    global date_pattern
 
     print("mode", mode, "timer", int(timer))
 
