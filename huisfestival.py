@@ -78,7 +78,7 @@ def call():
     global mode
     global timer
 
-    print("mode", mode, "timer", timer)
+    print("mode", mode, "timer", int(timer))
 
     if mode == 0:
         ls.activatePixel(ls.strip, 0, Color(0, 255, 0))
@@ -124,8 +124,6 @@ def call():
             ls.dots(ls.strip)
         elif rand > 0.99 and rand < 1:
             ls.strobeRainbow(ls.strip, iterations=300)
-
-        time.sleep(5)
 
 
 while True:
