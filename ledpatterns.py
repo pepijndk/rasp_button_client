@@ -213,6 +213,7 @@ def dots(strip, wait_ms=100, iterations=1000, width=5, newDotsPerCycle=1):
     def colorDot(coord, level):
 
         for w in range(width):
+            print("w", w, " pixel:", coord + w)
             # print("activating ", coord + w, level)
             # activatePixel(strip, coord + w, Color(155, 0, 155))
             activatePixel(strip, coord + w,
@@ -221,7 +222,7 @@ def dots(strip, wait_ms=100, iterations=1000, width=5, newDotsPerCycle=1):
     for i in range(iterations):
         if random() > chance:
 
-            coord = int(2 + random() * (LED_BRIGHTNESS - 4))
+            coord = int(2 + random() * (LED_COUNT - 4))
 
             dots[coord] = 50
 

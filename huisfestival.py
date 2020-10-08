@@ -107,6 +107,8 @@ def call():
         sc.deactivateSmokeMachine()
         mode = 2
     elif mode == 2:
+        ls.dots(ls.strip, newDotsPerCycle=2)
+
         time_diff_pattern = (datetime.datetime.now() -
                              date_pattern).total_seconds()
         if time_diff_pattern > PATTERN_INTERVAL:
