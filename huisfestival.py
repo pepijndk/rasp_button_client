@@ -17,6 +17,11 @@ PIN_K4 = 26  # Fourth button
 
 GPIO.setmode(GPIO.BCM)
 
+
+# moving dots
+# comets
+# random dots
+
 GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -66,6 +71,7 @@ def registerPress(i):
         mode = 0
     if i == PIN_K2:
         mode = 1
+        ls.setBrightness(ls.strip, 255)
     if i == PIN_K3:
         mode = 2
     if i == PIN_K4:
@@ -89,9 +95,12 @@ def call():
         ls.clearStrip(ls.strip)
         ls.activatePixel(ls.strip, 0, Color(0, 255, 0))
         ls.activatePixel(ls.strip, 1, Color(0, 255, 0))
-        ls.activatePixel(ls.strip, 2, Color(0, 255, 0))
+        ls.strip.show()
 
     if mode == 1:
+        ls.setBrightness(ls.strip, 10)
+
+        ls.strip.se
 
         print("mode 1")
 
@@ -107,9 +116,8 @@ def call():
 
         sc.deactivateSmokeMachine()
         mode = 2
+        ls.setBrightness(ls.strip, 255)
     elif mode == 2:
-        ls.dots(ls.strip, newDotsPerCycle=2)
-
         time_diff_pattern = (datetime.datetime.now() -
                              date_pattern).total_seconds()
         if time_diff_pattern > PATTERN_INTERVAL:
