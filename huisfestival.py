@@ -25,6 +25,8 @@ GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 SLEEP_UNTIL_SMOKE = 4
 # after how long of no smoke it activates the smoke machine (in s)
 SMOKE_INTERVAL = 3600
+# after how long of now pattern there is a 50 50 chance to have a pattern
+PATTERN_INTERVAL = 10
 # sleep
 SLEEP_DURATION = 0.2
 
@@ -38,6 +40,7 @@ smoke_active = False
 
 # date when smoke machine was last activated
 date_smoke = datetime.datetime.now()
+date_pattern = datetime.datetime.now()
 
 
 def activateSmoke():
@@ -95,35 +98,39 @@ def call():
         sc.activateSmokeMachine()
 
         ls.strobe(ls.strip, Color(255, 255, 255), iterations=100)
-        # ls.strobeColorToColor(ls.strip, Color(255, 255, 255), randomColor1)
-        # ls.strobeColorToColor(ls.strip, randomColor1, randomColor2)
-        # ls.strobe(ls.strip, randomColor2)
+        ls.strobeColorToColor(ls.strip, Color(255, 255, 255), randomColor1)
+        ls.strobeColorToColor(ls.strip, randomColor1, randomColor2)
+        ls.strobe(ls.strip, randomColor2)
 
         sc.deactivateSmokeMachine()
         mode = 2
     elif mode == 2:
-        rand = random()
+        time_diff_pattern = (datetime.datetime.now() -
+                             date_pattern).total_seconds()
+        if time_diff_pattern > PATTERN_INTERVAL:
+            date_pattern = datetime.datetime.now()
+            rand = random()
 
-        if rand > 0.5 and rand < 0.7:
-            ls.colorWipeBackandForth(ls.strip, ls.randomColor())
-        elif rand > 0.7 and rand < 0.75:
-            ls.colorWipeNoTailRainbow(ls.strip, 30, 1, 3)  # rainbow wipe
-        elif rand > 0.75 and rand < 0.85:
-            for p in range(3 + int(random() * 10)):
-                ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=4)
-        elif rand > 0.85 and rand < 0.9:
-            ls.colorWipeBackandForth(ls.strip, ls.randomColor(), tail=True)
-        elif rand > 0.90 and rand < 0.93:
-            ls.theaterChase(ls.strip, ls.randomColor())
-        elif rand > 0.93 and rand < 0.95:
-            ls.colorWipeNoTailRainbow(
-                ls.strip, 30, 1, 3, tail=True)  # rainbow wipe
-            time.sleep(1)
-            ls.colorWipeNoTail(ls.strip, Color(0, 0, 0))
-        elif rand > 0.95 and rand < 0.99:
-            ls.dots(ls.strip)
-        elif rand > 0.99 and rand < 1:
-            ls.strobeRainbow(ls.strip, iterations=300)
+            if rand > 0.5 and rand < 0.7:
+                ls.colorWipeBackandForth(ls.strip, ls.randomColor())
+            elif rand > 0.7 and rand < 0.75:
+                ls.colorWipeNoTailRainbow(ls.strip, 30, 1, 3)  # rainbow wipe
+            elif rand > 0.75 and rand < 0.85:
+                for p in range(3 + int(random() * 10)):
+                    ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=4)
+            elif rand > 0.85 and rand < 0.9:
+                ls.colorWipeBackandForth(ls.strip, ls.randomColor(), tail=True)
+            elif rand > 0.90 and rand < 0.93:
+                ls.theaterChase(ls.strip, ls.randomColor())
+            elif rand > 0.93 and rand < 0.95:
+                ls.colorWipeNoTailRainbow(
+                    ls.strip, 30, 1, 3, tail=True)  # rainbow wipe
+                time.sleep(1)
+                ls.colorWipeNoTail(ls.strip, Color(0, 0, 0))
+            elif rand > 0.95 and rand < 0.99:
+                ls.dots(ls.strip)
+            elif rand > 0.99 and rand < 1:
+                ls.strobeRainbow(ls.strip, iterations=300)
 
 
 while True:
