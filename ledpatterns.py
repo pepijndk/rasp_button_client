@@ -218,7 +218,7 @@ def dots(strip, wait_ms=100, iterations=1000, width=5, newDotsPerCycle=1):
             # activatePixel(strip, coord + w, Color(155, 0, 155))
             activatePixel(strip, coord + w,
                           Color(brightness(level), 0, brightness(level)))
-            wait.sleep(0.01)
+            time.sleep(0.01)
 
     for i in range(iterations):
         if random() > chance:

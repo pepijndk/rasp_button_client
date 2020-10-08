@@ -86,6 +86,7 @@ def call():
     print("mode", mode, "timer", int(timer))
 
     if mode == 0:
+        ls.clearStrip(ls.strip)
         ls.activatePixel(ls.strip, 0, Color(0, 255, 0))
         ls.activatePixel(ls.strip, 1, Color(0, 255, 0))
         ls.activatePixel(ls.strip, 2, Color(0, 255, 0))
