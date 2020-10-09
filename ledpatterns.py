@@ -266,6 +266,19 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=30, width=5):
             activatePixel(strip, i, Color(0, 0, 0))
 
 
+def theaterChaseRainbow(strip, color, wait_ms=0, iterations=30, width=5):
+    """Movie theater light style chaser animation."""
+    for j in range(iterations):
+        for i in range(0, strip.numPixels(), 2*width):
+            for p in range(width):
+                activatePixel(strip, i+j+p, wheel(i+j+p))
+
+        strip.show()
+        time.sleep(wait_ms/1000.0)
+        for i in range(strip.numPixels()):
+            activatePixel(strip, i, Color(0, 0, 0))
+
+
 def wheel(pos):
     """Generate rainbow colors across 0-255 positions."""
     if pos < 85:

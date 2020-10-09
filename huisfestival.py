@@ -111,7 +111,10 @@ def call():
         sc.deactivateSmokeMachine()
         mode = 2
     elif mode == 2:
-        ls.theaterChaseWidth(ls.strip, ls.randomColor())
+        ls.theaterChaseWidth(ls.strip, ls.randomColor(),
+                             width=int(random() * 20))
+
+        ls.theaterChaseWidthRainbow(ls.strip, width=int(random() * 20))
 
         time_diff_pattern = (datetime.datetime.now() -
                              date_pattern).total_seconds()
