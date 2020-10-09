@@ -32,7 +32,7 @@ SLEEP_UNTIL_SMOKE = 4
 # after how long of no smoke it activates the smoke machine (in s)
 SMOKE_INTERVAL = 3600
 # after how long of now pattern there is a 50 50 chance to have a pattern
-PATTERN_INTERVAL = 10
+PATTERN_INTERVAL = 15
 # sleep
 SLEEP_DURATION = 0.2
 
@@ -71,7 +71,6 @@ def registerPress(i):
         mode = 0
     if i == PIN_K2:
         mode = 1
-        ls.setBrightness(ls.strip, 255)
     if i == PIN_K3:
         mode = 2
     if i == PIN_K4:
@@ -96,8 +95,6 @@ def call():
         ls.strip.show()
 
     if mode == 1:
-        ls.setBrightness(ls.strip, 10)
-
         ls.strip.se
 
         print("mode 1")
