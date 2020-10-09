@@ -95,7 +95,7 @@ def call():
         ls.strip.show()
 
     if mode == 1:
-        ls.strip.se
+        # cls.strip.se
 
         print("mode 1")
 
