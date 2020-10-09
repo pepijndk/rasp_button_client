@@ -32,7 +32,7 @@ SLEEP_UNTIL_SMOKE = 4
 # after how long of no smoke it activates the smoke machine (in s)
 SMOKE_INTERVAL = 3600
 # after how long of now pattern there is a 50 50 chance to have a pattern
-PATTERN_INTERVAL = 15
+PATTERN_INTERVAL = 10
 # sleep
 SLEEP_DURATION = 0.2
 
@@ -111,6 +111,9 @@ def call():
         sc.deactivateSmokeMachine()
         mode = 2
     elif mode == 2:
+
+        ls.theaterChaseWidth(
+            ls.strip, color=ls.randomColor(), width=int(random() * 40))
 
         time_diff_pattern = (datetime.datetime.now() -
                              date_pattern).total_seconds()
