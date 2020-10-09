@@ -32,7 +32,7 @@ SLEEP_UNTIL_SMOKE = 4
 # after how long of no smoke it activates the smoke machine (in s)
 SMOKE_INTERVAL = 3600
 # after how long of now pattern there is a 50 50 chance to have a pattern
-PATTERN_INTERVAL = 15
+PATTERN_INTERVAL = 10
 # sleep
 SLEEP_DURATION = 0.2
 
@@ -118,19 +118,20 @@ def call():
             date_pattern = datetime.datetime.now()
             rand = random()
 
-            if rand > 0.5 and rand < 0.6:
+            if rand > 0.5 and rand < 0.65:
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
-            elif rand > 0.6 and rand < 0.68:
+            elif rand > 0.65 and rand < 0.75:
                 ls.theaterChaseWidth(
                     ls.strip, color=ls.randomColor(), width=int(random() * 40))
-            elif rand > 0.68 and rand < 0.7:
+            elif rand > 0.75 and rand < 0.76:
                 ls.theaterChaseWidthRainbow(ls.strip, width=int(random() * 40))
-            elif rand > 0.7 and rand < 0.75:
+            elif rand > 0.76 and rand < 0.77:
                 ls.colorWipeNoTailRainbow(ls.strip, 50, 1, 3)  # rainbow wipe
+                time.sleep(1)
                 ls.colorWipeNoTailRainbow(
                     ls.strip, 50, 1, 3, inverted=True)  # rainbow wipe
-            elif rand > 0.75 and rand < 0.85:
+            elif rand > 0.77 and rand < 0.85:
                 for p in range(3 + int(random() * 10)):
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=6)
             elif rand > 0.85 and rand < 0.9:
