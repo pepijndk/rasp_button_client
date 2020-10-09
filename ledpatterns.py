@@ -271,7 +271,7 @@ def theaterChaseWidthRainbow(strip, wait_ms=0, iterations=30, width=5):
     for j in range(iterations):
         for i in range(0, strip.numPixels(), 2*width):
             for p in range(width):
-                activatePixel(strip, i+j+p, wheel(i+j+p))
+                activatePixel(strip, i+j+p, wheel(i+j+p & 255))
 
         strip.show()
         time.sleep(wait_ms/1000.0)
