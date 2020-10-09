@@ -32,7 +32,7 @@ SLEEP_UNTIL_SMOKE = 4
 # after how long of no smoke it activates the smoke machine (in s)
 SMOKE_INTERVAL = 3600
 # after how long of now pattern there is a 50 50 chance to have a pattern
-PATTERN_INTERVAL = 10
+PATTERN_INTERVAL = 15
 # sleep
 SLEEP_DURATION = 0.2
 
@@ -115,7 +115,6 @@ def call():
         time_diff_pattern = (datetime.datetime.now() -
                              date_pattern).total_seconds()
         if time_diff_pattern > PATTERN_INTERVAL:
-            date_pattern = datetime.datetime.now()
             rand = random()
 
             if rand > 0.5 and rand < 0.65:
@@ -147,6 +146,7 @@ def call():
                 ls.dots(ls.strip)
             elif rand > 0.99 and rand < 1:
                 ls.strobeRainbow(ls.strip, iterations=300)
+            date_pattern = datetime.datetime.now()
 
 
 while True:
