@@ -263,7 +263,8 @@ def theaterChaseWidth(strip, color, wait_ms=20, iterations=30, width=5):
 
         strip.show()
         time.sleep(wait_ms/1000.0)
-        clearStrip(strip)
+        for i in range(strip.numPixels()):
+            activatePixel(strip, i, Color(0, 0, 0))
 
 
 def wheel(pos):
