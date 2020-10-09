@@ -112,9 +112,6 @@ def call():
         mode = 2
     elif mode == 2:
 
-        ls.theaterChaseWidth(
-            ls.strip, color=ls.randomColor(), width=int(random() * 40))
-
         time_diff_pattern = (datetime.datetime.now() -
                              date_pattern).total_seconds()
         if time_diff_pattern > PATTERN_INTERVAL:
@@ -123,7 +120,7 @@ def call():
             if rand > 0.5 and rand < 0.65:
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
-            elif rand > 0.65 and rand < 0.75:
+            elif rand > 0.25 and rand < 0.75:
                 ls.theaterChaseWidth(
                     ls.strip, color=ls.randomColor(), width=int(random() * 40))
             elif rand > 0.75 and rand < 0.76:
