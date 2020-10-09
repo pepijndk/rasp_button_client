@@ -258,7 +258,7 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=50, width=5):
     for j in range(iterations):
         for i in range(0, strip.numPixels(), 2*width):
             for p in range(width):
-                activatePixel(strip, i+j+p, color)
+                activatePixel(strip, i+j+p & LED_COUNT, color)
 
         strip.show()
         time.sleep(wait_ms/1000.0)
@@ -266,7 +266,7 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=50, width=5):
             activatePixel(strip, i, Color(0, 0, 0))
 
 
-def theaterChaseWidthRainbow(strip, wait_ms=0, iterations=50, width=5):
+def theaterChaseWidthRainbow(strip, wait_ms=0, iterations=80, width=5):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for i in range(0, strip.numPixels(), 2*width):
