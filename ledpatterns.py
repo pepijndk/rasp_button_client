@@ -258,7 +258,6 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=30, width=5):
     for j in range(iterations):
         for i in range(0, strip.numPixels(), 2*width):
             for p in range(width):
-                print("i", i, "j", j, "p", p)
                 activatePixel(strip, i+j+p, color)
 
         strip.show()
