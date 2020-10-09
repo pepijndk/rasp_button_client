@@ -93,8 +93,6 @@ def call():
 
     if mode == 0:
         ls.clearStrip(ls.strip)
-        ls.activatePixel(ls.strip, 0, Color(0, 255, 0))
-        ls.activatePixel(ls.strip, 1, Color(0, 255, 0))
         ls.strip.show()
 
     if mode == 1:
@@ -105,19 +103,19 @@ def call():
         print("mode 1")
 
         randomColor1 = ls.randomColor()
-        randomColor2 = ls.randomColor()
 
         sc.activateSmokeMachine()
 
         ls.strobe(ls.strip, Color(255, 255, 255), iterations=100)
-        ls.strobeColorToColor(ls.strip, Color(255, 255, 255), randomColor1)
-        ls.strobeColorToColor(ls.strip, randomColor1, randomColor2)
-        ls.strobe(ls.strip, randomColor2)
+        ls.strobeColorToColor(ls.strip, Color(
+            255, 255, 255), randomColor1, iterations=80)
+        ls.strobe(ls.strip, randomColor1, iterations=60)
 
         sc.deactivateSmokeMachine()
         mode = 2
-        ls.setBrightness(ls.strip, 255)
     elif mode == 2:
+        ls.theaterChaseWidth(ls.strip, ls.randomColor())
+
         time_diff_pattern = (datetime.datetime.now() -
                              date_pattern).total_seconds()
         if time_diff_pattern > PATTERN_INTERVAL:
@@ -126,11 +124,13 @@ def call():
 
             if rand > 0.5 and rand < 0.7:
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
+                ls.colorWipeBackandForth(ls.strip, ls.randomColor())
             elif rand > 0.7 and rand < 0.75:
-                ls.colorWipeNoTailRainbow(ls.strip, 30, 1, 3)  # rainbow wipe
+                ls.colorWipeNoTailRainbow(ls.strip, 50, 1, 3)  # rainbow wipe
+                ls.colorWipeNoTailRainbow(ls.strip, 50, 1, 3)  # rainbow wipe
             elif rand > 0.75 and rand < 0.85:
                 for p in range(3 + int(random() * 10)):
-                    ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=4)
+                    ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=6)
             elif rand > 0.85 and rand < 0.9:
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor(), tail=True)
             elif rand > 0.90 and rand < 0.93:
