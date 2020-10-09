@@ -111,10 +111,6 @@ def call():
         sc.deactivateSmokeMachine()
         mode = 2
     elif mode == 2:
-        ls.theaterChaseWidth(ls.strip, ls.randomColor(),
-                             width=int(random() * 20))
-
-        ls.theaterChaseWidthRainbow(ls.strip, width=int(random() * 20))
 
         time_diff_pattern = (datetime.datetime.now() -
                              date_pattern).total_seconds()
@@ -122,12 +118,18 @@ def call():
             date_pattern = datetime.datetime.now()
             rand = random()
 
-            if rand > 0.5 and rand < 0.7:
+            if rand > 0.5 and rand < 0.6:
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
+            elif rand > 0.6 and rand < 0.68:
+                ls.theaterChaseWidth(
+                    ls.strip, color=ls.randomColor(), width=int(random() * 40))
+            elif rand > 0.68 and rand < 0.7:
+                ls.theaterChaseWidthRainbow(ls.strip, width=int(random() * 40))
             elif rand > 0.7 and rand < 0.75:
                 ls.colorWipeNoTailRainbow(ls.strip, 50, 1, 3)  # rainbow wipe
-                ls.colorWipeNoTailRainbow(ls.strip, 50, 1, 3)  # rainbow wipe
+                ls.colorWipeNoTailRainbow(
+                    ls.strip, 50, 1, 3, inverted=True)  # rainbow wipe
             elif rand > 0.75 and rand < 0.85:
                 for p in range(3 + int(random() * 10)):
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=6)
