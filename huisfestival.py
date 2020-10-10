@@ -121,7 +121,7 @@ def call():
             if rand > 0.5 and rand < 0.65:
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
-            elif rand > 0.25 and rand < 0.75:
+            elif rand > 0.65 and rand < 0.7:
                 ls.theaterChaseWidth(
                     ls.strip, color=ls.randomColor(), width=int(random() * 40))
             elif rand > 0.75 and rand < 0.76:
