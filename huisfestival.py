@@ -1,3 +1,4 @@
+
 import ledpatterns as ls
 import time
 from time import sleep
@@ -32,7 +33,7 @@ SLEEP_UNTIL_SMOKE = 4
 # after how long of no smoke it activates the smoke machine (in s)
 SMOKE_INTERVAL = 3600
 # after how long of now pattern there is a 50 50 chance to have a pattern
-PATTERN_INTERVAL = 10
+PATTERN_INTERVAL = 20
 # sleep
 SLEEP_DURATION = 0.2
 
@@ -122,7 +123,7 @@ def call():
                 ls.colorWipeBackandForth(ls.strip, ls.randomColor())
             elif rand > 0.25 and rand < 0.75:
                 ls.theaterChaseWidth(
-                    ls.strip, color=ls.randomColor(), width=int(random() * 40))
+                    ls.strip, color=ls.randomColor(), width=int(random() * 40), iterations=20)
             elif rand > 0.75 and rand < 0.76:
                 ls.theaterChaseWidthRainbow(ls.strip, width=int(random() * 40))
             elif rand > 0.76 and rand < 0.77:
