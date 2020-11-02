@@ -285,7 +285,7 @@ def tulips(strip, wait_ms=10, iterations=500, width=30):
 
 def usa(strip, wait_ms=50, iterations=500, width=30):
     """Movie theater light style chaser animation."""
-
+    for j in range(iterations):
        for i in range(0, strip.numPixels(), 2*width):
             for p in range(width):
                 activatePixel(strip, i+j+p, Color(255, 0, 0))
