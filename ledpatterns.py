@@ -36,10 +36,11 @@ def activatePixel(strip, pixel, color, inverted=False):
         strip.setPixelColor((LED_COUNT - int(pixel)), color)
 
 
-def clearStrip(strip, color=Color(0, 0, 0)):
+def clearStrip(strip, color=Color(0, 0, 0), reset=True):
     for i in range(strip.numPixels()):
         activatePixel(strip, i, color)
-    strip.show()
+    if reset:
+        strip.show()
 
 
 # Define functions which animate LEDs in various ways.
@@ -286,7 +287,8 @@ def tulips(strip, wait_ms=10, iterations=500, width=30):
 def usa(strip, wait_ms=200, iterations=500, width=50):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
-        clearStrip(strip)
+        clearStrip(strip, reset=False)
+
         for i in range(100):
             activatePixel(strip, i, Color(0, 0, 255), inverted=True)
         for i in range(0, strip.numPixels() - 100, 2*width):
@@ -303,29 +305,27 @@ def usa(strip, wait_ms=200, iterations=500, width=50):
 
         strip.show()
         time.sleep(wait_ms/1000.0)
-        for i in range(strip.numPixels()):
-            activatePixel(strip, i, Color(0, 0, 0))
 
     # for j in range(iterations):
     #     for i in range(0, strip.numPixels(), 3*width):
 
-            #     for p in range(2 * width):
-            #         activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 255, 255))
+        #     for p in range(2 * width):
+        #         activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 255, 255))
 
-            #     for p in range(2 * width):
-            #         if (int((p / 4) % 2 == 0)):
-            #             activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 0, 0))
-            #             activatePixel(strip, (i+j+p+1) %
-            #                           LED_COUNT, Color(255, 0, 0))
-            #             activatePixel(strip, (i+j+p+2) %
-            #                           LED_COUNT, Color(255, 0, 0))
-            #             activatePixel(strip, (i+j+p+3) %
-            #                           LED_COUNT, Color(255, 0, 0))
+        #     for p in range(2 * width):
+        #         if (int((p / 4) % 2 == 0)):
+        #             activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 0, 0))
+        #             activatePixel(strip, (i+j+p+1) %
+        #                           LED_COUNT, Color(255, 0, 0))
+        #             activatePixel(strip, (i+j+p+2) %
+        #                           LED_COUNT, Color(255, 0, 0))
+        #             activatePixel(strip, (i+j+p+3) %
+        #                           LED_COUNT, Color(255, 0, 0))
 
-            # strip.show()
-            # time.sleep(wait_ms/1000.0)
-            # for i in range(strip.numPixels()):
-            #     activatePixel(strip, i, Color(0, 0, 255))
+        # strip.show()
+        # time.sleep(wait_ms/1000.0)
+        # for i in range(strip.numPixels()):
+        #     activatePixel(strip, i, Color(0, 0, 255))
 
 
 def theaterChaseWidthRainbow(strip, wait_ms=0, iterations=80, width=5):
