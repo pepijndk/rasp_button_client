@@ -91,6 +91,8 @@ def call():
 
     print("mode", mode, "timer", int(timer))
 
+    ls.tulips(ls.strip)
+
     if mode == 0:
         ls.clearStrip(ls.strip)
         ls.strip.show()

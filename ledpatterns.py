@@ -266,6 +266,22 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=50, width=5):
             activatePixel(strip, i, Color(0, 0, 0))
 
 
+def tulips(strip, wait_ms=10, iterations=300, width=30):
+    """Movie theater light style chaser animation."""
+    for j in range(iterations):
+        if int((j / 10) % 3) == 0:
+            clearStrip(strip)
+
+        for i in range(0, strip.numPixels(), 2*width):
+            for p in range(width):
+                activatePixel(strip, i+j+p, Color(255, 165, 0))
+
+        strip.show()
+        time.sleep(wait_ms/1000.0)
+        for i in range(strip.numPixels()):
+            activatePixel(strip, i, Color(0, 0, 0))
+
+
 def theaterChaseWidthRainbow(strip, wait_ms=0, iterations=80, width=5):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
