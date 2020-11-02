@@ -288,10 +288,10 @@ def usa(strip, wait_ms=200, iterations=500, width=50):
     for j in range(iterations):
         for i in range(0, strip.numPixels(), 3*width):
             for p in range(2 * width):
-                activatePixel(strip, (i+j+p) % 255, Color(255, 255, 255))
+                activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 255, 255))
 
             for p in range(2 * width):
-                if (int((p / 3) % 2 == 0)):
+                if (int((p / 4) % 2 == 0)):
                     activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 0, 0))
                     activatePixel(strip, (i+j+p+1) %
                                   LED_COUNT, Color(255, 0, 0))
