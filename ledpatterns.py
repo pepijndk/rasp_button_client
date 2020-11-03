@@ -317,6 +317,7 @@ def usa_2(strip, sleep_time=600):
     for i in range(int(LED_COUNT / 3)):
         activatePixel(strip, int(2 * LED_COUNT / 3) + i, Color(255, 0, 0))
 
+    strip.show()
     time.sleep(sleep_time)
 
     # for j in range(iterations):
