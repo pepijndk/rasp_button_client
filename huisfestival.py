@@ -92,7 +92,7 @@ def call():
     print("mode", mode, "timer", int(timer))
 
     # ls.tulips(ls.strip)
-    ls.usa(ls.strip)
+    ls.usa_2(ls.strip)
 
     if mode == 0:
         ls.clearStrip(ls.strip)

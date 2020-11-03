@@ -289,7 +289,7 @@ def usa(strip, wait_ms=200, iterations=500, width=50):
     for j in range(iterations):
         clearStrip(strip, color=Color(255, 255, 255), reset=False)
 
-        for i in range(100):
+        for i in range(101):
             activatePixel(strip, i, Color(0, 0, 255), inverted=True)
         for i in range(0, strip.numPixels() - 100):
             if (int((i / 4) % 2 == 0)):
@@ -305,26 +305,40 @@ def usa(strip, wait_ms=200, iterations=500, width=50):
         strip.show()
         time.sleep(wait_ms/1000.0)
 
+
+def usa_2(strip, time=600):
+    """Movie theater light style chaser animation."""
+    for i in range(int(LED_COUNT / 3)):
+        activatePixel(strip, i, Color(255, 255, 255))
+
+    for i in range(int(LED_COUNT / 3), int(2 * LED_COUNT / 3)):
+        activatePixel(strip, i, Color(255, 0, 0)
+
+    for i in range(int(2 * LED_COUNT / 3), int(3 * LED_COUNT / 3)):
+        activatePixel(strip, i, Color(0, 0, 255)
+
+    time.sleep(time)
+
     # for j in range(iterations):
     #     for i in range(0, strip.numPixels(), 3*width):
 
-        #     for p in range(2 * width):
-        #         activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 255, 255))
+    #     for p in range(2 * width):
+    #         activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 255, 255))
 
-        #     for p in range(2 * width):
-        #         if (int((p / 4) % 2 == 0)):
-        #             activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 0, 0))
-        #             activatePixel(strip, (i+j+p+1) %
-        #                           LED_COUNT, Color(255, 0, 0))
-        #             activatePixel(strip, (i+j+p+2) %
-        #                           LED_COUNT, Color(255, 0, 0))
-        #             activatePixel(strip, (i+j+p+3) %
-        #                           LED_COUNT, Color(255, 0, 0))
+    #     for p in range(2 * width):
+    #         if (int((p / 4) % 2 == 0)):
+    #             activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 0, 0))
+    #             activatePixel(strip, (i+j+p+1) %
+    #                           LED_COUNT, Color(255, 0, 0))
+    #             activatePixel(strip, (i+j+p+2) %
+    #                           LED_COUNT, Color(255, 0, 0))
+    #             activatePixel(strip, (i+j+p+3) %
+    #                           LED_COUNT, Color(255, 0, 0))
 
-        # strip.show()
-        # time.sleep(wait_ms/1000.0)
-        # for i in range(strip.numPixels()):
-        #     activatePixel(strip, i, Color(0, 0, 255))
+    # strip.show()
+    # time.sleep(wait_ms/1000.0)
+    # for i in range(strip.numPixels()):
+    #     activatePixel(strip, i, Color(0, 0, 255))
 
 
 def theaterChaseWidthRainbow(strip, wait_ms=0, iterations=80, width=5):
@@ -389,7 +403,7 @@ def randomColor():
     # type 2: primary + secundary (0.5)
     # type 3: primary + secundary + tertiary + 0.25 (0.5)
 
-    rand_colors = [
+    rand_colors=[
         Color(255, 0, 0),
         Color(0, 255, 0),
         Color(0, 0, 255),
@@ -416,7 +430,7 @@ def strobeColorToColor(strip, color1, color2, wait_ms=40, sections=5, iterations
            sections=sections, iterations=iterations)
 
 
-strip = Adafruit_NeoPixel(
+strip=Adafruit_NeoPixel(
     LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 strip.begin()
 
