@@ -18,7 +18,7 @@ LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 100     # Set to 0 for darkest and 255 for brightest
 # True to invert the signal (when using NPN transistor level shift)
 LED_INVERT = False
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
@@ -291,7 +291,7 @@ def usa(strip, wait_ms=200, iterations=500, width=50):
 
         for i in range(100):
             activatePixel(strip, i, Color(0, 0, 255), inverted=True)
-        for i in range(0, strip.numPixels() - 100, 2*width):
+        for i in range(strip.numPixels() - 100):
             for p in range(width):
                 if (int((p / 4) % 2 == 0)):
                     activatePixel(strip, (i+j+p) %
