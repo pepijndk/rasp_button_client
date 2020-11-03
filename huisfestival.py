@@ -93,6 +93,7 @@ def call():
 
     # ls.tulips(ls.strip)
     ls.usa_2(ls.strip)
+    ls.usa(ls.strip)
 
     if mode == 0:
         ls.clearStrip(ls.strip)
