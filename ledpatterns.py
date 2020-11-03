@@ -312,10 +312,10 @@ def usa_2(strip, time=600):
         activatePixel(strip, i, Color(255, 255, 255))
 
     for i in range(int(LED_COUNT / 3)):
-        activatePixel(strip, int(1 * LED_COUNT / 3) + i, Color(255, 0, 0)
+        activatePixel(strip, int(1 * LED_COUNT / 3) + i, Color(255, 0, 0))
 
     for i in range(int(LED_COUNT / 3)):
-        activatePixel(strip, int(2 * LED_COUNT / 3) + i, Color(255, 0, 0)
+        activatePixel(strip, int(2 * LED_COUNT / 3) + i, Color(255, 0, 0))
 
     time.sleep(time)
 
@@ -403,7 +403,7 @@ def randomColor():
     # type 2: primary + secundary (0.5)
     # type 3: primary + secundary + tertiary + 0.25 (0.5)
 
-    rand_colors=[
+    rand_colors = [
         Color(255, 0, 0),
         Color(0, 255, 0),
         Color(0, 0, 255),
@@ -430,7 +430,7 @@ def strobeColorToColor(strip, color1, color2, wait_ms=40, sections=5, iterations
            sections=sections, iterations=iterations)
 
 
-strip=Adafruit_NeoPixel(
+strip = Adafruit_NeoPixel(
     LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 strip.begin()
 
