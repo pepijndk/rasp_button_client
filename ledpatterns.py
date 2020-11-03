@@ -321,7 +321,7 @@ def usa_2(strip, sleep_time=600):
     time.sleep(sleep_time)
 
 
-def usa_2(strip, sleep_time=1):
+def usa_3(strip, sleep_time=1, iterations=300):
     for j in range(iterations):
         """Movie theater light style chaser animation."""
         for i in range(int(LED_COUNT / 3)):
