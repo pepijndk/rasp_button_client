@@ -320,6 +320,24 @@ def usa_2(strip, sleep_time=600):
     strip.show()
     time.sleep(sleep_time)
 
+
+def usa_2(strip, sleep_time=1):
+    for j in range(iterations):
+        """Movie theater light style chaser animation."""
+        for i in range(int(LED_COUNT / 3)):
+            activatePixel(strip, (i + j) % LED_COUNT, Color(0, 0, 255))
+
+        for i in range(int(LED_COUNT / 3)):
+            activatePixel(strip, (int(1 * LED_COUNT / 3) + i + j) %
+                          LED_COUNT, Color(255, 0, 0))
+
+        for i in range(int(LED_COUNT / 3)):
+            activatePixel(strip, (int(2 * LED_COUNT / 3) + i + j) %
+                          LED_COUNT, Color(255, 255, 255))
+
+        strip.show()
+        time.sleep(sleep_time)
+
     # for j in range(iterations):
     #     for i in range(0, strip.numPixels(), 3*width):
 
