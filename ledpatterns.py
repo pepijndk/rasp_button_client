@@ -311,11 +311,11 @@ def usa_2(strip, time=600):
     for i in range(int(LED_COUNT / 3)):
         activatePixel(strip, i, Color(255, 255, 255))
 
-    for i in range(int(LED_COUNT / 3), int(2 * LED_COUNT / 3)):
-        activatePixel(strip, i, Color(255, 0, 0)
+    for i in range(int(LED_COUNT / 3)):
+        activatePixel(strip, int(1 * LED_COUNT / 3) + i, Color(255, 0, 0)
 
-    for i in range(int(2 * LED_COUNT / 3), int(3 * LED_COUNT / 3)):
-        activatePixel(strip, i, Color(0, 0, 255)
+    for i in range(int(LED_COUNT / 3)):
+        activatePixel(strip, int(2 * LED_COUNT / 3) + i, Color(255, 0, 0)
 
     time.sleep(time)
 
