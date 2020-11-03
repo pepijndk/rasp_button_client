@@ -284,7 +284,7 @@ def tulips(strip, wait_ms=10, iterations=500, width=30):
             activatePixel(strip, i, Color(0, 255, 0))
 
 
-def usa(strip, wait_ms=200, iterations=1000, width=50):
+def usa(strip, wait_ms=200, iterations=3000, width=50):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         clearStrip(strip, color=Color(255, 255, 255), reset=False)
