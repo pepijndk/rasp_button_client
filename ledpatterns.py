@@ -284,7 +284,7 @@ def tulips(strip, wait_ms=10, iterations=500, width=30):
             activatePixel(strip, i, Color(0, 255, 0))
 
 
-def usa(strip, wait_ms=200, iterations=500, width=50):
+def usa(strip, wait_ms=200, iterations=1000, width=50):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         clearStrip(strip, color=Color(255, 255, 255), reset=False)
@@ -309,13 +309,13 @@ def usa(strip, wait_ms=200, iterations=500, width=50):
 def usa_2(strip, sleep_time=600):
     """Movie theater light style chaser animation."""
     for i in range(int(LED_COUNT / 3)):
-        activatePixel(strip, i, Color(255, 255, 255))
+        activatePixel(strip, i, Color(0, 0, 255))
 
     for i in range(int(LED_COUNT / 3)):
         activatePixel(strip, int(1 * LED_COUNT / 3) + i, Color(255, 0, 0))
 
     for i in range(int(LED_COUNT / 3)):
-        activatePixel(strip, int(2 * LED_COUNT / 3) + i, Color(255, 0, 0))
+        activatePixel(strip, int(2 * LED_COUNT / 3) + i, Color(255, 255, 255))
 
     strip.show()
     time.sleep(sleep_time)
