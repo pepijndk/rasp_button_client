@@ -300,13 +300,13 @@ def usa(strip, wait_ms=200, iterations=3000, width=50):
             activatePixel(strip, i, Color(0, 0, 255), inverted=True)
         for i in range(0, strip.numPixels() - 100):
             if (int((i / 4) % 2 == 0)):
-                activatePixel(strip, (i-j) %
+                activatePixel(strip, (i+j) %
                               (LED_COUNT - 100), Color(255, 0, 0))
-                activatePixel(strip, (i-j-1) %
+                activatePixel(strip, (i+j+1) %
                               (LED_COUNT - 100), Color(255, 0, 0))
-                activatePixel(strip, (i-j-2) %
+                activatePixel(strip, (i+j+2) %
                               (LED_COUNT - 100), Color(255, 0, 0))
-                activatePixel(strip, (i-j-3) %
+                activatePixel(strip, (i+j+3) %
                               (LED_COUNT - 100), Color(255, 0, 0))
 
         strip.show()
