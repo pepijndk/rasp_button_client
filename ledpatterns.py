@@ -286,7 +286,7 @@ def tulips(strip, wait_ms=10, iterations=500, width=30):
 
 def red(strip):
     for i in range(strip.numPixels()):
-        activatePixel(strip, i, color(255, 0, 0))
+        activatePixel(strip, i, Color(255, 0, 0))
         sleep(300)
 
 
