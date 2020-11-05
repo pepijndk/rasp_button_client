@@ -159,7 +159,7 @@ def strobeRainbow(strip, wait_ms=40, sections=5, iterations=150):
     clearStrip(strip)
 
 
-def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sections=5, iterations=60, percentage_random=1):
+def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sections=5, iterations=80, percentage_random=1):
     """strobe"""
 
     def getColor(i):

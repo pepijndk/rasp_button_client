@@ -10,6 +10,8 @@ import servo_controller as sc
 import feedback_led as fl
 import socket
 import datetime
+import ledpatterns as ls
+from random import random
 # import message_server_pythonversion as server
 
 #
@@ -38,6 +40,7 @@ SMOKE_INTERVAL = 3600
 IP_ADDRESS = "192.168.0.61"
 PORT = 65432
 SLEEP_DURATION = 0.1
+TULIPS_CHANCE = 0.2
 
 GPIO.setmode(GPIO.BCM)
 
@@ -69,7 +72,6 @@ GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # 0 = party lights on
 # 1 = party lights on & normal lights off
 # 2 = party lights on & normal lights off & music on (everything)
-
 
 activated = False  # if the main button is pressed
 mode = 2  # mode it is currently in
@@ -196,11 +198,29 @@ def call():
         elif mode == 1:
             sc.activate()
         elif mode == 2:
-            sendToServer("start")
-            sc.activate()
+            if random() < TULIPS_CHANCE():  # small change tulips
+                sendToServer("start tulips")
+                ls.tulips(ls.strip)
+                sc.activate_stage_0()
+                sleep(0.2)
+                for i in range(20):
+                    sc.activate_stage_1()
+                    sleep(2.5)
+                    sc.deactivate_stage_1()
+                    sleep(2.5)
+            else:
+                sendToServer("start")
+                sc.activate()
+                for i in range(5):
+                    ls.colorWipeNoTail(ls.strip, ls.randomColor())
+                    random_color = ls.randomColor()
+                    ls.colorWipeNoTail(ls.strip, random_color, tail=True)
+                ls.strobeColorToColor(ls.strip, random_color, ls.randomColor())
+                activateSmoke()
 
-        sleep(4)
-        activateSmoke()
+    elif GPIO.input(PIN_MAIN_BUTTON) and activated:
+        if random() < 0.01:
+            random_pattern()
 
     elif not GPIO.input(PIN_MAIN_BUTTON) and activated == True:
         print("deactivation noticed")
@@ -281,3 +301,37 @@ while True:
 
     timer = timer + SLEEP_DURATION
     sleep(SLEEP_DURATION)
+
+
+def random_pattern():
+    rand = random()
+
+    if rand > 0.5 and rand < 0.65:
+        ls.colorWipeBackandForth(ls.strip, ls.randomColor())
+        ls.colorWipeBackandForth(ls.strip, ls.randomColor())
+    elif rand > 0.65 and rand < 0.7:
+        ls.theaterChaseWidth(
+            ls.strip, color=ls.randomColor(), width=int(random() * 40))
+    elif rand > 0.75 and rand < 0.76:
+        ls.theaterChaseWidthRainbow(ls.strip, width=int(random() * 40))
+    elif rand > 0.76 and rand < 0.77:
+        ls.colorWipeNoTailRainbow(ls.strip, 50, 1, 3)  # rainbow wipe
+        time.sleep(1)
+        ls.colorWipeNoTailRainbow(
+            ls.strip, 50, 1, 3, inverted=True)  # rainbow wipe
+    elif rand > 0.77 and rand < 0.85:
+        for p in range(3 + int(random() * 10)):
+            ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=6)
+    elif rand > 0.85 and rand < 0.9:
+        ls.colorWipeBackandForth(ls.strip, ls.randomColor(), tail=True)
+    elif rand > 0.90 and rand < 0.93:
+        ls.theaterChase(ls.strip, ls.randomColor())
+    elif rand > 0.93 and rand < 0.95:
+        ls.colorWipeNoTailRainbow(
+            ls.strip, 30, 1, 3, tail=True)  # rainbow wipe
+        time.sleep(1)
+        ls.colorWipeNoTail(ls.strip, Color(0, 0, 0))
+    elif rand > 0.95 and rand < 0.99:
+        ls.dots(ls.strip)
+    elif rand > 0.99 and rand < 1:
+        ls.strobeRainbow(ls.strip, iterations=300)
