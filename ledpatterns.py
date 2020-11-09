@@ -28,12 +28,10 @@ LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 
 def activatePixel(strip, pixel, color, inverted=False):
-    if pixel > LED_COUNT or pixel < 0:
-        return
     if not inverted:
-        strip.setPixelColor(int(pixel), color)
+        strip.setPixelColor(int(pixel) % LED_COUNT, color)
     else:
-        strip.setPixelColor((LED_COUNT - int(pixel)), color)
+        strip.setPixelColor((LED_COUNT - (int(pixel) % LED_COUNT)), color)
 
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):
@@ -443,7 +441,7 @@ def randomColor():
     return rand_colors[int(random() * (len(rand_colors) - 1))]
 
 
-def strobeColorToColor(strip, color1, color2, wait_ms=40, sections=5, iterations=40, percentage_random=1):
+def strobeColorToColor(strip, color1, color2, wait_ms=20, sections=5, iterations=40, percentage_random=1):
     strobe(strip, color1, wait_ms=wait_ms,
            sections=sections, iterations=iterations)
     strobeTransition(strip,  color2, color1=color1, wait_ms=wait_ms, sections=sections,
