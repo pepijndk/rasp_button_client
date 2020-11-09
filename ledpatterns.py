@@ -270,11 +270,7 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=200, width=5):
 def tulips(strip, wait_ms=10, iterations=500, width=30):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
-        if int((j / 10) % 2) == 0:
-            clearStrip(strip)
-            continue
-
-        for i in range(0, strip.numPixels(), 2*width):
+         for i in range(0, strip.numPixels(), 2*width):
             for p in range(width):
                 activatePixel(strip, i+j+p, Color(255, 120, 0))
 
@@ -506,3 +502,5 @@ def random_pattern():
         usa(strip, iterations=40)
     elif rand > 0.99 and rand < 1:
         strobeRainbow(strip, iterations=300)
+
+    clearStrip(strip)

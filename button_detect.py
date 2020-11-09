@@ -216,9 +216,9 @@ def call():
                 sc.deactivate_normal_lights()
                 sleep(0.2)
                 for i in range(20):
-                    sc.activate_stage_1()
+                    sc.activate_normal_lights()
                     sleep(2.5)
-                    sc.deactivate_stage_1()
+                    sc.deactivate_normal_lights()
                     sleep(2.5)
             else:  # normal start
                 sendToServer("start")
