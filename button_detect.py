@@ -113,10 +113,10 @@ def registerPress(i):
     # differentiate between if activated is true.
     # if it is not activated it will set itself to that mode for 30 seconds
     #   if false:                   if true:
-    #   k1 = set mode to 2          next song
-    #   k2 = set mode to 1          <--
-    #   k3 = set mode to 0          <--
-    #   k4 = reset to normal        (smoke machine) // extra
+    #   k1 =   k4 set mode to 2          next song
+    #   k2 =   k3 set mode to 1          <--
+    #   k3 =   k2 set mode to 0          <--
+    #   k4 =   k1 reset to normal        (smoke machine) // extra
 
     if not activated:
         timer_since_mode_switch = 30
@@ -210,7 +210,7 @@ def call():
         elif mode == 1:
             sc.activate()
         elif mode == 2:
-            if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
+            if random() < 0:  # TULIPS_CHANCE:  # small chance tulips
                 sendToServer("start tulips")
                 sc.deactivate_normal_lights()
                 sleep(0.2)
