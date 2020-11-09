@@ -192,8 +192,8 @@ def call():
     global timer
     global connected
 
-    print("call", GPIO.input(PIN_MAIN_BUTTON),
-          "mode", mode, "connected", connected)
+    print("activated:", GPIO.input(PIN_MAIN_BUTTON),
+          " mode:", mode, " connected: ", connected)
 
     # Modes:
     # 0 = party lights on
@@ -210,7 +210,7 @@ def call():
         elif mode == 1:
             sc.activate()
         elif mode == 2:
-            if random() < TULIPS_CHANCE():  # small chance tulips
+            if random() < TULIPS_CHANCE:  # small chance tulips
                 sendToServer("start tulips")
                 ls.tulips(ls.strip)
                 sc.deactivate_normal_lights()
