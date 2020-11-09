@@ -18,7 +18,7 @@ LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 100     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 200     # Set to 0 for darkest and 255 for brightest
 # True to invert the signal (when using NPN transistor level shift)
 LED_INVERT = False
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
@@ -270,7 +270,7 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=200, width=5):
 def tulips(strip, wait_ms=10, iterations=500, width=30):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
-         for i in range(0, strip.numPixels(), 2*width):
+        for i in range(0, strip.numPixels(), 2*width):
             for p in range(width):
                 activatePixel(strip, i+j+p, Color(255, 120, 0))
 
