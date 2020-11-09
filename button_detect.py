@@ -210,7 +210,7 @@ def call():
         elif mode == 1:
             sc.activate()
         elif mode == 2:
-            if random() < 1:  # TULIPS_CHANCE:  # small chance tulips
+            if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
                 sendToServer("start tulips")
                 sc.deactivate_normal_lights()
                 sleep(0.2)
