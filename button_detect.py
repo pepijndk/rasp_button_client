@@ -227,7 +227,7 @@ def call():
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
 
                 random_color = ls.randomColor()
-                ls.colorWipeNoTail(ls.strip, random_color, tail=True)
+                ls.colorWipeNoTail(ls.strip, random_color, tail=True, speed=8)
                 activateSmoke()
                 ls.strobeColorToColor(
                     ls.strip, random_color, ls.randomColor(), iterations=100)
