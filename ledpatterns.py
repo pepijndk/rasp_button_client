@@ -441,7 +441,7 @@ def randomColor():
     return rand_colors[int(random() * (len(rand_colors) - 1))]
 
 
-def strobeColorToColor(strip, color1, color2, wait_ms=20, sections=5, iterations=40, percentage_random=1):
+def strobeColorToColor(strip, color1, color2, wait_ms=30, sections=5, iterations=40, percentage_random=1):
     strobe(strip, color1, wait_ms=wait_ms,
            sections=sections, iterations=iterations)
     strobeTransition(strip,  color2, color1=color1, wait_ms=wait_ms, sections=sections,

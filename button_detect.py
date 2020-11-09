@@ -161,10 +161,10 @@ def registerPress(i):
             print("activating smoke machine")
             activateSmoke()
 
-            ls.strobe(ls.strip, Color(255, 255, 255), iterations=100)
-            ls.strobeColorToColor(ls.strip, Color(
-                255, 255, 255), randomColor1, iterations=80)
-            ls.strobe(ls.strip, randomColor1, iterations=60)
+            # ls.strobe(ls.strip, Color(255, 255, 255), iterations=100)
+            # ls.strobeColorToColor(ls.strip, Color(
+            #     255, 255, 255), randomColor1, iterations=80)
+            # ls.strobe(ls.strip, randomColor1, iterations=60)
 
 
 GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
