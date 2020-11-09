@@ -53,32 +53,32 @@ def activate_servo(num):  # Hier de pins veranderen als er ooit een kapot gaat.
 # 1 = party lights on & normal lights off
 
 
-def activate_stage_0():  # party lampen aan
+def activate_party_lights():  # party lampen aan
     activate_servo(3)
 
 
-def activate_stage_1():  # gr lampen uit
+def deactivate_normal_lights():  # gr lampen uit
     activate_servo(2)
 
 
-def deactivate_stage_1():  # gr lampen weer aan
+def activate_normal_lights():  # gr lampen weer aan
     activate_servo(1)
 
 
-def deactivate_stage_0():  # party lampen uit
+def deactivate_party_lights():  # party lampen uit
     activate_servo(4)
 
 
 def activate():  # Eerst gr lampen uit dan lampen+ledstrips aan
-    activate_stage_0()
+    activate_party_lights()
     sleep(0.5)
-    activate_stage_1()
+    deactivate_normal_lights()
 
 
 def deactivate():
-    deactivate_stage_0()
+    activate_normal_lights()
     sleep(0.5)
-    deactivate_stage_1()
+    deactivate_party_lights()
 
 
 def activateSmokeMachine():

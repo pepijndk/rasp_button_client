@@ -3,7 +3,7 @@
 # Author: Tony DiCola (tony@tonydicola.com)
 #
 # Direct port of the Arduino NeoPixel library strandtest example.  Showcases
-# various animations on a strip of NeoPixels.
+# various animations on a strip of NeoPixe
 
 import time
 from rpi_ws281x import *
@@ -13,7 +13,7 @@ import servo_controller as sc
 
 
 # LED strip configuration:
-LED_COUNT = 307      # Number of LED pixels.
+LED_COUNT = 307      # Number of LED pixe
 LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -200,7 +200,7 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         activatePixel(strip, i, Color(0, 0, 0))
 
 
-def dots(strip, wait_ms=100, iterations=1000, width=5, newDotsPerCycle=1):
+def dots(strip, wait_ms=100, iterations=800, width=5, newDotsPerCycle=1):
 
     clearStrip(strip)
 
@@ -254,7 +254,7 @@ def theaterChase(strip, color, wait_ms=50, iterations=30):
                 activatePixel(strip, i+q, Color(0, 0, 0))
 
 
-def theaterChaseWidth(strip, color, wait_ms=0, iterations=50, width=5):
+def theaterChaseWidth(strip, color, wait_ms=0, iterations=200, width=5):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for i in range(0, strip.numPixels(), 2*width):
@@ -402,7 +402,7 @@ def rainbow(strip, wait_ms=20, iterations=1):
 
 
 def rainbowCycle(strip, wait_ms=20, iterations=5):
-    """Draw rainbow that uniformly distributes itself across all pixels."""
+    """Draw rainbow that uniformly distributes itself across all pixe"""
     for j in range(256*iterations):
         for i in range(strip.numPixels()):
             strip.setPixelColor(
@@ -466,8 +466,43 @@ strip.begin()
 
 
 # def pattern_strobe(strip):
-#     randomColor1 = ls.randomColor()
+#     randomColor1 = randomColor()
 #     strobe(strip, Color(255, 255, 255), iterations=100)
 #     strobeColorToColor(strip, Color(255, 255, 255),
 #                        randomColor1, iterations=80)
 #     strobe(strip, randomColor1)
+
+def random_pattern():
+    rand = random()
+
+    if rand > 0.5 and rand < 0.65:
+        colorWipeBackandForth(strip, randomColor())
+        colorWipeBackandForth(strip, randomColor())
+    elif rand > 0.65 and rand < 0.7:
+        theaterChaseWidth(
+            strip, color=randomColor(), width=int(1 + random() * 80))
+    elif rand > 0.75 and rand < 0.76:
+        theaterChaseWidthRainbow(strip, width=int(1 + random() * 80))
+    elif rand > 0.76 and rand < 0.77:
+        colorWipeNoTailRainbow(strip, 50, 1, 3)  # rainbow wipe
+        time.sleep(3)
+        colorWipeNoTailRainbow(
+            strip, 50, 1, 3, inverted=True)  # rainbow wipe
+    elif rand > 0.77 and rand < 0.85:
+        for p in range(3 + int(random() * 20)):
+            colorWipeNoTail(strip, randomColor(), speed=6)
+    elif rand > 0.85 and rand < 0.9:
+        colorWipeBackandForth(strip, randomColor(), tail=True)
+    elif rand > 0.90 and rand < 0.93:
+        theaterChase(strip, randomColor())
+    elif rand > 0.93 and rand < 0.95:
+        colorWipeNoTailRainbow(
+            strip, 30, 1, 3, tail=True)  # rainbow wipe
+        time.sleep(4)
+        colorWipeNoTail(strip, Color(0, 0, 0))
+    elif rand > 0.95 and rand < 0.98:
+        dots(strip)
+    elif rand > 0.98 and rand < 0.99:
+        usa(strip, iterations=40)
+    elif rand > 0.99 and rand < 1:
+        strobeRainbow(strip, iterations=300)
