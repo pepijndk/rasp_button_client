@@ -214,7 +214,7 @@ def call():
                 sendToServer("start tulips")
                 sc.deactivate_normal_lights()
                 sleep(0.2)
-                for i in range(20):
+                for i in range(10):
                     sc.activate_normal_lights()
                     ls.tulips(ls.strip, iterations=30)
                     sc.deactivate_normal_lights()
