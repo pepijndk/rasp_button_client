@@ -109,6 +109,11 @@ def registerPress(i):
     global mode
 
     print("btn clicked ", i)
+    button_clicked = i
+    sleep(0.5)
+    if not GPIO.input(button_clicked):
+        print("false press, returning")
+        return
 
     # differentiate between if activated is true.
     # if it is not activated it will set itself to that mode for 30 seconds
