@@ -229,7 +229,7 @@ def call():
                 ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
                 activateSmoke()
                 ls.strobeColorToColor(
-                    ls.strip, random_color, ls.randomColor(), iterations=100)
+                    ls.strip, random_color, ls.randomColor(), iterations=50)  # reset back to 100
                 sc.deactivateSmokeMachine()
 
     elif GPIO.input(PIN_MAIN_BUTTON) and activated:
