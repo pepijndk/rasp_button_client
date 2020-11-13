@@ -73,16 +73,18 @@ def activate():  # Eerst gr lampen uit dan lampen+ledstrips aan
     activate_party_lights()
     sleep(0.5)
     deactivate_normal_lights()
+    s.start(11)
 
 
 def deactivate():
     activate_normal_lights()
     sleep(0.5)
     deactivate_party_lights()
+    s.stop()
 
 
 def activateSmokeMachine():
-    s.start(9)
+    # s.start(9)
     # s.ChangeDutyCycle(9)
     s.ChangeDutyCycle(9)
     # s.stop()
@@ -94,6 +96,4 @@ def deactivateSmokeMachine():
     # p = GPIO.PWM(PIN_SMOKE, 50)
     # s.start(11)
     s.ChangeDutyCycle(11)
-    # sleep(0.1)
-    s.stop()
-    # sleep(0.2)
+    # s.stop()

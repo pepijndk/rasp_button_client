@@ -228,7 +228,7 @@ def call():
             else:  # normal start
                 sendToServer("start")
                 sc.activate()
-                for i in range(4):
+                for i in range(3):
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
 
                 random_color = ls.randomColor()
