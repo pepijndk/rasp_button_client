@@ -97,10 +97,10 @@ def activateSmoke():
     smoke_active = True
     sc.activateSmokeMachine()
 
-    # workaround for bug
-    sleep(0.1)
-    sc.deactivateSmokeMachine()
-    sc.activateSmokeMachine()
+    # # workaround for bug
+    # sleep(0.1)
+    # sc.deactivateSmokeMachine()
+    # sc.activateSmokeMachine()
 
 
 def registerPress(i):
@@ -256,7 +256,7 @@ def call():
 
 # start of script
 sc.deactivate()
-sc.deactivateSmokeMachine()
+# sc.deactivateSmokeMachine()
 fl.setStatus(0)
 sleep(2)
 
