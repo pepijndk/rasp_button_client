@@ -230,9 +230,10 @@ def call():
                 activateSmoke()
                 ls.strobeColorToColor(
                     ls.strip, random_color, ls.randomColor(), iterations=100)
+                sc.deactivateSmokeMachine()
 
     elif GPIO.input(PIN_MAIN_BUTTON) and activated:
-        if random() < 0.01:
+        if random() < 0.001:
             print("random pattern")
             ls.random_pattern()
 
