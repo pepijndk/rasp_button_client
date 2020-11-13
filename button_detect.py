@@ -133,6 +133,7 @@ def registerPress(i):
             mode = 2
 
             # temp?
+            activated = True
             sendToServer("start")
             sc.activate()
             for i in range(6):
