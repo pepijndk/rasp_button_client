@@ -80,6 +80,8 @@ start_time = 0
 # time since button is pressed
 timer = 0
 
+faking = False
+
 smoke_active = False
 
 # counts down from 30 when k-button is clicked, mode back to 2 if at 0
@@ -107,6 +109,7 @@ def registerPress(i):
     global timer_since_mode_switch
     global activated
     global mode
+    global faking
 
     print("btn clicked ", i)
     sleep(0.6)
@@ -126,8 +129,23 @@ def registerPress(i):
 
     if not activated:
         timer_since_mode_switch = 30
-        if i == PIN_K1:
+        if i == PIN_K1:  # fake press for if button is not workings
             mode = 2
+
+            # temp?
+            sendToServer("start")
+            sc.activate()
+            for i in range(6):
+                ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
+
+            random_color = ls.randomColor()
+            ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
+            time.sleep(0.3)
+            activateSmoke()
+            ls.strobeColorToColor(
+                ls.strip, random_color, ls.randomColor(), iterations=100)  # reset back to 100
+            sc.deactivateSmokeMachine()
+
         if i == PIN_K2:
             mode = 1
         if i == PIN_K3:
@@ -139,6 +157,12 @@ def registerPress(i):
 
     elif activated:
         if i == PIN_K1:
+            if faking:
+                faking = False
+                sc.deactivate()
+                activated = False
+                sendToServer("stop")
+        else:
             if mode == 2:  # if music was playing, play next song
                 sendToServer("next")
             else:  # else start song
@@ -197,6 +221,7 @@ def call():
     global activated
     global timer
     global connected
+    global faking
 
     print("activated:", GPIO.input(PIN_MAIN_BUTTON),
           " mode:", mode, " connected: ", connected)
@@ -244,7 +269,7 @@ def call():
             print("random pattern")
             ls.random_pattern()
 
-    elif not GPIO.input(PIN_MAIN_BUTTON) and activated == True:
+    elif not GPIO.input(PIN_MAIN_BUTTON) and activated == True and not faking:
         print("deactivation noticed")
         sleep(3)  # prevent false positive
 
