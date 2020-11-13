@@ -228,14 +228,14 @@ def call():
             else:  # normal start
                 sendToServer("start")
                 sc.activate()
-                for i in range(3):
+                for i in range(5):
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
 
                 random_color = ls.randomColor()
                 ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
                 activateSmoke()
                 ls.strobeColorToColor(
-                    ls.strip, random_color, ls.randomColor(), iterations=50)  # reset back to 100
+                    ls.strip, random_color, ls.randomColor(), iterations=100)  # reset back to 100
                 sc.deactivateSmokeMachine()
 
     elif GPIO.input(PIN_MAIN_BUTTON) and activated:
