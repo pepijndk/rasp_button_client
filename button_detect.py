@@ -133,6 +133,7 @@ def registerPress(i):
             mode = 2
 
             # temp?
+            faking = True
             activated = True
             sendToServer("start")
             sc.activate()
