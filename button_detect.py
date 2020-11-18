@@ -225,13 +225,14 @@ def call():
         elif mode == 2:
             if random() < 1:  # TULIPS_CHANCE:  # small chance tulips
                 sendToServer("start tulips")
+                sc.activate_party_lights()
                 sc.deactivate_normal_lights()
                 sleep(0.2)
                 for i in range(10):
                     sc.activate_normal_lights()
-                    ls.tulips(ls.strip, iterations=30)
+                    ls.tulips(ls.strip, iterations=10)
                     sc.deactivate_normal_lights()
-                    ls.tulips(ls.strip, iterations=30)
+                    ls.tulips(ls.strip, iterations=10)
             else:  # normal start
                 sendToServer("start")
                 sc.activate()
