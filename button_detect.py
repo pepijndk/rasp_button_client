@@ -148,13 +148,16 @@ def registerPress(i):
                 sendToServer("stop")
 
             # make sure lights are in mode 0
-            sc.deactivate()
+            sc.activate_normal_lights()
+            sc.activate_party_lights()
 
             mode = 0
 
         if i == PIN_K2:
             if mode == 2 and connected:  # if the music was on, turn it off
                 sendToServer("stop")
+
+            sc.activate()
 
             mode = 1
 
