@@ -238,7 +238,7 @@ def call():
                 sc.deactivateSmokeMachine()
 
     elif GPIO.input(PIN_MAIN_BUTTON) and activated:
-        if random() < 0.001:
+        if random() < 0.0003:
             print("random pattern")
             ls.random_pattern()
 
