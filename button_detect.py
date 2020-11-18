@@ -19,10 +19,10 @@ from random import random
 #
 
 # GPIO pins
-PIN_K1 = 6  # First button
-PIN_K2 = 13  # Second button
-PIN_K3 = 19  # Third button
-PIN_K4 = 26  # Fourth button
+PIN_K1 = 26  # 6  # First button
+PIN_K2 = 19  # 13  # Second button
+PIN_K3 = 13  # 19  # Third button
+PIN_K4 = 6  # 26  # Fourth button
 
 
 PIN_MAIN_BUTTON = 23
