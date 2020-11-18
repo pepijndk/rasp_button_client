@@ -228,11 +228,12 @@ def call():
                 sc.activate_party_lights()
                 sc.deactivate_normal_lights()
                 sleep(0.2)
-                for i in range(10):
+                for i in range(30):
                     sc.activate_normal_lights()
                     ls.tulips(ls.strip, iterations=10)
                     sc.deactivate_normal_lights()
                     ls.tulips(ls.strip, iterations=10)
+
             else:  # normal start
                 sendToServer("start")
                 sc.activate()

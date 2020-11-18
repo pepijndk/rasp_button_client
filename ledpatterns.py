@@ -265,7 +265,7 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=200, width=5):
             activatePixel(strip, i, Color(0, 0, 0))
 
 
-def tulips(strip, wait_ms=10, iterations=500, width=30):
+def tulips(strip, wait_ms=10, iterations=500, width=10):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for i in range(0, strip.numPixels(), 2*width):
