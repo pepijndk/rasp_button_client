@@ -112,7 +112,7 @@ def registerPress(i):
     global faking
 
     print("btn clicked ", i)
-    sleep(0.6)
+    sleep(0.2)
     if GPIO.input(i):
         print("false press, returning", i)
         return
@@ -122,81 +122,52 @@ def registerPress(i):
     # differentiate between if activated is true.
     # if it is not activated it will set itself to that mode for 30 seconds
     #   if false:                   if true:
-    #   k1 =   k4 set mode to 2          next song
+    #   k1 =   k4 set mode to 0          next song
     #   k2 =   k3 set mode to 1          <--
-    #   k3 =   k2 set mode to 0          <--
+    #   k3 =   k2 set mode to 2          <--
     #   k4 =   k1 reset to normal        (smoke machine) // extra
 
     if not activated:
         timer_since_mode_switch = 30
-        if i == PIN_K1:  # fake press for if button is not workings
-            mode = 2
-
-            # temp?
-            faking = True
-            activated = True
-            sendToServer("start")
-            sc.activate()
-            for i in range(6):
-                ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
-
-            random_color = ls.randomColor()
-            ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
-            time.sleep(0.3)
-            activateSmoke()
-            ls.strobeColorToColor(
-                ls.strip, random_color, ls.randomColor(), iterations=100)  # reset back to 100
-            sc.deactivateSmokeMachine()
-
+        if i == PIN_K1:
+            mode = 0
         if i == PIN_K2:
             mode = 1
         if i == PIN_K3:
-            mode = 0
+            mode = 2
         if i == PIN_K4:
             sc.deactivateSmokeMachine()
             sc.deactivate()
-            sendToServer("reset")
+            sendToServer("stop")
+            sleep(2)
+            sc.deactivate()
 
     elif activated:
         if i == PIN_K1:
-            if faking:
-                faking = False
-                sc.deactivate()
-                activated = False
-                sendToServer("stop")
-        else:
-            if mode == 2:  # if music was playing, play next song
-                sendToServer("next")
-            else:  # else start song
-                mode = 2
-                sendToServer("start")
-            sleep(4)
-            activateSmoke()
-
-        if i == PIN_K2:
-            if mode == 2:  # if the music was on, turn it off
-                sendToServer("stop")
-
-            # make sure lights are in mode 1
-            sc.activate()
-
-        if i == PIN_K3:
             if mode == 2 and connected:  # if the music was on, turn it off
                 sendToServer("stop")
 
             # make sure lights are in mode 0
-            sc.activate_normal_lights()
-            sleep(0.5)
-            sc.activate_party_lights()
+            sc.deactivate()
 
-        if i == PIN_K4:
+        if i == PIN_K2:
+            if mode == 2 and connected:  # if the music was on, turn it off
+                sendToServer("stop")
+
+        if i == PIN_K3:
+            sendToServer("start")
+
+            # make sure lights are in mode 2
+            sc.activate()
+
+        if i == PIN_K4:  # smoke and strobe
             print("activating smoke machine")
-            activateSmoke()
+            # activateSmoke()
 
-            # ls.strobe(ls.strip, Color(255, 255, 255), iterations=100)
-            # ls.strobeColorToColor(ls.strip, Color(
-            #     255, 255, 255), randomColor1, iterations=80)
-            # ls.strobe(ls.strip, randomColor1, iterations=60)
+            ls.strobe(ls.strip, Color(255, 255, 255), iterations=100)
+            ls.strobeColorToColor(ls.strip, Color(
+                255, 255, 255), randomColor1, iterations=80)
+            ls.strobe(ls.strip, randomColor1, iterations=60)
 
 
 GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
