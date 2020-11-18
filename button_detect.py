@@ -150,15 +150,21 @@ def registerPress(i):
             # make sure lights are in mode 0
             sc.deactivate()
 
+            mode = 0
+
         if i == PIN_K2:
             if mode == 2 and connected:  # if the music was on, turn it off
                 sendToServer("stop")
+
+            mode = 1
 
         if i == PIN_K3:
             sendToServer("start")
 
             # make sure lights are in mode 2
             sc.activate()
+
+            mode = 2
 
         if i == PIN_K4:  # smoke and strobe
             print("activating smoke machine")
