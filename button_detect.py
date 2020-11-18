@@ -112,7 +112,7 @@ def registerPress(i):
     global faking
 
     print("btn clicked ", i)
-    sleep(0.1)
+    sleep(0.15)
     if GPIO.input(i):
         print("false press, returning", i)
         return
