@@ -240,13 +240,13 @@ def call():
                 for i in range(6):
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
 
-                # random_color = ls.randomColor()
-                # ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
-                # time.sleep(0.3)
-                # activateSmoke()
-                # ls.strobeColorToColor(
-                #     ls.strip, random_color, ls.randomColor(), iterations=100)  # reset back to 100
-                # sc.deactivateSmokeMachine()
+                random_color = ls.randomColor()
+                ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
+                time.sleep(0.3)
+                activateSmoke()
+                ls.strobeColorToColor(
+                    ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
+                sc.deactivateSmokeMachine()
 
     elif GPIO.input(PIN_MAIN_BUTTON) and activated:
         if random() < 0.0003:
