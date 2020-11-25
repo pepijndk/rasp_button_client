@@ -262,6 +262,7 @@ def call():
             activated = False
 
             sendToServer("stop")
+            mode = 2
 
 
 # start of script
