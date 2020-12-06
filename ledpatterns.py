@@ -40,6 +40,8 @@ rand_colors = [
 
 spies_player_count = 0
 
+# todo wraparound
+
 
 def activatePixel(strip, pixel, color, inverted=False):
     if not inverted:
@@ -48,9 +50,11 @@ def activatePixel(strip, pixel, color, inverted=False):
         strip.setPixelColor((LED_COUNT - (int(pixel) % LED_COUNT)), color)
 
 
-def randomSpiesSetup(strip):
+def random_spies_setup(strip):
     global spies_player_count
     global rand_colors
+
+    clearStrip(strip)
 
     if spies_player_count < 6:
         spies_player_count += 1
@@ -58,13 +62,29 @@ def randomSpiesSetup(strip):
     clearStrip(strip, reset=False)
     for p in range(spies_player_count):
         for i in range(20):
-            activatePixel(strip, 20 + p*40 + i, rand_colors[p], inverted=True)
+            activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
 
     strip.show()
 
 
-def randomSpiesActivate():
+def show_random_player_strip(strip, num_players):
+    p = int(random * num_players)
+    for i in range(20):
+        activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
+
+
+def random_spies_activate():
     global spies_player_count
+
+    clearStrip(strip)
+
+    start = int(random() * 5)
+    count = int(random * 10)
+
+    for i in range(start, count):
+        show_random_player_strip(strip, spies_player_count)
+        sleep(1)
+        clearStrip(strip)
 
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):
