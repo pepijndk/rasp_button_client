@@ -265,7 +265,6 @@ sleep(2)
 try:
     clientSocket.connect((IP_ADDRESS, PORT))
     connected = True
-    fl.setStatus(2)
     print("connection successful")
 except socket.error:
     print("connection could not be established")
@@ -284,13 +283,11 @@ while True:
             print("message sent")
         except socket.error:          # set connection status and recreate socket
             connected = False
-            fl.setStatus(1)
             clientSocket = socket.socket()
             print("message could not be sent... attempting reconnect")
             try:  # try to connect
                 clientSocket.connect((IP_ADDRESS, PORT))
                 connected = True
-                fl.setStatus(2)
                 print("re-connection successful")
             except socket.error:
                 print("connection could not be made, continuing without connection'")
