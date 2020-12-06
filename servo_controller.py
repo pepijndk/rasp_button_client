@@ -75,7 +75,6 @@ def deactivate():
     activate_normal_lights()
     sleep(0.5)
     deactivate_party_lights()
-    s.stop()
 
 
 def activateSmokeMachine():
