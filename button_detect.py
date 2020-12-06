@@ -156,6 +156,11 @@ def short_press(i):
 
 
 def long_press(i):
+    global activated_lights_party
+    global activated_lights_gr
+    global activated_music
+    global activated_music
+
     if i == PIN_K1:
         activated_lights_party = False
     if i == PIN_K2:
@@ -170,6 +175,11 @@ def long_press(i):
 
 
 def activate_remote():
+    global activated_lights_party
+    global activated_lights_gr
+    global activated_music
+    global activated_music
+
     if activated_lights_gr:
         sc.activate_party_lights()
     else:
