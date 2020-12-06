@@ -68,7 +68,7 @@ def random_spies_setup(strip):
 
 
 def show_random_player_strip(strip, num_players):
-    p = int(random * num_players)
+    p = int(random() * num_players)
     for i in range(20):
         activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
 
