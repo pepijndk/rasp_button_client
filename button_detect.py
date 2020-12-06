@@ -146,16 +146,15 @@ def short_press(i):
     if i == PIN_K3:
         activated_smoke = True
         if activated_lights_party:
-            Popen(['python3', 'smoke.py', '6'])
+            Popen(['python3', 'smoke.py', '10'])
             ls.strobeColorToColor(ls.strip, ls.Color(
                 255, 255, 255), ls.randomColor(), iterations=100)
     if i == PIN_K4:
         if not activated_music:
             sc.deactivate()
             sendToServer("stop")
-         else:
+        else:
             sc.activate()
-            
 
     activate_remote()
     last_clicked = 0
@@ -326,7 +325,8 @@ while True:
         # in here so it doesn't check every cycle, doesn't matter if not accurate
         time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff", time_diff)
-        if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:  # if there has been no smoke in 10 minutes
+        # if there has been no smoke in 10 minutes
+        if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
             print("activating smoke aut")
             Popen(['python3', 'smoke.py', '5'])
             date_smoke = datetime.datetime.now()
