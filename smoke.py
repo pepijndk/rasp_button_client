@@ -21,7 +21,7 @@ GPIO.setup(PIN_SMOKE, GPIO.OUT)
 s = GPIO.PWM(PIN_SMOKE, 50)
 
 s.start(9)
-sleep(args.duration)
+sleep(int(args.duration))
 s.ChangeDutyCycle(11)
 sleep(0.1)
 s.stop()
