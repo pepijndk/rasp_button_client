@@ -261,7 +261,9 @@ def call():
 
             random_color = ls.randomColor()
             ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
+            print("1smoke active: ", str(smoke_active))
             if smoke_active:
+                print("2smoke active: ", str(smoke_active))
                 Popen(['python3', 'smoke.py', '10'])
             time.sleep(0.3)
             ls.strobeColorToColor(
