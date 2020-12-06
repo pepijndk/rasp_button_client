@@ -31,7 +31,7 @@ HOLD_DURATION = 1.5
 
 
 # after how long of no smoke it activates the smoke machine (in s)
-SMOKE_INTERVAL = 20
+SMOKE_INTERVAL = 120
 
 
 # other
@@ -145,16 +145,17 @@ def short_press(i):
         activate_remote()
     if i == PIN_K3:
         activated_smoke = True
-        if activated_music:
+        if activated_lights_party:
             Popen(['python3', 'smoke.py', '6'])
+            ls.strobeColorToColor(ls.strip, ls.Color(
+                255, 255, 255), ls.randomColor(), iterations=100)
     if i == PIN_K4:
         if not activated_music:
             sc.deactivate()
             sendToServer("stop")
-        else:
+         else:
             sc.activate()
-            ls.strobeColorToColor(ls.strip, ls.Color(
-                255, 255, 255), ls.randomColor(), iterations=100)
+            
 
     activate_remote()
     last_clicked = 0
@@ -259,9 +260,9 @@ def call():
 
             random_color = ls.randomColor()
             ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
-            time.sleep(0.3)
             if smoke_active:
                 Popen(['python3', 'smoke.py', '10'])
+            time.sleep(0.3)
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
