@@ -27,7 +27,7 @@ PIN_K4 = 6  # 26  # Fourth button
 PIN_MAIN_BUTTON = 23
 PIN_LED_RED = 24
 SMOKE_MACHINE_DURATION = 8
-HOLD_DURATION = 2
+HOLD_DURATION = 1.5
 
 
 # how long to sleep when a song starts before activating smoke (in s)
@@ -145,7 +145,7 @@ def short_press(i):
         if not activated_music:
             sc.deactivate()
             if connected:
-                sendToServer(stop)
+                sendToServer("stop")
         else:
             sc.activate()
             # smoke machine
