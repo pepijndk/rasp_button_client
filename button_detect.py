@@ -221,7 +221,7 @@ def call():
     global activated_music
     global connected
 
-    print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
+    # print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
     # Button is clicked when everything is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
