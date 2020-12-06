@@ -156,7 +156,6 @@ def short_press(i):
         else:
             sc.activate()
 
-    activate_remote()
     last_clicked = 0
 
 
@@ -230,8 +229,9 @@ def call():
     global activated_lights_party
     global activated_lights_gr
     global activated_music
-    global activated_music
+    global activated_smoke
     global connected
+    global date_smoke
 
     # print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
@@ -242,6 +242,7 @@ def call():
         activated_lights_gr = False
         activated_lights_party = True
         activate_remote()
+        date_smoke = datetime.datetime.now()
 
         if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
             sendToServer("start tulips")
