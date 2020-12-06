@@ -7,7 +7,6 @@ import threading
 from subprocess import call, Popen
 import subprocess
 import servo_controller as sc
-import feedback_led as fl
 import socket
 import datetime
 import ledpatterns as ls
@@ -28,6 +27,7 @@ PIN_K4 = 6  # 26  # Fourth button
 PIN_MAIN_BUTTON = 23
 PIN_LED_RED = 24
 SMOKE_MACHINE_DURATION = 8
+HOLD_DURATION = 1.5
 
 
 # how long to sleep when a song starts before activating smoke (in s)
@@ -40,7 +40,7 @@ SMOKE_INTERVAL = 300
 IP_ADDRESS = "192.168.0.61"
 PORT = 65432
 SLEEP_DURATION = 0.1
-TULIPS_CHANCE = 0.1
+TULIPS_CHANCE = 0.15
 
 GPIO.setmode(GPIO.BCM)
 
@@ -73,19 +73,19 @@ GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # 1 = party lights on & normal lights off
 # 2 = party lights on & normal lights off & music on (everything)
 
-activated = False  # if the main button is pressed
-mode = 2  # mode it is currently in
+activated_music = False  # if the main button is pressed
+activated_smoke = False
+activated_lights_gr = True
+activated_lights_party = False
+
+last_clicked = 0
+
 connected = False
 start_time = 0
 # time since button is pressed
 timer = 0
 
-faking = False
-
 smoke_active = False
-
-# counts down from 30 when k-button is clicked, mode back to 2 if at 0
-timer_since_mode_switch = 0
 
 # date when smoke machine was last activated
 date_smoke = datetime.datetime.now()
@@ -106,77 +106,80 @@ def activateSmoke():
 
 
 def registerPress(i):
-    global timer_since_mode_switch
-    global activated
-    global mode
-    global faking
+    global last_clicked
 
     print("btn clicked ", i)
-    sleep(0.15)
-    if GPIO.input(i):
+    sleep(0.1)
+    if GPIO.input(i) or last_clicked == i:
         print("false press, returning", i)
         return
 
     print("valid press", i)
+    last_clicked = i
 
-    # differentiate between if activated is true.
-    # if it is not activated it will set itself to that mode for 30 seconds
-    #   if false:                   if true:
-    #   k1 =   k4 set mode to 0          next song
-    #   k2 =   k3 set mode to 1          <--
-    #   k3 =   k2 set mode to 2          <--
-    #   k4 =   k1 reset to normal        (smoke machine) // extra
+    sleep(HOLD_DURATION)
+    if GPIO.input(i):
+        print("long press", i)
+        long_press(i)
 
-    if not activated:
-        timer_since_mode_switch = 30
-        if i == PIN_K1:
-            mode = 0
-        if i == PIN_K2:
-            mode = 1
-        if i == PIN_K3:
-            mode = 2
-        if i == PIN_K4:
-            sc.deactivateSmokeMachine()
+    else:
+        print("short press", i)
+        short_press(i)
+
+
+def short_press(i):
+    global activated_lights_party
+    global activated_lights_gr
+    global activated_music
+    global activated_music
+    global connected
+
+    if i == PIN_K1:
+        activated_lights_party = True
+    if i == PIN_K2:
+        activated_lights_gr = True
+    if i == PIN_K3:
+        activated_smoke = True
+    if i == PIN_K4:
+        if not activated_music:
             sc.deactivate()
-            sendToServer("stop")
-            sleep(2)
-            sc.deactivate()
-
-    elif activated:
-        if i == PIN_K1:
-            if mode == 2 and connected:  # if the music was on, turn it off
-                sendToServer("stop")
-
-            # make sure lights are in mode 0
-            sc.activate_normal_lights()
-            sc.activate_party_lights()
-
-            mode = 0
-
-        if i == PIN_K2:
-            if mode == 2 and connected:  # if the music was on, turn it off
-                sendToServer("stop")
-
+            if connected:
+                sendToServer(stop)
+        else:
             sc.activate()
-
-            mode = 1
-
-        if i == PIN_K3:
-            sendToServer("start")
-
-            # make sure lights are in mode 2
-            sc.activate()
-
-            mode = 2
-
-        if i == PIN_K4:  # smoke and strobe
-            print("activating smoke machine")
-            # activateSmoke()
-
-            ls.strobe(ls.strip, Color(255, 255, 255), iterations=100)
+            # smoke machine
             ls.strobeColorToColor(ls.strip, Color(
-                255, 255, 255), randomColor1, iterations=80)
-            ls.strobe(ls.strip, randomColor1, iterations=60)
+                255, 255, 255), randomColor1, iterations=100)
+
+    activate_remote()
+    last_clicked = 0
+
+
+def long_press(i):
+    if i == PIN_K1:
+        activated_lights_party = False
+    if i == PIN_K2:
+        activated_lights_gr = False
+    if i == PIN_K3:
+        activated_smoke = False
+    if i == PIN_K4:
+
+    activate_remote()
+    last_clicked = 0
+
+
+def activate_remote():
+    if activated_lights_gr:
+        sc.activate_party_lights()
+    else:
+        sc.deactivate_party_lights()
+
+    sleep(0.5)
+
+    if activated_lights_gr:
+        sc.activate_normal_lights()
+    else:
+        sc.deactivate_normal_lights()
 
 
 GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
@@ -194,81 +197,67 @@ def sendToServer(command):
             clientSocket.send(command.encode())
         except socket.error:
             print("Message could not be sent")
-            fl.setStatus(1)
             connected = False
 
 
 def call():
-    global mode
-    global activated
     global timer
     global connected
-    global faking
+    global tulips
+    global activated_lights_party
+    global activated_lights_gr
+    global activated_music
+    global activated_music
+    global connected
 
-    print("activated:", GPIO.input(PIN_MAIN_BUTTON),
-          " mode:", mode, " connected: ", connected)
-
-    # Modes:
-    # 0 = party lights on
-    # 1 = party lights on & normal lights off
-    # 2 = party lights on & normal lights off & music on (everything)
+    print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
     # Button is clicked when everything is off
-    if GPIO.input(PIN_MAIN_BUTTON) and activated == False:
+    if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
         print("activating")
-        activated = True
+        activated_music = True
 
-        if mode == 0:
-            sc.activate_party_lights()
-        elif mode == 1:
+        if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
+            sendToServer("start tulips")
             sc.activate()
-        elif mode == 2:
-            if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
-                sendToServer("start tulips")
-                sc.activate_party_lights()
+            sleep(0.2)
+            for i in range(30):
+                sc.activate_normal_lights()
+                ls.tulips(ls.strip, iterations=10)
                 sc.deactivate_normal_lights()
-                sleep(0.2)
-                for i in range(30):
-                    sc.activate_normal_lights()
-                    ls.tulips(ls.strip, iterations=10)
-                    sc.deactivate_normal_lights()
-                    ls.tulips(ls.strip, iterations=10)
+                ls.tulips(ls.strip, iterations=10)
 
-            else:  # normal start
-                sendToServer("start")
-                sc.activate()
-                for i in range(7):
-                    ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
+        else:  # normal start
+            sendToServer("start")
+            sc.activate()
+            for i in range(7):
+                ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
 
-                random_color = ls.randomColor()
-                ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
-                time.sleep(0.3)
-                activateSmoke()
-                ls.strobeColorToColor(
-                    ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
-                sc.deactivateSmokeMachine()
+            random_color = ls.randomColor()
+            ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
+            time.sleep(0.3)
+            # smoke machine
+            ls.strobeColorToColor(
+                ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
-    elif GPIO.input(PIN_MAIN_BUTTON) and activated:
-        if random() < 0.0003:
-            print("random pattern")
+    elif activated_lights_gr:
+        if activated_music and random() < 0.0006:
+            ls.random_pattern()
+        elif random() < 0.0003:
             ls.random_pattern()
 
-    elif not GPIO.input(PIN_MAIN_BUTTON) and activated == True and not faking:
+    elif not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
         print("deactivation noticed")
         sleep(3)  # prevent false positive
 
         if not GPIO.input(PIN_MAIN_BUTTON):
-            sc.deactivate()
-            activated = False
-
             sendToServer("stop")
-            mode = 2
+            activate_remote()
 
 
 # start of script
 sc.deactivate()
 # sc.deactivateSmokeMachine()
-fl.setStatus(0)
 sleep(2)
 
 
@@ -279,16 +268,10 @@ try:
     print("connection successful")
 except socket.error:
     print("connection could not be established")
-    fl.setStatus(1)
 
 
 while True:
     call()
-
-    if timer_since_mode_switch > 0:
-        timer_since_mode_switch = timer_since_mode_switch - SLEEP_DURATION
-        if timer_since_mode_switch <= 0:
-            mode = 2
 
     # if not connected: try to reconnect
     if int(timer) % 10 == 0:
