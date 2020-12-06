@@ -71,6 +71,7 @@ def random_spies_setup(strip):
 def show_random_player_strip(strip, num_players):
     p = int(random() * num_players)
     for i in range(20):
+        clearStrip(strip)
         activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
 
     strip.show()
@@ -84,10 +85,10 @@ def random_spies_activate(strip):
     start = int(random() * 5)
     count = int(random() * 10)
 
-    for i in range(start, count):
+    for i in range(count):
         show_random_player_strip(strip, spies_player_count)
         sleep(1)
-        clearStrip(strip)
+        strip.show()
 
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):
