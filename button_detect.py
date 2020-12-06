@@ -326,7 +326,7 @@ while True:
         # in here so it doesn't check every cycle, doesn't matter if not accurate
         time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff", time_diff)
-        if time_diff > SMOKE_INTERVAL and activated_smoke:  # if there has been no smoke in 10 minutes
+        if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:  # if there has been no smoke in 10 minutes
             print("activating smoke aut")
             Popen(['python3', 'smoke.py', '5'])
             date_smoke = datetime.datetime.now()
