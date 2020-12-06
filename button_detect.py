@@ -77,6 +77,7 @@ activated_music = False  # if the main button is pressed
 activated_smoke = False
 activated_lights_gr = True
 activated_lights_party = False
+activated_lights_party_before_activation = False
 
 last_clicked = 0
 
@@ -129,6 +130,7 @@ def registerPress(i):
 
 def short_press(i):
     global activated_lights_party
+    activated_lights_party_before_activation
     global activated_lights_gr
     global activated_music
     global activated_music
@@ -137,6 +139,8 @@ def short_press(i):
 
     if i == PIN_K1:
         activated_lights_party = True
+        if not activated_music:
+            activated_lights_party_before_activation = True
     if i == PIN_K2:
         activated_lights_gr = True
     if i == PIN_K3:
@@ -167,6 +171,8 @@ def long_press(i):
         activated_lights_party = False
     if i == PIN_K2:
         activated_lights_gr = False
+        if not activated_music:
+            activated_lights_party_before_activation = False
     if i == PIN_K3:
         activated_smoke = False
     if i == PIN_K4:
@@ -232,6 +238,8 @@ def call():
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
         print("activating")
         activated_music = True
+        activated_lights_gr = False
+        activated_lights_party = True
 
         if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
             sendToServer("start tulips")
@@ -268,6 +276,9 @@ def call():
 
         if not GPIO.input(PIN_MAIN_BUTTON):
             sendToServer("stop")
+            activated_lights_gr = True
+            if not activated_lights_party_before_activation == True:
+                activated_lights_party = False
             activate_remote()
 
 
