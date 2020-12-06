@@ -84,24 +84,8 @@ start_time = 0
 # time since button is pressed
 timer = 0
 
-smoke_active = False
-
 # date when smoke machine was last activated
 date_smoke = datetime.datetime.now()
-
-
-def activateSmoke():
-    global smoke_active
-    global date_smoke
-
-    date_smoke = datetime.datetime.now()
-    smoke_active = True
-    sc.activateSmokeMachine()
-
-    # # workaround for bug
-    # sleep(0.1)
-    # sc.deactivateSmokeMachine()
-    # sc.activateSmokeMachine()
 
 
 def registerPress(i):

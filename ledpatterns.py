@@ -23,8 +23,22 @@ LED_BRIGHTNESS = 200     # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-# ideeen:
-# paarse punten
+rand_colors = [
+    Color(255, 0, 0),
+    Color(0, 255, 0),
+    Color(0, 0, 255),
+
+    Color(255, 255, 0),
+    Color(0, 255, 255),
+    Color(255, 0, 255),
+
+
+    Color(255, 255, 20),
+    Color(20, 255, 255),
+    Color(255, 20, 255)
+]
+
+spies_player_count = 0
 
 
 def activatePixel(strip, pixel, color, inverted=False):
@@ -32,6 +46,25 @@ def activatePixel(strip, pixel, color, inverted=False):
         strip.setPixelColor(int(pixel) % LED_COUNT, color)
     else:
         strip.setPixelColor((LED_COUNT - (int(pixel) % LED_COUNT)), color)
+
+
+def randomSpiesSetup(strip):
+    global spies_player_count
+    global rand_colors
+
+    if spies_player_count < 6:
+        spies_player_count += 1
+
+    clearStrip(strip, reset=False)
+    for p in range(spies_player_count):
+        for i in range(20):
+            activatePixel(strip, 20 + p*40 + i, rand_colors[p], inverted=True)
+
+    strip.show()
+
+
+def randomSpiesActivate():
+    global spies_player_count
 
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):
@@ -422,21 +455,6 @@ def randomColor():
     # type 1: 1 color (0.25)
     # type 2: primary + secundary (0.5)
     # type 3: primary + secundary + tertiary + 0.25 (0.5)
-
-    rand_colors = [
-        Color(255, 0, 0),
-        Color(0, 255, 0),
-        Color(0, 0, 255),
-
-        Color(255, 255, 0),
-        Color(0, 255, 255),
-        Color(255, 0, 255),
-
-
-        Color(255, 255, 20),
-        Color(20, 255, 255),
-        Color(255, 20, 255)
-    ]
 
     return rand_colors[int(random() * (len(rand_colors) - 1))]
 
