@@ -27,7 +27,7 @@ PIN_K4 = 6  # 26  # Fourth button
 PIN_MAIN_BUTTON = 23
 PIN_LED_RED = 24
 SMOKE_MACHINE_DURATION = 8
-HOLD_DURATION = 1.5
+HOLD_DURATION = 2
 
 
 # how long to sleep when a song starts before activating smoke (in s)
@@ -109,7 +109,7 @@ def registerPress(i):
     global last_clicked
 
     print("btn clicked ", i)
-    sleep(0.1)
+    sleep(0.15)
     if GPIO.input(i) or last_clicked == i:
         print("false press, returning", i)
         return
@@ -118,7 +118,7 @@ def registerPress(i):
     last_clicked = i
 
     sleep(HOLD_DURATION)
-    if GPIO.input(i):
+    if not GPIO.input(i):
         print("long press", i)
         long_press(i)
 
