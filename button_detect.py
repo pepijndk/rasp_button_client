@@ -153,7 +153,7 @@ def short_press(i):
         else:
             sc.activate()
             # smoke machine
-            ls.strobeColorToColor(ls.strip, Color(
+            ls.strobeColorToColor(ls.strip, ls.Color(
                 255, 255, 255), randomColor1, iterations=100)
 
     activate_remote()
