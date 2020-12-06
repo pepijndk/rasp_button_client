@@ -145,7 +145,7 @@ def short_press(i):
         activate_remote()
     if i == PIN_K3:
         activated_smoke = True
-        if activated_music:
+        if activated_lights_party:
             Popen(['python3', 'smoke.py', '10'])
             ls.strobeColorToColor(ls.strip, ls.Color(
                 255, 255, 255), ls.randomColor(), iterations=100)
