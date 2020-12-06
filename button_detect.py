@@ -185,7 +185,7 @@ def activate_remote():
     print("party: " + str(activated_lights_party) +
           " gr: " + str(activated_lights_gr))
 
-    if activated_lights_gr:
+    if activated_lights_party:
         sc.activate_party_lights()
     else:
         sc.deactivate_party_lights()
