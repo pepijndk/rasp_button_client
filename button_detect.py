@@ -164,6 +164,7 @@ def long_press(i):
     global activated_lights_party_before_activation
     global activated_lights_gr
     global activated_music
+    global activated_smoke
     global last_clicked
 
     if i == PIN_K1:
@@ -232,7 +233,6 @@ def call():
     global activated_smoke
     global connected
     global date_smoke
-    global smoke_active
 
     # print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
@@ -261,9 +261,7 @@ def call():
 
             random_color = ls.randomColor()
             ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
-            print("1smoke active: ", str(smoke_active))
-            if smoke_active:
-                print("2smoke active: ", str(smoke_active))
+            if activated_smoke:
                 Popen(['python3', 'smoke.py', '10'])
             time.sleep(0.3)
             ls.strobeColorToColor(
