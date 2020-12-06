@@ -163,6 +163,7 @@ def long_press(i):
     if i == PIN_K3:
         activated_smoke = False
     if i == PIN_K4:
+        print("unmapped")
 
     activate_remote()
     last_clicked = 0
