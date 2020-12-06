@@ -152,7 +152,7 @@ def short_press(i):
                 ls.strobeColorToColor(ls.strip, ls.Color(
                     255, 255, 255), ls.randomColor(), iterations=100)
             else:
-                Popen(['python3', 'smoke.py', '6'],
+                Popen(['python3', 'smoke.py', '15'],
                       cwd='/home/pi/Documents/escalatieknop')
     if i == PIN_K4:
         if not activated_music:
