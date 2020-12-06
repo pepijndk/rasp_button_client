@@ -257,13 +257,13 @@ def call():
         else:  # normal start
             sendToServer("start")
             for i in range(7):
-                ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
+                ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
 
             random_color = ls.randomColor()
             ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
             if activated_smoke:
                 Popen(['python3', 'smoke.py', '10'])
-            time.sleep(0.3)
+            time.sleep(1)
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
