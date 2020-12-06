@@ -30,10 +30,8 @@ SMOKE_MACHINE_DURATION = 8
 HOLD_DURATION = 1.5
 
 
-# how long to sleep when a song starts before activating smoke (in s)
-SLEEP_UNTIL_SMOKE = 4
 # after how long of no smoke it activates the smoke machine (in s)
-SMOKE_INTERVAL = 300
+SMOKE_INTERVAL = 20
 
 
 # other
@@ -261,7 +259,8 @@ def call():
             random_color = ls.randomColor()
             ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
             time.sleep(0.3)
-            Popen(['python3', 'smoke.py', '10'])
+            if smoke_active:
+                Popen(['python3', 'smoke.py', '10'])
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
@@ -325,7 +324,9 @@ while True:
         time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff", time_diff)
         if time_diff > SMOKE_INTERVAL and activated_smoke:  # if there has been no smoke in 10 minutes
-            Popen(['python3', 'smoke.py', '4'])
+            print("activating smoke aut")
+            Popen(['python3', 'smoke.py', '5'])
+            date_smoke = datetime.datetime.now()
 
     if timer > 10000:
         timer = 0
