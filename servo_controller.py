@@ -3,7 +3,6 @@
 
 import RPi.GPIO as GPIO
 import sys
-import argparse
 
 from time import sleep
 
@@ -26,9 +25,6 @@ GPIO.setup(12, GPIO.OUT)
 GPIO.setup(16, GPIO.OUT)
 GPIO.setup(20, GPIO.OUT)
 GPIO.setup(21, GPIO.OUT)
-
-GPIO.setup(PIN_SMOKE, GPIO.OUT)
-s = GPIO.PWM(PIN_SMOKE, 50)
 
 
 def activate_servo(num):  # Hier de pins veranderen als er ooit een kapot gaat.
@@ -73,7 +69,6 @@ def activate():  # Eerst gr lampen uit dan lampen+ledstrips aan
     activate_party_lights()
     sleep(0.5)
     deactivate_normal_lights()
-    s.start(11)
 
 
 def deactivate():
