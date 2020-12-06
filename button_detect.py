@@ -145,13 +145,13 @@ def short_press(i):
         activate_remote()
     if i == PIN_K3:
         activated_smoke = True
+        Popen(['python3', 'smoke.py', '6'])
     if i == PIN_K4:
         if not activated_music:
             sc.deactivate()
             sendToServer("stop")
         else:
             sc.activate()
-            Popen(['python3', 'smoke.py', '4'])
             ls.strobeColorToColor(ls.strip, ls.Color(
                 255, 255, 255), ls.randomColor(), iterations=100)
 
