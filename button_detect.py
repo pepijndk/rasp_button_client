@@ -131,7 +131,7 @@ def short_press(i):
     global activated_lights_party_before_activation
     global activated_lights_gr
     global activated_music
-    global activated_music
+    global activated_smoke
     global connected
     global last_clicked
 
@@ -281,6 +281,7 @@ def call():
                 activated_lights_party = False
             activate_remote()
             activated_music = False
+            activated_smoke = False
 
 
 # start of script
