@@ -281,6 +281,7 @@ def call():
             if not activated_lights_party_before_activation == True:
                 activated_lights_party = False
             activate_remote()
+            activated_music = False
 
 
 # start of script
