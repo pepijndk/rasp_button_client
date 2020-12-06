@@ -162,6 +162,7 @@ def short_press(i):
 
 def long_press(i):
     global activated_lights_party
+    global activated_lights_party_before_activation
     global activated_lights_gr
     global activated_music
     global activated_music
