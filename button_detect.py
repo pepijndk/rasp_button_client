@@ -146,9 +146,10 @@ def short_press(i):
     if i == PIN_K3:
         activated_smoke = True
         if activated_lights_party:
-            Popen(['python3', 'smoke.py', '10'])
-            ls.strobeColorToColor(ls.strip, ls.Color(
-                255, 255, 255), ls.randomColor(), iterations=100)
+            Popen(['python3', 'smoke.py', '10'], cwd='/home/pi/escalatieknop')
+            if activated_music:
+                ls.strobeColorToColor(ls.strip, ls.Color(
+                    255, 255, 255), ls.randomColor(), iterations=100)
     if i == PIN_K4:
         if not activated_music:
             sc.deactivate()
@@ -262,7 +263,8 @@ def call():
             random_color = ls.randomColor()
             ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
             if activated_smoke:
-                Popen(['python3', 'smoke.py', '10'])
+                Popen(['python3', 'smoke.py', '10'],
+                      cwd='/home/pi/escalatieknop')
             time.sleep(1)
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
@@ -331,7 +333,7 @@ while True:
         # if there has been no smoke in 10 minutes
         if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
             print("activating smoke aut")
-            Popen(['python3', 'smoke.py', '5'])
+            Popen(['python3', 'smoke.py', '5'], cwd='/home/pi/escalatieknop')
             date_smoke = datetime.datetime.now()
 
     if timer > 10000:
