@@ -242,7 +242,7 @@ def call():
         activated_music = True
         activated_lights_gr = False
         activated_lights_party = True
-        sc.activate_remote()
+        activate_remote()
 
         if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
             sendToServer("start tulips")
