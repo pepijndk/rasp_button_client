@@ -54,7 +54,7 @@ def random_spies_setup(strip):
     global spies_player_count
     global rand_colors
 
-    clearStrip(strip)
+    clearStrip(strip, reset=False)
 
     if spies_player_count < 6:
         spies_player_count += 1
@@ -79,7 +79,7 @@ def random_spies_activate(strip):
     clearStrip(strip)
 
     start = int(random() * 5)
-    count = int(random * 10)
+    count = int(random() * 10)
 
     for i in range(start, count):
         show_random_player_strip(strip, spies_player_count)
