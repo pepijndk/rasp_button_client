@@ -73,7 +73,7 @@ def show_random_player_strip(strip, num_players):
         activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
 
 
-def random_spies_activate():
+def random_spies_activate(strip):
     global spies_player_count
 
     clearStrip(strip)
