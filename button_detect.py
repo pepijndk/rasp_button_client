@@ -322,7 +322,7 @@ while True:
         # in here so it doesn't check every cycle, doesn't matter if not accurate
         time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff", time_diff)
-        if time_diff > SMOKE_INTERVAL and activated:  # if there has been no smoke in 10 minutes
+        if time_diff > SMOKE_INTERVAL and activated_music:  # if there has been no smoke in 10 minutes
             activateSmoke()
 
     # deactivate smoke if it has been on for a certain amount of time
