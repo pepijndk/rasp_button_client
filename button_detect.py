@@ -280,8 +280,9 @@ def call():
         if not GPIO.input(PIN_MAIN_BUTTON):
             sendToServer("stop")
             activated_lights_gr = True
-            if not activated_lights_party_before_activation == True:
-                activated_lights_party = False
+            # if not activated_lights_party_before_activation == True:
+
+            activated_lights_party = False
             activate_remote()
             activated_music = False
             activated_smoke = False
