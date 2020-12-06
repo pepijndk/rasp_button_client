@@ -141,15 +141,16 @@ def short_press(i):
         activated_lights_party = True
         if not activated_music:
             activated_lights_party_before_activation = True
+        activate_remote()
     if i == PIN_K2:
         activated_lights_gr = True
+        activate_remote()
     if i == PIN_K3:
         activated_smoke = True
     if i == PIN_K4:
         if not activated_music:
             sc.deactivate()
-            if connected:
-                sendToServer("stop")
+            sendToServer("stop")
         else:
             sc.activate()
             # smoke machine
@@ -165,13 +166,14 @@ def long_press(i):
     global activated_lights_party_before_activation
     global activated_lights_gr
     global activated_music
-    global activated_music
     global last_clicked
 
     if i == PIN_K1:
         activated_lights_party = False
+        activate_remote()
     if i == PIN_K2:
         activated_lights_gr = False
+        activate_remote()
         if not activated_music:
             activated_lights_party_before_activation = False
     if i == PIN_K3:
@@ -179,7 +181,6 @@ def long_press(i):
     if i == PIN_K4:
         print("unmapped")
 
-    activate_remote()
     last_clicked = 0
 
 
@@ -241,10 +242,10 @@ def call():
         activated_music = True
         activated_lights_gr = False
         activated_lights_party = True
+        sc.activate_remote()
 
         if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
             sendToServer("start tulips")
-            sc.activate()
             sleep(0.2)
             for i in range(30):
                 sc.activate_normal_lights()
@@ -254,7 +255,6 @@ def call():
 
         else:  # normal start
             sendToServer("start")
-            sc.activate()
             for i in range(7):
                 ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=8)
 
