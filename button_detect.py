@@ -153,7 +153,7 @@ def short_press(i):
             sendToServer("stop")
         else:
             sc.activate()
-            # smoke machine
+            Popen(['python3', 'smoke.py', '4'])
             ls.strobeColorToColor(ls.strip, ls.Color(
                 255, 255, 255), ls.randomColor(), iterations=100)
 
@@ -261,7 +261,7 @@ def call():
             random_color = ls.randomColor()
             ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
             time.sleep(0.3)
-            # smoke machine
+            Popen(['python3', 'smoke.py', '10'])
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
@@ -324,19 +324,8 @@ while True:
         # in here so it doesn't check every cycle, doesn't matter if not accurate
         time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
         print("time diff", time_diff)
-        if time_diff > SMOKE_INTERVAL and activated_music:  # if there has been no smoke in 10 minutes
-            activateSmoke()
-
-    # deactivate smoke if it has been on for a certain amount of time
-    if smoke_active:
-        time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
-        print("time diff2", time_diff)
-        if time_diff > SMOKE_MACHINE_DURATION:  # if there has been no smoke in x minutes
-            # deactivate smoke
-            print("deactivating smoke")
-
-            smoke_active = False
-            sc.deactivateSmokeMachine()
+        if time_diff > SMOKE_INTERVAL and activated_smoke:  # if there has been no smoke in 10 minutes
+            Popen(['python3', 'smoke.py', '4'])
 
     if timer > 10000:
         timer = 0
