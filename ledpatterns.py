@@ -10,6 +10,7 @@ from rpi_ws281x import *
 import argparse
 from random import random
 import servo_controller as sc
+from time import sleep
 
 
 # LED strip configuration:
