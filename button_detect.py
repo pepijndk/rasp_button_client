@@ -133,6 +133,7 @@ def short_press(i):
     global activated_music
     global activated_music
     global connected
+    global last_clicked
 
     if i == PIN_K1:
         activated_lights_party = True
@@ -160,6 +161,7 @@ def long_press(i):
     global activated_lights_gr
     global activated_music
     global activated_music
+    global last_clicked
 
     if i == PIN_K1:
         activated_lights_party = False
