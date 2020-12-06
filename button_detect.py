@@ -182,6 +182,9 @@ def activate_remote():
     global activated_music
     global activated_music
 
+    print("party: " + str(activated_lights_party) +
+          " gr: " + str(activated_lights_gr))
+
     if activated_lights_gr:
         sc.activate_party_lights()
     else:
