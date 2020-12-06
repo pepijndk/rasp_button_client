@@ -145,7 +145,8 @@ def short_press(i):
         activate_remote()
     if i == PIN_K3:
         activated_smoke = True
-        Popen(['python3', 'smoke.py', '6'])
+        if activated_music:
+            Popen(['python3', 'smoke.py', '6'])
     if i == PIN_K4:
         if not activated_music:
             sc.deactivate()
