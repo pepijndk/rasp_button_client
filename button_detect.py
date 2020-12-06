@@ -232,6 +232,7 @@ def call():
     global activated_smoke
     global connected
     global date_smoke
+    global smoke_active
 
     # print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
