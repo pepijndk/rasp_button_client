@@ -123,6 +123,7 @@ def short_press(i):
     global connected
     global last_clicked
     global spies_mode
+    global date_smoke
 
     if i == PIN_K1:
         activated_lights_party = True
@@ -134,6 +135,7 @@ def short_press(i):
         activate_remote()
     if i == PIN_K3:
         activated_smoke = True
+        date_smoke = datetime.datetime.now()
         if (activated_lights_party):
             ls.fillColor(ls.strip, ls.Color(0, 255, 0))
 
