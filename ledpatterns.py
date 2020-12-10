@@ -95,6 +95,9 @@ def random_spies_activate(strip):
         sleep(1)
         clearStrip(strip)
 
+    p = int(random() * spies_player_count)
+    clearStrip(strip, rand_colors[p])
+
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):
     for i in range(strip.numPixels()):

@@ -183,6 +183,7 @@ def long_press(i):
     if i == PIN_K4:
         if not spies_mode and not activated_music:
             spies_mode = True
+            sc.activate_party_lights()
             ls.theaterChaseWidthRainbow(ls.strip, iterations=20, width=10)
             ls.random_spies_setup(ls.strip)
 
