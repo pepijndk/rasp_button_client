@@ -240,6 +240,7 @@ def call():
     global connected
     global date_smoke
     global spies_mode
+    global activated_lights_party_before_activation
 
     # print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
