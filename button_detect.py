@@ -266,6 +266,7 @@ def call():
                 ls.tulips(ls.strip, iterations=10)
                 sc.deactivate_normal_lights()
                 ls.tulips(ls.strip, iterations=10)
+            ls.clearStrip(ls.strip)
 
         else:  # normal start
             sendToServer("start")
