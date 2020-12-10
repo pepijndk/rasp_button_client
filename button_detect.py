@@ -103,7 +103,7 @@ def registerPress(i):
         return
 
     if i == PIN_K4 and spies_mode:
-        ls.random_spies_setup()
+        ls.random_spies_setup(ls.strip)
         return
 
     print("valid press", i)
