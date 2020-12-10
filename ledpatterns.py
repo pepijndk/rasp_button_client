@@ -40,6 +40,7 @@ rand_colors = [
 ]
 
 spies_player_count = 0
+prev_random = 0
 
 # todo wraparound
 
@@ -69,7 +70,10 @@ def random_spies_setup(strip):
 
 
 def show_random_player_strip(strip, num_players):
-    p = int(random() * num_players)
+    global prev_random
+
+    while (p == prev_random):
+        p = int(random() * num_players)
     clearStrip(strip)
     for i in range(20):
         activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
@@ -84,7 +88,8 @@ def random_spies_activate(strip):
     start = int(random() * 5)
     count = int(random() * 30)
 
-    for i in range(count):
+    for i in range(start, count):
+
         show_random_player_strip(strip, spies_player_count)
         sleep(1)
         clearStrip(strip)
@@ -106,6 +111,15 @@ def colorWipe(strip, color, wait_ms=50):
         activatePixel(strip, i, color)
         strip.show()
         time.sleep(wait_ms/1000.0)
+
+
+def fillColor(strip, color, wait_ms=1000):
+    """Wipe color across display a pixel at a time."""
+    for i in range(strip.numPixels()):
+        activatePixel(strip, i, color)
+    strip.show()
+    time.sleep(wait_ms/1000.0)
+    clearStrip(strip, reset=True)
 
 
 def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, tail=False):
@@ -296,7 +310,7 @@ def dots(strip, wait_ms=100, iterations=800, width=5, newDotsPerCycle=1):
     clearStrip(strip)
 
 
-def theaterChase(strip, color, wait_ms=50, iterations=30):
+def theaterChase(strip, color, wait_ms=50, iterations=60):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for q in range(3):

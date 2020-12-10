@@ -88,6 +88,10 @@ timer = 0
 date_smoke = datetime.datetime.now()
 
 
+# wie trekt een spies vars
+spies_mode = False
+
+
 def registerPress(i):
     global last_clicked
 
@@ -118,6 +122,7 @@ def short_press(i):
     global activated_smoke
     global connected
     global last_clicked
+    global spies_mode
 
     if i == PIN_K1:
         activated_lights_party = True
@@ -129,21 +134,19 @@ def short_press(i):
         activate_remote()
     if i == PIN_K3:
         activated_smoke = True
-        if activated_lights_party:
-            if activated_music:
-                Popen(['python3', 'smoke.py', '10'],
-                      cwd='/home/pi/Documents/escalatieknop')
-                ls.strobeColorToColor(ls.strip, ls.Color(
-                    255, 255, 255), ls.randomColor(), iterations=100)
-            else:
-                Popen(['python3', 'smoke.py', '15'],
-                      cwd='/home/pi/Documents/escalatieknop')
+        if (activated_lights_party):
+            ls.fillColor(ls.strip, ls.color(0, 255, 0))
+
     if i == PIN_K4:
-        if not activated_music:
-            sc.deactivate()
-            sendToServer("stop")
+        if spies_mode:
+            ls.random_spies_setup(ls.strip)
         else:
-            sc.activate()
+            Popen(['python3', 'smoke.py', '15'],
+                  cwd='/home/pi/Documents/escalatieknop')
+
+            if activated_lights_party:
+                ls.strobeColorToColor(ls.strip, ls.randomColor(),
+                                      ls.randomColor(), iterations=120)
 
     last_clicked = 0
 
@@ -155,19 +158,28 @@ def long_press(i):
     global activated_music
     global activated_smoke
     global last_clicked
+    global spies_mode
 
     if i == PIN_K1:
         activated_lights_party = False
         activate_remote()
     if i == PIN_K2:
+        ls.clearStrip(ls.strip)
         activated_lights_gr = False
         activate_remote()
         if not activated_music:
             activated_lights_party_before_activation = False
     if i == PIN_K3:
         activated_smoke = False
+        if (activated_lights_party):
+            ls.fillColor(ls.strip, ls.color(255, 0, 0))
     if i == PIN_K4:
-        print("unmapped")
+        if not spies_mode and not activated_music:
+            spies_mode = True
+            ls.theaterChaseWidthRainbow(ls.strip, iterations=20, width=10)
+        else:
+            spies_mode = False
+            ls.clearStrip(ls.strip)
 
     last_clicked = 0
 
@@ -175,7 +187,6 @@ def long_press(i):
 def activate_remote():
     global activated_lights_party
     global activated_lights_gr
-    global activated_music
     global activated_music
 
     print("party: " + str(activated_lights_party) +
@@ -222,12 +233,23 @@ def call():
     global activated_smoke
     global connected
     global date_smoke
+    global spies_mode
 
     # print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
     # Button is clicked when everything is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
         print("activating")
+
+        if spies_mode:
+            ls.random_spies_activate(ls.strip)
+            sendToServer("start")
+            sleep(5)
+            ls.clearStrip(ls.strip)
+            activated_music = True
+            spies_mode = False
+            return
+
         activated_music = True
         activated_lights_gr = False
         activated_lights_party = True
@@ -245,14 +267,16 @@ def call():
 
         else:  # normal start
             sendToServer("start")
+
+            if activated_smoke:
+                Popen(['python3', 'smoke.py', '15'],
+                      cwd='/home/pi/Documents/escalatieknop')
+
             for i in range(7):
                 ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
 
             random_color = ls.randomColor()
             ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
-            if activated_smoke:
-                Popen(['python3', 'smoke.py', '10'],
-                      cwd='/home/pi/Documents/escalatieknop')
             time.sleep(1)
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
@@ -269,20 +293,18 @@ def call():
 
         if not GPIO.input(PIN_MAIN_BUTTON):
             sendToServer("stop")
+            ls.clearStrip(ls.strip)
             activated_lights_gr = True
-            # if not activated_lights_party_before_activation == True:
-
             activated_lights_party = False
+            if activated_lights_party_before_activation == True:
+                activated_lights_party = True
             activate_remote()
             activated_music = False
-            activated_smoke = False
 
 
 # start of script
 sc.deactivate()
-# sc.deactivateSmokeMachine()
-sleep(2)
-
+ls.clearStrip(ls.strip)
 
 try:
     clientSocket.connect((IP_ADDRESS, PORT))
@@ -321,7 +343,7 @@ while True:
         # if there has been no smoke in 10 minutes
         if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
             print("activating smoke aut")
-            Popen(['python3', 'smoke.py', '5'],
+            Popen(['python3', 'smoke.py', '6'],
                   cwd='/home/pi/Documents/escalatieknop')
             date_smoke = datetime.datetime.now()
 
