@@ -311,7 +311,8 @@ def call():
 
 # start of script
 sc.deactivate()
-ls.clearStrip(ls.strip)
+ls.sleep(2)
+# ls.clearStrip(ls.strip)
 
 try:
     clientSocket.connect((IP_ADDRESS, PORT))
