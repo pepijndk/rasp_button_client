@@ -72,7 +72,8 @@ def random_spies_setup(strip):
 def show_random_player_strip(strip, num_players):
     global prev_random
 
-    while (p == prev_random):
+    p = int(random() * num_players)
+   while (p == prev_random):
         p = int(random() * num_players)
     clearStrip(strip)
     for i in range(20):

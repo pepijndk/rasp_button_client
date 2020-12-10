@@ -94,11 +94,16 @@ spies_mode = False
 
 def registerPress(i):
     global last_clicked
+    global spies_mode
 
     print("btn clicked ", i)
     sleep(0.11)
     if GPIO.input(i) or last_clicked == i:
         print("false press, returning", i)
+        return
+
+    if i == PIN_K4 and spies_mode:
+        ls.random_spies_setup()
         return
 
     print("valid press", i)
@@ -179,9 +184,7 @@ def long_press(i):
         if not spies_mode and not activated_music:
             spies_mode = True
             ls.theaterChaseWidthRainbow(ls.strip, iterations=20, width=10)
-        else:
-            spies_mode = False
-            ls.clearStrip(ls.strip)
+            ls.random_spies_setup(ls.strip)
 
     last_clicked = 0
 
