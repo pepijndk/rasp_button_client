@@ -83,6 +83,7 @@ def show_random_player_strip(strip, num_players):
 
 def random_spies_activate(strip):
     global spies_player_count
+    global prev_random
 
     clearStrip(strip)
 
@@ -95,8 +96,7 @@ def random_spies_activate(strip):
         sleep(1)
         clearStrip(strip)
 
-    p = int(random() * spies_player_count)
-    clearStrip(strip, rand_colors[p])
+    clearStrip(strip, rand_colors[prev_random])
 
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):

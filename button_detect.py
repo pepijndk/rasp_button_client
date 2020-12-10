@@ -288,13 +288,13 @@ def call():
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
-    elif activated_lights_gr:
+    if activated_lights_gr:
         if activated_music and random() < 0.0006:
             ls.random_pattern()
         elif random() < 0.0003:
             ls.random_pattern()
 
-    elif not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
+    if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
         print("deactivation noticed")
         sleep(3)  # prevent false positive
 
