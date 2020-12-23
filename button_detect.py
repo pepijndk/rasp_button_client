@@ -352,7 +352,7 @@ while True:
         # if there has been no smoke in 10 minutes
         if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
             print("activating smoke aut")
-            Popen(['python3', 'smoke.py', '6'],
+            Popen(['python3', 'smoke.py', '10'],
                   cwd='/home/pi/Documents/escalatieknop')
             date_smoke = datetime.datetime.now()
 
