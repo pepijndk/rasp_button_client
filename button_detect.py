@@ -56,7 +56,7 @@ clientSocket.settimeout(5)
 # PIN 21: OUTPUT, Servo 4
 
 
-GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(24, GPIO.OUT)
 
 
@@ -245,7 +245,7 @@ def call():
     # print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
     # Button is clicked when everything is off
-    if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
+    if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
         print("activating")
 
         if spies_mode:
@@ -276,9 +276,8 @@ def call():
         else:  # normal start
             sendToServer("start")
 
-            if activated_smoke:
-                Popen(['python3', 'smoke.py', '15'],
-                      cwd='/home/pi/Documents/escalatieknop')
+            Popen(['python3', 'smoke.py', '10'],
+                  cwd='/home/pi/Documents/escalatieknop')
 
             for i in range(7):
                 ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
@@ -295,11 +294,11 @@ def call():
         elif random() < 0.0003:
             ls.random_pattern()
 
-    if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
+    if GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
         print("deactivation noticed")
         sleep(3)  # prevent false positive
 
-        if not GPIO.input(PIN_MAIN_BUTTON):
+        if GPIO.input(PIN_MAIN_BUTTON):
             sendToServer("stop")
             ls.clearStrip(ls.strip)
             activated_lights_gr = True
