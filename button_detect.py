@@ -24,8 +24,7 @@ PIN_K3 = 13  # 19  # Third button
 PIN_K4 = 6  # 26  # Fourth button
 
 
-PIN_MAIN_BUTTON = 23
-PIN_LED_RED = 24
+PIN_MAIN_BUTTON = 24
 SMOKE_MACHINE_DURATION = 8
 HOLD_DURATION = 1.5
 
@@ -48,7 +47,6 @@ clientSocket.settimeout(5)
 
 
 # PIN 18: INPUT, Button input
-# PIN 24: OUTPUT, Active is true
 
 # PIN 12: OUTPUT, Servo 1
 # PIN 16: OUTPUT, Servo 2
@@ -57,7 +55,6 @@ clientSocket.settimeout(5)
 
 
 GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(24, GPIO.OUT)
 
 
 # reacting to control panel button pushes
@@ -294,6 +291,8 @@ def call():
             ls.random_pattern()
         elif random() < 0.0003:
             ls.random_pattern()
+    else:
+        ls.clearStrip(ls.strip)
 
     if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
         print("deactivation noticed")
