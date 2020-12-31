@@ -302,8 +302,6 @@ def call():
             ls.clearStrip(ls.strip)
             activated_lights_gr = True
             activated_lights_party = False
-            if activated_lights_party_before_activation == True:
-                activated_lights_party = True
             activate_remote()
             activated_music = False
 
