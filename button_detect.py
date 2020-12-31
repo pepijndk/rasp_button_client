@@ -138,8 +138,7 @@ def short_press(i):
     if i == PIN_K3:
         activated_smoke = True
         date_smoke = datetime.datetime.now()
-        if (activated_lights_party):
-            ls.fillColor(ls.strip, ls.Color(0, 255, 0))
+        ls.fillColor(ls.strip, ls.Color(0, 255, 0))
 
     if i == PIN_K4:
         if spies_mode:
@@ -239,7 +238,8 @@ def call():
     global spies_mode
     global activated_lights_party_before_activation
 
-    print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
+    print("activated:", GPIO.input(PIN_MAIN_BUTTON),
+          " connected: ", connected, "smoke", activated_smoke)
 
     # Button is clicked when everything is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
