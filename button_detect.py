@@ -174,8 +174,7 @@ def long_press(i):
             activated_lights_party_before_activation = False
     if i == PIN_K3:
         activated_smoke = False
-        if (activated_lights_party):
-            ls.fillColor(ls.strip, ls.Color(255, 0, 0))
+        ls.fillColor(ls.strip, ls.Color(255, 0, 0))
     if i == PIN_K4:
         if not spies_mode and not activated_music:
             spies_mode = True
