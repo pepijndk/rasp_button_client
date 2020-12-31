@@ -239,7 +239,7 @@ def call():
     global spies_mode
     global activated_lights_party_before_activation
 
-    # print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
+    print("activated:", GPIO.input(PIN_MAIN_BUTTON), " connected: ", connected)
 
     # Button is clicked when everything is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
@@ -273,9 +273,8 @@ def call():
         else:  # normal start
             sendToServer("start")
 
-            if activated_smoke:
-                Popen(['python3', 'smoke.py', '15'],
-                      cwd='/home/pi/Documents/escalatieknop')
+            Popen(['python3', 'smoke.py', '15'],
+                  cwd='/home/pi/Documents/escalatieknop')
 
             for i in range(7):
                 ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
@@ -310,9 +309,10 @@ def call():
 
 
 # start of script
+ls.clearStrip(ls.strip)
 sc.deactivate()
 ls.sleep(2)
-# ls.clearStrip(ls.strip)
+
 
 try:
     clientSocket.connect((IP_ADDRESS, PORT))
@@ -335,7 +335,6 @@ while True:
             print("message sent")
         except socket.error:          # set connection status and recreate socket
             connected = False
-            clientSocket = socket.socket()
             print("message could not be sent... attempting reconnect")
             try:  # try to connect
                 clientSocket.connect((IP_ADDRESS, PORT))
