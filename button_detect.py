@@ -30,7 +30,7 @@ HOLD_DURATION = 1.5
 
 
 # after how long of no smoke it activates the smoke machine (in s)
-SMOKE_INTERVAL = 30
+SMOKE_INTERVAL = 120
 
 
 # other
