@@ -247,7 +247,12 @@ def call():
         if spies_mode:
             ls.random_spies_activate(ls.strip)
             sendToServer("start")
-            sleep(5)
+            for i in range(4):
+                sc.activate_normal_lights()
+                sleep(1)
+                sc.deactivate_normal_lights()
+                sleep(1)
+            sc.activate_normal_lights()
             ls.clearStrip(ls.strip)
             activated_music = True
             spies_mode = False

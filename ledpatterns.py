@@ -95,12 +95,12 @@ def random_spies_activate(strip):
 
     clearStrip(strip)
 
-    count = 40 + int(random() * 20)
+    count = 30 + int(random() * 20)
 
     for i in range(count):
 
         show_player_strip(strip, i % spies_player_count)
-        time.sleep(0.05 * (i / 10)**2)
+        time.sleep(0.05 * (i / 8)**2)
 
     clearStrip(strip, rand_colors[(count - 1) % spies_player_count])
     spies_player_count = 0
