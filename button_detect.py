@@ -290,7 +290,8 @@ def call():
         elif random() < 0.0003:
             ls.random_pattern()
     else:
-        ls.clearStrip(ls.strip)
+        if not spies_mode:
+            ls.clearStrip(ls.strip)
 
     if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
         print("deactivation noticed")
