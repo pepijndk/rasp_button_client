@@ -100,7 +100,9 @@ def random_spies_activate(strip):
     for i in range(count):
 
         show_player_strip(strip, i % spies_player_count)
-        time.sleep(0.05 * (i / 6)**2)
+        # time.sleep(0.05 * (i / 6)**2)
+
+        time.sleep(2**((x / 10) - 5))
 
     clearStrip(strip, rand_colors[(count - 1) % spies_player_count])
     spies_player_count = 0
