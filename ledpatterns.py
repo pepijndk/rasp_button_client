@@ -95,7 +95,7 @@ def random_spies_activate(strip):
 
     clearStrip(strip)
 
-    count = 30 + int(random() * 20)
+    count = 55 + int(random() * 10)
 
     for i in range(count):
 
