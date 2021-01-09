@@ -25,12 +25,12 @@ PIN_K4 = 6  # 26  # Fourth button
 
 
 PIN_MAIN_BUTTON = 24
-SMOKE_MACHINE_DURATION = 8
+SMOKE_MACHINE_DURATION = 9
 HOLD_DURATION = 1.5
 
 
 # after how long of no smoke it activates the smoke machine (in s)
-SMOKE_INTERVAL = 120
+SMOKE_INTERVAL = 100
 
 
 # other
@@ -284,7 +284,7 @@ def call():
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
-    if activated_lights_gr:
+    if activated_lights_party:
         if activated_music and random() < 0.0006:
             ls.random_pattern()
         elif random() < 0.0003:
