@@ -245,7 +245,6 @@ def call():
 
         if spies_mode:
             ls.random_spies_activate(ls.strip)
-            sendToServer("start")
             sc.activate_party_lights()
             for i in range(4):
                 sc.activate_normal_lights()
