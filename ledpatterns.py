@@ -24,12 +24,16 @@ LED_BRIGHTNESS = 200     # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
+# corner = 91
+
 rand_colors = [
     Color(255, 0, 0),
     Color(0, 255, 0),
     Color(0, 0, 255),
 
     Color(255, 255, 0),
+
+
     Color(0, 255, 255),
     Color(255, 0, 255),
 
@@ -39,7 +43,7 @@ rand_colors = [
     Color(255, 20, 255)
 ]
 
-spies_player_count = 0
+spies_player_count = 1
 prev_random = 0
 
 # todo wraparound
@@ -68,29 +72,17 @@ def random_spies_setup(strip):
         spies_player_count += 1
 
     clearStrip(strip, reset=False)
+
     for p in range(spies_player_count):
-        for i in range(20):
-            activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
+        show_player_strip(strip, p, spies_player_count)
+        #         activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
 
     strip.show()
 
 
-def show_random_player_strip(strip, num_players):
+def show_player_strip(strip, p, num_players):
     global prev_random
 
-    p = int(random() * num_players)
-    while (p == prev_random):
-        p = int(random() * num_players)
-    clearStrip(strip)
-    for i in range(20):
-        activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
-    strip.show()
-
-
-def show_player_strip(strip, p):
-    global prev_random
-
-    clearStrip(strip)
     for i in range(20):
         activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
     strip.show()
@@ -101,18 +93,19 @@ def random_spies_activate(strip):
 
     clearStrip(strip)
 
-    count = 30 + int(random() * 10)
+    count = 25 + int(random() * 3)
 
-    for i in range(2 * spies_player_count):
-        show_player_strip(strip, i % spies_player_count)
+    for i in range(2 + (int(random() * 4)) * spies_player_count):
+        show_player_strip(strip, i % spies_player_count, spies_player_count)
 
     for i in range(count):
 
-        show_player_strip(strip, i % spies_player_count)
-        time.sleep(0.05 * (i / 6)**2)
+        show_player_strip(strip, i % spies_player_count, spies_player_count)
+        time.sleep(0.003 * (i / 6)**4)
+        clearStrip(strip)
 
     clearStrip(strip, rand_colors[(count - 1) % spies_player_count])
-    spies_player_count = 0
+    spies_player_count = 1
 
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):
@@ -125,7 +118,7 @@ def clearStrip(strip, color=Color(0, 0, 0), reset=True):
 # Define functions which animate LEDs in various ways.
 
 
-def colorWipe(strip, color, wait_ms=50):
+def colorWipe(strip, color, wait_ms=00):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
         activatePixel(strip, i, color, wrap_around=False)
