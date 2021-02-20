@@ -69,8 +69,6 @@ def random_spies_setup(strip):
     if spies_player_count < 7:
         spies_player_count += 1
 
-    clearStrip(strip, reset=False)
-
     for p in range(spies_player_count):
         show_player_strip(strip, p, spies_player_count)
         #         activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
