@@ -66,8 +66,6 @@ def random_spies_setup(strip):
     global spies_player_count
     global rand_colors
 
-    clearStrip(strip, reset=False)
-
     if spies_player_count < 7:
         spies_player_count += 1
 
@@ -83,8 +81,10 @@ def random_spies_setup(strip):
 def show_player_strip(strip, p, num_players):
     global prev_random
 
-    for i in range(20):
-        activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
+    width = int((LED_COUNT - 91) / (num_players * 2) + 1)
+
+    for i in range(width):
+        activatePixel(strip, width + 2 * p + i, rand_colors[p], inverted=True)
     strip.show()
 
 
