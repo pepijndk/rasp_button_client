@@ -45,11 +45,17 @@ prev_random = 0
 # todo wraparound
 
 
-def activatePixel(strip, pixel, color, inverted=False):
+def activatePixel(strip, pixel, color, inverted=False, wrap_around=True):
     if not inverted:
-        strip.setPixelColor(int(pixel) % LED_COUNT, color)
+        if wrap_around:
+            strip.setPixelColor(int(pixel) % LED_COUNT, color)
+        else:
+            strip.setPixelColor(int(pixel), color)
     else:
-        strip.setPixelColor((LED_COUNT - (int(pixel) % LED_COUNT)), color)
+        if wrap_around:
+            strip.setPixelColor((LED_COUNT - (int(pixel) % LED_COUNT)), color)
+        else:
+            strip.setPixelColor((LED_COUNT - int(pixel)), color)
 
 
 def random_spies_setup(strip):
@@ -111,7 +117,7 @@ def random_spies_activate(strip):
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):
     for i in range(strip.numPixels()):
-        activatePixel(strip, i, color)
+        activatePixel(strip, i, color, wrap_around=False)
     if reset:
         strip.show()
 
@@ -122,18 +128,9 @@ def clearStrip(strip, color=Color(0, 0, 0), reset=True):
 def colorWipe(strip, color, wait_ms=50):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
-        activatePixel(strip, i, color)
+        activatePixel(strip, i, color, wrap_around=False)
         strip.show()
         time.sleep(wait_ms/1000.0)
-
-
-def fillColor(strip, color, wait_ms=1000):
-    """Wipe color across display a pixel at a time."""
-    for i in range(strip.numPixels()):
-        activatePixel(strip, i, color)
-    strip.show()
-    time.sleep(wait_ms/1000.0)
-    clearStrip(strip, reset=True)
 
 
 def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, tail=False):
