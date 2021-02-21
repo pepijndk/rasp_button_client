@@ -107,7 +107,13 @@ def random_spies_activate(strip, tulips=False):
         time.sleep(0.003 * (i / 6)**4)
         clearStrip(strip)
 
-    clearStrip(strip, rand_colors[(count - 1) % spies_player_count])
+    if not tulips:
+        clearStrip(strip, rand_colors[(count - 1) % spies_player_count])
+    else:
+        for p in range(spies_player_count):
+            show_player_strip(strip, p, spies_player_count)
+        strip.show()
+
     spies_player_count = 1
 
 
@@ -121,7 +127,7 @@ def clearStrip(strip, color=Color(0, 0, 0), reset=True):
 # Define functions which animate LEDs in various ways.
 
 
-def colorWipe(strip, color, wait_ms=00):
+def colorWipe(strip, color, wait_ms=0):
     """Wipe color across display a pixel at a time."""
     for i in range(strip.numPixels()):
         activatePixel(strip, i, color, wrap_around=False)
@@ -317,7 +323,7 @@ def dots(strip, wait_ms=100, iterations=800, width=5, newDotsPerCycle=1):
     clearStrip(strip)
 
 
-def theaterChase(strip, color, wait_ms=50, iterations=60):
+def theaterChase(strip, color, wait_ms=50, iterations=200):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for q in range(3):
@@ -515,7 +521,7 @@ def strobe_2_colors(strip, color1, color2, wait_ms=40, sections=5, iterations=10
 
 def nea1(strip):
     theaterChaseWidth(strip, color=Color(255, 0, 255),
-                      alt_color=Color(0, 255, 0))
+                      alt_color=Color(0, 255, 0), iterations=300)
 
 
 def nea2(strip):
@@ -571,11 +577,13 @@ def random_pattern():
             strip, 30, 1, 3, tail=True)  # rainbow wipe
         time.sleep(4)
         colorWipeNoTail(strip, Color(0, 0, 0))
-    elif rand > 0.95 and rand < 0.98:
+    elif rand > 0.95 and rand < 0.97:
         dots(strip)
+    elif rand > 0.97 and rand < 0.98:
+        ls.nea1(strip)
     elif rand > 0.98 and rand < 0.99:
         usa(strip, iterations=40)
     elif rand > 0.99 and rand < 1:
-        strobeRainbow(strip, iterations=300)
+        strobeRainbow(strip, iterations=400)
 
     clearStrip(strip)

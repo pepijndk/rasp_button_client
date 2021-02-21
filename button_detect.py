@@ -37,7 +37,7 @@ SMOKE_INTERVAL = 100
 IP_ADDRESS = "192.168.0.61"
 PORT = 65432
 SLEEP_DURATION = 0.1
-TULIPS_CHANCE = 0.15
+TULIPS_CHANCE = 0.1
 
 GPIO.setmode(GPIO.BCM)
 
@@ -101,6 +101,26 @@ def registerPress(i):
 
     if i == PIN_K4 and spies_mode:
         ls.random_spies_setup(ls.strip)
+        return
+
+    if i == PIN_K1 and spies_mode:
+        rand = random()
+        flicker = 5
+        if (rand < 1):
+            flicker = 20
+            ls.random_spies_activate(ls.strip, tulips=True)
+            sendToServer("start tulips")
+        else:
+            ls.random_spies_activate(ls.strip)
+
+        for i in range(flicker):
+            sc.activate_normal_lights()
+            sleep(1)
+            sc.deactivate_normal_lights()
+            sleep(1)
+        sc.activate_normal_lights()
+        ls.clearStrip(ls.strip)
+        spies_mode = False
         return
 
     print("valid press", i)
@@ -243,20 +263,6 @@ def call():
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
         print("activating")
 
-        if spies_mode:
-            ls.random_spies_activate(ls.strip)
-            sc.activate_party_lights()
-            for i in range(4):
-                sc.activate_normal_lights()
-                sleep(1)
-                sc.deactivate_normal_lights()
-                sleep(1)
-            sc.activate_normal_lights()
-            ls.clearStrip(ls.strip)
-            activated_music = True
-            spies_mode = False
-            return
-
         activated_music = True
         activated_lights_gr = False
         activated_lights_party = True
@@ -287,15 +293,6 @@ def call():
             time.sleep(1)
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
-
-    if activated_lights_party:
-        if activated_music and random() < 0.0006:
-            ls.random_pattern()
-        elif random() < 0.0003:
-            ls.random_pattern()
-    else:
-        if not spies_mode:
-            ls.clearStrip(ls.strip)
 
     if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
         print("deactivation noticed")
@@ -355,6 +352,15 @@ while True:
             Popen(['python3', 'smoke.py', '10'],
                   cwd='/home/pi/Documents/escalatieknop')
             date_smoke = datetime.datetime.now()
+
+        if activated_lights_party:
+            random() < 0.5:
+            ls.random_pattern()
+        elif random() < 0.1:
+            ls.random_pattern()
+    else:
+        if not spies_mode:
+            ls.clearStrip(ls.strip)
 
     if timer > 10000:
         timer = 0
