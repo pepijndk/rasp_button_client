@@ -354,10 +354,11 @@ while True:
             date_smoke = datetime.datetime.now()
 
         if activated_lights_party:
-            random() < 0.5:
-            ls.random_pattern()
-        elif random() < 0.1:
-            ls.random_pattern()
+            if random() < 0.5:
+                ls.random_pattern()
+        else:
+            if random() < 0.1:
+                ls.random_pattern()
     else:
         if not spies_mode:
             ls.clearStrip(ls.strip)
