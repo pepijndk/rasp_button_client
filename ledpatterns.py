@@ -73,7 +73,6 @@ def random_spies_setup(strip):
 
     for p in range(spies_player_count):
         show_player_strip(strip, p, spies_player_count)
-        print("drew", p)
         #         activatePixel(strip, 25 + p*40 + i, rand_colors[p], inverted=True)
 
     strip.show()
@@ -82,12 +81,11 @@ def random_spies_setup(strip):
 def show_player_strip(strip, p, num_players):
     global prev_random
 
-    width = int((LED_COUNT - 91) / (num_players * 2) + 1)
+    width = int((LED_COUNT - 91) / ((num_players * 2) + 1)
 
     for i in range(width):
         activatePixel(strip, width + 2 * p * width +
                       i, rand_colors[p], inverted=True)
-        print(width + 2 * p + i)
 
 
 def random_spies_activate(strip):
@@ -95,7 +93,7 @@ def random_spies_activate(strip):
 
     clearStrip(strip)
 
-    count = 25 + int(random() * 3)
+    count=25 + int(random() * 3)
 
     for i in range(2 + (int(random() * 4)) * spies_player_count):
         show_player_strip(strip, i % spies_player_count, spies_player_count)
@@ -108,7 +106,7 @@ def random_spies_activate(strip):
         clearStrip(strip)
 
     clearStrip(strip, rand_colors[(count - 1) % spies_player_count])
-    spies_player_count = 1
+    spies_player_count=1
 
 
 def clearStrip(strip, color=Color(0, 0, 0), reset=True):
@@ -132,7 +130,7 @@ def colorWipe(strip, color, wait_ms=00):
 def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, tail=False):
     """Wipe color across display a pixel at a time."""
     for i in range(int((strip.numPixels() + width) / speed)):
-        pixel = i * speed
+        pixel=i * speed
 
         for p in range(speed):
 
@@ -168,7 +166,7 @@ def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=4, tail=False
 def colorWipeNoTailRainbow(strip, width=20, wait_ms=0, speed=3, inverted=False, tail=False):
     """Wipe color across display a pixel at a time."""
     for i in range(int((strip.numPixels() + width) / speed)):
-        pixel = i * speed
+        pixel=i * speed
 
         for p in range(speed):
             activatePixel(strip, pixel + p, wheel(pixel & 255),
@@ -185,13 +183,13 @@ def colorWipeNoTailRainbow(strip, width=20, wait_ms=0, speed=3, inverted=False, 
 def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
     """strobe"""
 
-    size = int(LED_COUNT / sections)
-    prev_prev_section = 0
-    prev_section = 0
+    size=int(LED_COUNT / sections)
+    prev_prev_section=0
+    prev_section=0
 
     for i in range(iterations):
 
-        section = int(random() * (sections))
+        section=int(random() * (sections))
 
         for old in range(size):
             activatePixel(
@@ -200,8 +198,8 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
         for new in range(size):
             activatePixel(strip, new + (section * size) - 1, color)
 
-        prev_prev_section = prev_section
-        prev_section = section
+        prev_prev_section=prev_section
+        prev_section=section
         strip.show()
         time.sleep(wait_ms/1000.0)
 
@@ -211,13 +209,13 @@ def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
 def strobeRainbow(strip, wait_ms=40, sections=5, iterations=150):
     """strobe"""
 
-    size = int(LED_COUNT / sections)
-    prev_prev_section = 0
-    prev_section = 0
+    size=int(LED_COUNT / sections)
+    prev_prev_section=0
+    prev_section=0
 
     for i in range(iterations):
 
-        section = int(random() * (sections))
+        section=int(random() * (sections))
 
         for old in range(size):
             activatePixel(
@@ -226,8 +224,8 @@ def strobeRainbow(strip, wait_ms=40, sections=5, iterations=150):
         for new in range(size):
             activatePixel(strip, new + (section * size) - 1, wheel(i & 255))
 
-        prev_prev_section = prev_section
-        prev_section = section
+        prev_prev_section=prev_section
+        prev_section=section
         strip.show()
         time.sleep(wait_ms/1000.0)
 
@@ -239,9 +237,9 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
 
     def getColor(i):
         # length transition period
-        length_transition = int(0.4 * iterations)
-        start_transition = int(iterations / 2) - int(length_transition / 2)
-        color_num = (i - start_transition) / length_transition
+        length_transition=int(0.4 * iterations)
+        start_transition=int(iterations / 2) - int(length_transition / 2)
+        color_num=(i - start_transition) / length_transition
 
         #
         if random() <= color_num:
@@ -249,15 +247,15 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         else:
             return color1
 
-    size = int(LED_COUNT / sections)
-    prev_prev_section = 0
-    prev_section = 0
+    size=int(LED_COUNT / sections)
+    prev_prev_section=0
+    prev_section=0
 
     for i in range(iterations):
 
-        color = getColor(i)
+        color=getColor(i)
 
-        section = int(random() * (sections))
+        section=int(random() * (sections))
 
         for old in range(size):
             activatePixel(
@@ -266,8 +264,8 @@ def strobeTransition(strip, color2, color1=Color(255, 255, 255), wait_ms=40, sec
         for new in range(size):
             activatePixel(strip, new + (section * size) - 1, color)
 
-        prev_prev_section = prev_section
-        prev_section = section
+        prev_prev_section=prev_section
+        prev_section=section
         strip.show()
         time.sleep(wait_ms/1000.0)
 
@@ -279,12 +277,12 @@ def dots(strip, wait_ms=100, iterations=800, width=5, newDotsPerCycle=1):
 
     clearStrip(strip)
 
-    chance = 0.9
+    chance=0.9
 
     def brightness(level):
         return int(0.1 * (level ** 2))
 
-    dots = dict()
+    dots=dict()
 
     def colorDot(coord, level):
 
@@ -297,22 +295,22 @@ def dots(strip, wait_ms=100, iterations=800, width=5, newDotsPerCycle=1):
     for i in range(iterations):
         if random() > chance:
 
-            coord = int(2 + random() * (LED_COUNT - 4))
+            coord=int(2 + random() * (LED_COUNT - 4))
 
-            dots[coord] = 50
+            dots[coord]=50
 
         for key, value in dots.items():
 
             if value > 0:
                 colorDot(key, value)
-                dots[key] = value - 1
+                dots[key]=value - 1
 
         time.sleep(wait_ms / 1000)
 
         strip.show()
 
         if chance == 0.9 and i > 0.8 * iterations:
-            chance = 0.98
+            chance=0.98
 
     clearStrip(strip)
 
@@ -512,7 +510,7 @@ def strobeColorToColor(strip, color1, color2, wait_ms=30, sections=5, iterations
            sections=sections, iterations=iterations)
 
 
-strip = Adafruit_NeoPixel(
+strip=Adafruit_NeoPixel(
     LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 strip.begin()
 
@@ -529,7 +527,7 @@ strip.begin()
 #     strobe(strip, randomColor1)
 
 def random_pattern():
-    rand = random()
+    rand=random()
 
     if rand > 0.5 and rand < 0.65:
         colorWipeBackandForth(strip, randomColor())
