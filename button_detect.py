@@ -365,9 +365,6 @@ while True:
         elif activated_lights_party:
             if random() < 0.02:
                 ls.random_pattern()
-    else:
-        if not spies_mode:
-            ls.clearStrip(ls.strip)
 
     if timer > 10000:
         timer = 0
