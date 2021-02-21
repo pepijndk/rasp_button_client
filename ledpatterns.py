@@ -93,9 +93,9 @@ def random_spies_activate(strip):
 
     clearStrip(strip)
 
-    count = 25 + int(random() * 3)
+    count = 25 + int(random() * 7)
 
-    for i in range(2 + (int(random() * 4)) * spies_player_count):
+    for i in range(2 + (int(random() * 8)) * spies_player_count):
         show_player_strip(strip, i % spies_player_count, spies_player_count)
 
     for i in range(count):
