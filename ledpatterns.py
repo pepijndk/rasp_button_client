@@ -484,7 +484,7 @@ def strobeColorToColor(strip, color1, color2, wait_ms=30, sections=5, iterations
            sections=sections, iterations=iterations)
 
 
-def strobe_2_colors(strip, color, wait_ms=40, sections=5, iterations=100):
+def strobe_2_colors(strip, color1, color2, wait_ms=40, sections=5, iterations=100):
     """strobe"""
 
     size = int(LED_COUNT / sections)
@@ -511,6 +511,15 @@ def strobe_2_colors(strip, color, wait_ms=40, sections=5, iterations=100):
         time.sleep(wait_ms/1000.0)
 
     clearStrip(strip)
+
+
+def nea1(strip):
+    theaterChaseWidth(strip, color=Color(255, 0, 255),
+                      alt_color=Color(0, 255, 0))
+
+
+def nea2(strip):
+    strobe_2_colors(strip, color1=Color(255, 0, 255), color2=Color(0, 255, 0))
 
 
 strip = Adafruit_NeoPixel(
