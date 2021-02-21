@@ -355,13 +355,6 @@ def tulips(strip, wait_ms=10, iterations=500, width=10):
             activatePixel(strip, i, Color(0, 255, 0))
 
 
-def red(strip):
-    for i in range(strip.numPixels()):
-        activatePixel(strip, i, Color(255, 0, 0))
-        strip.show()
-        time.sleep(300)
-
-
 def usa(strip, wait_ms=200, iterations=3000, width=50):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
@@ -491,8 +484,8 @@ def strobeColorToColor(strip, color1, color2, wait_ms=30, sections=5, iterations
            sections=sections, iterations=iterations)
 
 
-def strobe_2_colors(strip, color1, color2, wait_ms=30, sections=5, iterations=100):
-        """strobe"""
+def strobe_2_colors(strip, color, wait_ms=40, sections=5, iterations=100):
+    """strobe"""
 
     size = int(LED_COUNT / sections)
     prev_prev_section = 0
@@ -508,7 +501,7 @@ def strobe_2_colors(strip, color1, color2, wait_ms=30, sections=5, iterations=10
 
         for new in range(size):
             if random() < 0.5
-                activatePixel(strip, new + (section * size) - 1, color1)
+            activatePixel(strip, new + (section * size) - 1, color1)
             else:
                 activatePixel(strip, new + (section * size) - 1, color2)
 
@@ -527,7 +520,6 @@ strip.begin()
 strip = Adafruit_NeoPixel(
     LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 strip.begin()
-
 
 
 #
