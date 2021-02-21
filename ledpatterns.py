@@ -69,7 +69,7 @@ def random_spies_setup(strip):
     global rand_colors
 
     if (spies_player_count == 1):
-        theaterChaseWidthRainbow(strip, iterations=10)
+        theaterChaseWidthRainbow(strip, iterations=6)
 
     if spies_player_count < 7:
         spies_player_count += 1
@@ -98,7 +98,7 @@ def random_spies_activate(strip, tulips=False):
 
     clearStrip(strip)
 
-    count = 30 + int(random() * 10)
+    count = 28 + int(random() * 6)
 
     for i in range(2 + (int(random() * 8)) * spies_player_count):
         show_player_strip(strip, i % spies_player_count, spies_player_count)
@@ -146,10 +146,12 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, 
 
         for p in range(speed):
 
-            activatePixel(strip, pixel + p, color, inverted=inverted)
+            activatePixel(strip, pixel + p, color,
+                          inverted=inverted, wrap_around=False)
 
             if tail == False:
-                activatePixel(strip, pixel - width - p, 0, inverted=inverted)
+                activatePixel(strip, pixel - width - p, 0,
+                              inverted=inverted, wrap_around=False)
 
             # strip.setPixelColor(pixel + p, color)
             # strip.setPixelColor(pixel - width - p, 0)
@@ -164,13 +166,13 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, 
 def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=4, tail=False):
     if not tail:
         colorWipeNoTail(strip, color, width=width,
-                        wait_ms=wait_ms, speed=speed)
+                        wait_ms=wait_ms, speed=speed, wrap_around=False)
     else:
         colorWipeNoTail(strip, color, width=width,
-                        wait_ms=wait_ms, speed=speed, tail=True)
+                        wait_ms=wait_ms, speed=speed, tail=True, wrap_around=False)
     time.sleep(0.6)
     colorWipeNoTail(strip, color, width=width, wait_ms=wait_ms,
-                    speed=speed, inverted=True)
+                    speed=speed, inverted=True, wrap_around=False)
 
     clearStrip(strip)
 
@@ -182,11 +184,11 @@ def colorWipeNoTailRainbow(strip, width=20, wait_ms=0, speed=3, inverted=False, 
 
         for p in range(speed):
             activatePixel(strip, pixel + p, wheel(pixel & 255),
-                          inverted=inverted)
+                          inverted=inverted, wrap_around=False)
 
             if not tail:
                 activatePixel(strip, pixel - width - p,
-                              Color(0, 0, 0), inverted=inverted)
+                              Color(0, 0, 0), inverted=inverted, wrap_around=False)
 
         strip.show()
         time.sleep(wait_ms/1000.0)
@@ -587,7 +589,7 @@ def random_pattern():
     elif rand > 0.97 and rand < 0.98:
         ls.nea1(strip)
     elif rand > 0.98 and rand < 0.99:
-        usa(strip, iterations=40)
+        usa(strip, iterations=100)
     elif rand > 0.99 and rand < 1:
         strobeRainbow(strip, iterations=400)
 

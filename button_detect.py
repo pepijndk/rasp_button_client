@@ -103,6 +103,9 @@ def registerPress(i):
         ls.random_spies_setup(ls.strip)
         return
 
+    print("valid press", i)
+    last_clicked = i
+
     if i == PIN_K1 and spies_mode:
         rand = random()
         flicker = 5
@@ -122,9 +125,6 @@ def registerPress(i):
         ls.clearStrip(ls.strip)
         spies_mode = False
         return
-
-    print("valid press", i)
-    last_clicked = i
 
     sleep(HOLD_DURATION)
     if not GPIO.input(i):
@@ -353,11 +353,11 @@ while True:
                   cwd='/home/pi/Documents/escalatieknop')
             date_smoke = datetime.datetime.now()
 
-        if activated_lights_party:
-            if random() < 0.5:
+        if activated_lights_party and not activated_lights_gr:
+            if random() < 0.05:  # *10 if ledstrip works again
                 ls.random_pattern()
-        else:
-            if random() < 0.1:
+        elif activated_lights_party:
+            if random() < 0.02:
                 ls.random_pattern()
     else:
         if not spies_mode:
