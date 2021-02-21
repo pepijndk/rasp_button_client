@@ -86,6 +86,7 @@ def show_player_strip(strip, p, num_players):
 
     for i in range(width):
         activatePixel(strip, width + 2 * p + i, rand_colors[p], inverted=True)
+        print(width + 2 * p + i)
 
 
 def random_spies_activate(strip):
