@@ -24,7 +24,9 @@ LED_BRIGHTNESS = 200     # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
+
 # corner = 91
+# pink: 250 0 250
 
 rand_colors = [
     Color(255, 0, 0),
@@ -88,12 +90,12 @@ def show_player_strip(strip, p, num_players):
                       i, rand_colors[p], inverted=True)
 
 
-def random_spies_activate(strip):
+def random_spies_activate(strip, tulips=False):
     global spies_player_count
 
     clearStrip(strip)
 
-    count = 25 + int(random() * 7)
+    count = 25 + int(random() * 10)
 
     for i in range(2 + (int(random() * 8)) * spies_player_count):
         show_player_strip(strip, i % spies_player_count, spies_player_count)
@@ -180,7 +182,7 @@ def colorWipeNoTailRainbow(strip, width=20, wait_ms=0, speed=3, inverted=False, 
         time.sleep(wait_ms/1000.0)
 
 
-def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
+def strobe(strip, color, wait_ms=40, sections=5, iterations=100):
     """strobe"""
 
     size = int(LED_COUNT / sections)
@@ -327,7 +329,7 @@ def theaterChase(strip, color, wait_ms=50, iterations=60):
                 activatePixel(strip, i+q, Color(0, 0, 0))
 
 
-def theaterChaseWidth(strip, color, wait_ms=0, iterations=200, width=5):
+def theaterChaseWidth(strip, color, alt_color=Color(0, 0, 0), wait_ms=0, iterations=200, width=5):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for i in range(0, strip.numPixels(), 2*width):
@@ -337,7 +339,7 @@ def theaterChaseWidth(strip, color, wait_ms=0, iterations=200, width=5):
         strip.show()
         time.sleep(wait_ms/1000.0)
         for i in range(strip.numPixels()):
-            activatePixel(strip, i, Color(0, 0, 0))
+            activatePixel(strip, i, alt_color)
 
 
 def tulips(strip, wait_ms=10, iterations=500, width=10):
@@ -414,27 +416,6 @@ def usa_3(strip, sleep_time=1, iterations=300):
         strip.show()
         time.sleep(sleep_time)
 
-    # for j in range(iterations):
-    #     for i in range(0, strip.numPixels(), 3*width):
-
-    #     for p in range(2 * width):
-    #         activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 255, 255))
-
-    #     for p in range(2 * width):
-    #         if (int((p / 4) % 2 == 0)):
-    #             activatePixel(strip, (i+j+p) % LED_COUNT, Color(255, 0, 0))
-    #             activatePixel(strip, (i+j+p+1) %
-    #                           LED_COUNT, Color(255, 0, 0))
-    #             activatePixel(strip, (i+j+p+2) %
-    #                           LED_COUNT, Color(255, 0, 0))
-    #             activatePixel(strip, (i+j+p+3) %
-    #                           LED_COUNT, Color(255, 0, 0))
-
-    # strip.show()
-    # time.sleep(wait_ms/1000.0)
-    # for i in range(strip.numPixels()):
-    #     activatePixel(strip, i, Color(0, 0, 255))
-
 
 def theaterChaseWidthRainbow(strip, wait_ms=0, iterations=80, width=5):
     """Movie theater light style chaser animation."""
@@ -508,6 +489,40 @@ def strobeColorToColor(strip, color1, color2, wait_ms=30, sections=5, iterations
                      iterations=iterations * 2, percentage_random=percentage_random)  # Blue wipe
     strobe(strip, color2, wait_ms=wait_ms,
            sections=sections, iterations=iterations)
+
+
+strip = Adafruit_NeoPixel(
+    LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+strip.begin()
+
+
+def strobe_2_colors(strip, color1, color2, wait_ms=30, sections=5, iterations=40, percentage_random=1):
+        """strobe"""
+
+    size = int(LED_COUNT / sections)
+    prev_prev_section = 0
+    prev_section = 0
+
+    for i in range(iterations):
+
+        section = int(random() * (sections))
+
+        for old in range(size):
+            activatePixel(
+                strip, old + (prev_prev_section * size) - 1, Color(0, 0, 0))
+
+        for new in range(size):
+            if random() < 0.5
+                activatePixel(strip, new + (section * size) - 1, color1)
+            else:
+                activatePixel(strip, new + (section * size) - 1, color2)
+
+        prev_prev_section = prev_section
+        prev_section = section
+        strip.show()
+        time.sleep(wait_ms/1000.0)
+
+    clearStrip(strip)
 
 
 strip = Adafruit_NeoPixel(
