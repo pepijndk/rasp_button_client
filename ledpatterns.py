@@ -85,7 +85,8 @@ def show_player_strip(strip, p, num_players):
     width = int((LED_COUNT - 91) / (num_players * 2) + 1)
 
     for i in range(width):
-        activatePixel(strip, width + 2 * p + i, rand_colors[p], inverted=True)
+        activatePixel(strip, width + 2 * p * width +
+                      i, rand_colors[p], inverted=True)
         print(width + 2 * p + i)
 
 
