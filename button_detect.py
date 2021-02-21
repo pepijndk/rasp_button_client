@@ -160,7 +160,7 @@ def short_press(i):
     if i == PIN_K3:
         activated_smoke = True
         date_smoke = datetime.datetime.now()
-        ls.clearStrip(ls.strip, ls.Color(0, 255, 0))
+        ls.clearStrip(ls.strip, ls.Color(0, 200, 0))
         time.sleep(3)
         ls.clearStrip(ls.strip)
 
@@ -198,7 +198,7 @@ def long_press(i):
             activated_lights_party_before_activation = False
     if i == PIN_K3:
         activated_smoke = False
-        ls.clearStrip(ls.strip, ls.Color(255, 0, 0))
+        ls.clearStrip(ls.strip, ls.Color(200, 0, 0))
         time.sleep(3)
         ls.clearStrip(ls.strip)
     if i == PIN_K4:
