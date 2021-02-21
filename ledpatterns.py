@@ -68,6 +68,9 @@ def random_spies_setup(strip):
     global spies_player_count
     global rand_colors
 
+    if (spies_player_count == 1):
+        theaterChaseRainbow(strip)
+
     if spies_player_count < 7:
         spies_player_count += 1
 
@@ -95,10 +98,11 @@ def random_spies_activate(strip, tulips=False):
 
     clearStrip(strip)
 
-    count = 25 + int(random() * 10)
+    count = 30 + int(random() * 10)
 
     for i in range(2 + (int(random() * 8)) * spies_player_count):
         show_player_strip(strip, i % spies_player_count, spies_player_count)
+        sleep(2 + i / 1000)
 
     for i in range(count):
 
