@@ -491,12 +491,7 @@ def strobeColorToColor(strip, color1, color2, wait_ms=30, sections=5, iterations
            sections=sections, iterations=iterations)
 
 
-strip = Adafruit_NeoPixel(
-    LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-strip.begin()
-
-
-def strobe_2_colors(strip, color1, color2, wait_ms=30, sections=5, iterations=40, percentage_random=1):
+def strobe_2_colors(strip, color1, color2, wait_ms=30, sections=5, iterations=100):
         """strobe"""
 
     size = int(LED_COUNT / sections)
@@ -528,6 +523,12 @@ def strobe_2_colors(strip, color1, color2, wait_ms=30, sections=5, iterations=40
 strip = Adafruit_NeoPixel(
     LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 strip.begin()
+
+strip = Adafruit_NeoPixel(
+    LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+strip.begin()
+
+
 
 #
 # Patterns
