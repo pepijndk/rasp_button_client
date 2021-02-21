@@ -69,7 +69,7 @@ def random_spies_setup(strip):
     global rand_colors
 
     if (spies_player_count == 1):
-        theaterChaseRainbow(strip)
+        theaterChaseWidthRainbow(strip)
 
     if spies_player_count < 7:
         spies_player_count += 1
@@ -563,7 +563,8 @@ def random_pattern():
         theaterChaseWidth(
             strip, color=randomColor(), width=int(1 + random() * 80))
     elif rand > 0.75 and rand < 0.76:
-        theaterChaseWidthRainbow(strip, width=int(1 + random() * 80))
+        theaterChaseWidthRainbow(strip, width=int(
+            1 + random() * 80), iterations=300)
     elif rand > 0.76 and rand < 0.77:
         colorWipeNoTailRainbow(strip, 50, 1, 3)  # rainbow wipe
         time.sleep(3)
