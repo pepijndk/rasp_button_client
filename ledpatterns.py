@@ -500,8 +500,8 @@ def strobe_2_colors(strip, color, wait_ms=40, sections=5, iterations=100):
                 strip, old + (prev_prev_section * size) - 1, Color(0, 0, 0))
 
         for new in range(size):
-            if random() < 0.5
-            activatePixel(strip, new + (section * size) - 1, color1)
+            if random() < 0.5:
+                activatePixel(strip, new + (section * size) - 1, color1)
             else:
                 activatePixel(strip, new + (section * size) - 1, color2)
 
