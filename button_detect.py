@@ -109,7 +109,7 @@ def registerPress(i):
     if i == PIN_K1 and spies_mode:
         rand = random()
         flicker = 5
-        if (rand < 1):
+        if (rand < 0.5 * TULIPS_CHANCE):
             flicker = 20
             ls.random_spies_activate(ls.strip, tulips=True)
             sendToServer("start tulips")
@@ -124,6 +124,8 @@ def registerPress(i):
         sc.activate_normal_lights()
         ls.clearStrip(ls.strip)
         spies_mode = False
+        if (rand < TULIPS_CHANCE):
+            sendToServer("stop")
         return
 
     sleep(HOLD_DURATION)
