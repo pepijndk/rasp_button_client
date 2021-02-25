@@ -166,7 +166,7 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, 
 def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=4, tail=False):
     if not tail:
         colorWipeNoTail(strip, color, width=width,
-                        wait_ms=wait_ms, speed=speed, wrap_around=False)
+                        wait_ms=wait_ms, speed=speed, inverted=False, wrap_around=False)
     else:
         colorWipeNoTail(strip, color, width=width,
                         wait_ms=wait_ms, speed=speed, tail=True, wrap_around=False)
