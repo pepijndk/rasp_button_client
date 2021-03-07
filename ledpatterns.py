@@ -172,7 +172,7 @@ def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=4, tail=False
                         wait_ms=wait_ms, speed=speed, tail=True)
     time.sleep(0.6)
     colorWipeNoTail(strip, color, width=width, wait_ms=wait_ms,
-                    speed=speed, inverted=Tru)
+                    speed=speed, inverted=True)
 
     clearStrip(strip)
 
