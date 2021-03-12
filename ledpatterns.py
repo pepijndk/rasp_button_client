@@ -39,10 +39,9 @@ rand_colors = [
     Color(0, 255, 255),
     Color(255, 0, 255),
 
-
-    Color(255, 255, 20),
-    Color(20, 255, 255),
-    Color(255, 20, 255)
+    Color(255, 255, 255),
+    Color(50, 255, 255),
+    Color(255, 50, 255)
 ]
 
 spies_player_count = 1
@@ -86,7 +85,8 @@ def random_spies_setup(strip):
 def show_player_strip(strip, p, num_players):
     global prev_random
 
-    width = int((LED_COUNT - 91) / ((num_players * 2) + 1))
+    # width = int((LED_COUNT - 91) / ((num_players * 2) + 1))
+    width = int((LED_COUNT) / ((num_players * 2) + 1))
 
     for i in range(width):
         activatePixel(strip, width + 2 * p * width +
