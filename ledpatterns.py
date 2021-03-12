@@ -86,6 +86,7 @@ def random_spies_setup(strip):
 def show_player_strip(strip, p, num_players):
     global prev_random
 
+    # width = int((LED_COUNT - 91) / ((num_players * 2) + 1))
     width = int((LED_COUNT - 91) / ((num_players * 2) + 1))
 
     for i in range(width):

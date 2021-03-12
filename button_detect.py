@@ -124,8 +124,7 @@ def registerPress(i):
         sc.activate_normal_lights()
         ls.clearStrip(ls.strip)
         spies_mode = False
-        if (rand < TULIPS_CHANCE):
-            sendToServer("stop")
+        sendToServer("stop")
         return
 
     sleep(HOLD_DURATION)
