@@ -75,6 +75,7 @@ activated_lights_party = False
 activated_lights_party_before_activation = False
 
 last_clicked = 0
+add_player_clickable = True
 
 connected = False
 start_time = 0
@@ -92,6 +93,7 @@ spies_mode = False
 def registerPress(i):
     global last_clicked
     global spies_mode
+    global add_player_clickable
 
     print("btn clicked ", i)
     sleep(0.11)
@@ -99,8 +101,11 @@ def registerPress(i):
         print("false press, returning", i)
         return
 
-    if i == PIN_K4 and spies_mode:
+    if i == PIN_K4 and spies_mode and add_player_clickable:
+        add_player_clickable = False
         ls.random_spies_setup(ls.strip)
+        sleep(0.3)
+        add_player_clickable = True
         return
 
     print("valid press", i)
