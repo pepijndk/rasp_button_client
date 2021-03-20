@@ -101,7 +101,9 @@ def registerPress(i):
         print("false press, returning", i)
         return
 
-    if i == PIN_K4 and spies_mode and add_player_clickable:
+    if i == PIN_K4 and spies_mode:
+        if not add_player_clickable:
+            return
         add_player_clickable = False
         ls.random_spies_setup(ls.strip)
         sleep(0.3)
