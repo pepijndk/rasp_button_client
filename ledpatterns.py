@@ -14,7 +14,7 @@ from time import sleep
 
 
 # LED strip configuration:
-LED_COUNT = 304      # Number of LED pixe 307
+LED_COUNT = 182 # 304      # Number of LED pixe 307
 LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -587,7 +587,7 @@ def random_pattern():
     elif rand > 0.95 and rand < 0.97:
         dots(strip)
     elif rand > 0.97 and rand < 0.98:
-        ls.nea1(strip)
+        nea1(strip)
     elif rand > 0.98 and rand < 0.99:
         usa(strip, iterations=100)
     elif rand > 0.99 and rand < 1:
