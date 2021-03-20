@@ -132,6 +132,7 @@ def registerPress(i):
         ls.clearStrip(ls.strip)
         spies_mode = False
         sendToServer("stop")
+        last_clicked = 0
         return
 
     sleep(HOLD_DURATION)
@@ -297,7 +298,7 @@ def call():
             Popen(['python3', 'smoke.py', '15'],
                   cwd='/home/pi/Documents/escalatieknop')
 
-            for i in range(16): # weer 6 na ledstrip fix
+            for i in range(16):  # weer 6 na ledstrip fix
                 ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
 
             random_color = ls.randomColor()
