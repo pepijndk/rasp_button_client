@@ -527,7 +527,7 @@ def strobe_2_colors(strip, color1, color2, wait_ms=40, sections=5, iterations=10
 
 def nea1(strip):
     theaterChaseWidth(strip, color=Color(255, 0, 255),
-                      alt_color=Color(0, 255, 0), iterations=300)
+                      alt_color=Color(0, 255, 0), iterations=400)
 
 
 def nea2(strip):
@@ -589,7 +589,7 @@ def random_pattern():
     elif rand > 0.97 and rand < 0.98:
         nea1(strip)
     elif rand > 0.98 and rand < 0.99:
-        usa(strip, iterations=100)
+        usa(strip, iterations=600)
     elif rand > 0.99 and rand < 1:
         strobeRainbow(strip, iterations=1000)
 
