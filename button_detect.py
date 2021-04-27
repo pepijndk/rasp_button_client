@@ -179,8 +179,17 @@ def short_press(i):
                   cwd='/home/pi/Documents/escalatieknop')
 
             if activated_lights_party:
-                ls.strobeColorToColor(ls.strip, ls.randomColor(),
-                                      ls.randomColor(), iterations=120)
+                color1 = ls.randomColor()
+                color2 = ls.randomColor()
+                color3 = ls.randomColor()
+                color4 = ls.randomColor()
+
+                ls.strobeColorToColor(ls.strip, color1,
+                                      color2, iterations=300)
+                ls.strobeColorToColor(ls.strip, color2,
+                                      color3, iterations=300)
+                ls.strobeColorToColor(ls.strip, color3,
+                                      color4, iterations=300)
 
     last_clicked = 0
 
@@ -362,7 +371,7 @@ while True:
         # if there has been no smoke in 10 minutes
         if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
             print("activating smoke aut")
-            Popen(['python3', 'smoke.py', '10'],
+            Popen(['python3', 'smoke.py', '15'],
                   cwd='/home/pi/Documents/escalatieknop')
             date_smoke = datetime.datetime.now()
 
@@ -370,7 +379,7 @@ while True:
             if random() < 0.1:  # *10 if ledstrip works again
                 ls.random_pattern()
         elif activated_lights_party:
-            if random() < 0.01:
+            if random() < 0.05:
                 ls.random_pattern()
 
     if timer > 10000:

@@ -14,7 +14,7 @@ from time import sleep
 
 
 # LED strip configuration:
-LED_COUNT = 182 # 304      # Number of LED pixe 307
+LED_COUNT = 182  # 304      # Number of LED pixe 307
 LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -163,14 +163,14 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, 
         clearStrip(strip)
 
 
-def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=4, tail=False):
+def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=3, tail=False):
     if not tail:
         colorWipeNoTail(strip, color, width=width,
                         wait_ms=wait_ms, speed=speed, inverted=False)
     else:
         colorWipeNoTail(strip, color, width=width,
                         wait_ms=wait_ms, speed=speed, tail=True)
-    time.sleep(0.6)
+    time.sleep(5)
     colorWipeNoTail(strip, color, width=width, wait_ms=wait_ms,
                     speed=speed, inverted=True)
 
@@ -563,18 +563,18 @@ def random_pattern():
         colorWipeBackandForth(strip, randomColor())
     elif rand > 0.65 and rand < 0.7:
         theaterChaseWidth(
-            strip, color=randomColor(), width=int(1 + random() * 80))
+            strip, color=randomColor(), width=int(1 + random() * 80), iterations=400)
     elif rand > 0.75 and rand < 0.76:
         theaterChaseWidthRainbow(strip, width=int(
-            1 + random() * 80), iterations=300)
+            1 + random() * 80), iterations=500)
     elif rand > 0.76 and rand < 0.77:
         colorWipeNoTailRainbow(strip, 50, 1, 3)  # rainbow wipe
-        time.sleep(3)
+        time.sleep(8)
         colorWipeNoTailRainbow(
             strip, 50, 1, 3, inverted=True)  # rainbow wipe
     elif rand > 0.77 and rand < 0.85:
         for p in range(3 + int(random() * 20)):
-            colorWipeNoTail(strip, randomColor(), speed=6)
+            colorWipeNoTail(strip, randomColor(), speed=4)
     elif rand > 0.85 and rand < 0.9:
         colorWipeBackandForth(strip, randomColor(), tail=True)
     elif rand > 0.90 and rand < 0.93:
@@ -591,6 +591,6 @@ def random_pattern():
     elif rand > 0.98 and rand < 0.99:
         usa(strip, iterations=100)
     elif rand > 0.99 and rand < 1:
-        strobeRainbow(strip, iterations=400)
+        strobeRainbow(strip, iterations=1000)
 
     clearStrip(strip)
