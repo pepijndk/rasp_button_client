@@ -376,10 +376,10 @@ while True:
             date_smoke = datetime.datetime.now()
 
         if activated_lights_party and not activated_lights_gr:
-            if random() < 0.3:  # *10 if ledstrip works again
+            if random() < 0.4:  # *10 if ledstrip works again
                 ls.random_pattern()
         elif activated_lights_party:
-            if random() < 1:
+            if random() < 0.2:
                 ls.random_pattern()
 
     if timer > 10000:
