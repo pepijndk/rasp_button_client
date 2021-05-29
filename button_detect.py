@@ -179,17 +179,9 @@ def short_press(i):
                   cwd='/home/pi/Documents/escalatieknop')
 
             if activated_lights_party:
-                color1 = ls.randomColor()
-                color2 = ls.randomColor()
-                color3 = ls.randomColor()
-                color4 = ls.randomColor()
+                ls.strobeColorToColor(ls.strip, ls.randomColor(),
+                                      ls.randomColor(), iterations=200)
 
-                ls.strobeColorToColor(ls.strip, color1,
-                                      color2, iterations=300)
-                ls.strobeColorToColor(ls.strip, color2,
-                                      color3, iterations=300)
-                ls.strobeColorToColor(ls.strip, color3,
-                                      color4, iterations=300)
 
     last_clicked = 0
 
