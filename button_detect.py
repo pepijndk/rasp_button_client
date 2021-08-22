@@ -41,7 +41,6 @@ TULIPS_CHANCE = 0.1
 
 GPIO.setmode(GPIO.BCM)
 
-
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientSocket.settimeout(5)
 
@@ -62,11 +61,6 @@ GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-# Modes:
-# 0 = party lights on
-# 1 = party lights on & normal lights off
-# 2 = party lights on & normal lights off & music on (everything)
 
 activated_music = False  # if the main button is pressed
 activated_smoke = False
@@ -95,10 +89,10 @@ def registerPress(i):
     global spies_mode
     global add_player_clickable
 
-    print("btn clicked ", i)
+    log("btn clicked " + str(i))
     sleep(0.11)
     if GPIO.input(i) or last_clicked == i:
-        print("false press, returning", i)
+        log("false press, returning" + str(i))
         return
 
     if i == PIN_K4 and spies_mode:
@@ -110,7 +104,7 @@ def registerPress(i):
         add_player_clickable = True
         return
 
-    print("valid press", i)
+    log("valid press " + str(i), communicate=True)
     last_clicked = i
 
     if i == PIN_K1 and spies_mode:
@@ -137,11 +131,11 @@ def registerPress(i):
 
     sleep(HOLD_DURATION)
     if not GPIO.input(i):
-        print("long press", i)
+        log("long press" + str(i), communicate=True)
         long_press(i)
 
     else:
-        print("short press", i)
+        log("short press" + str(i), communicate=True)
         short_press(i)
 
 
@@ -210,9 +204,8 @@ def long_press(i):
         time.sleep(3)
         ls.clearStrip(ls.strip)
     if i == PIN_K4:
-        if not spies_mode and not activated_music:
+        if not spies_mode:
             spies_mode = True
-            ls.theaterChaseWidthRainbow(ls.strip, iterations=20, width=10)
             ls.random_spies_setup(ls.strip)
 
     last_clicked = 0
@@ -223,7 +216,7 @@ def activate_remote():
     global activated_lights_gr
     global activated_music
 
-    print("party: " + str(activated_lights_party) +
+    log("party: " + str(activated_lights_party) +
           " gr: " + str(activated_lights_gr))
 
     if activated_lights_party:
@@ -244,6 +237,10 @@ GPIO.add_event_detect(PIN_K2, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
 
+def log(message, communicate=False):
+    log(message)
+    if communicate:
+        sendToServer(message)
 
 def sendToServer(command):
     global clientSocket
@@ -253,14 +250,13 @@ def sendToServer(command):
         try:
             clientSocket.send(command.encode())
         except socket.error:
-            print("Message could not be sent")
+            log("Message could not be sent")
             connected = False
 
 
 def call():
     global timer
     global connected
-    global tulips
     global activated_lights_party
     global activated_lights_gr
     global activated_music
@@ -270,12 +266,11 @@ def call():
     global spies_mode
     global activated_lights_party_before_activation
 
-    print("activated:", GPIO.input(PIN_MAIN_BUTTON),
-          " connected: ", connected, "smoke", activated_smoke)
+    log("activated:", + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
 
     # Button is clicked when everything is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
-        print("activating")
+        log("activating", communicate=True)
 
         activated_music = True
         activated_lights_gr = False
@@ -308,8 +303,9 @@ def call():
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
+    # deactivate
     if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
-        print("deactivation noticed")
+        log("deactivation noticed", communicate=True)
         sleep(3)  # prevent false positive
 
         if not GPIO.input(PIN_MAIN_BUTTON):
@@ -323,59 +319,64 @@ def call():
 
 # start of script
 ls.clearStrip(ls.strip)
-sc.deactivate()
 ls.sleep(2)
 
 
 try:
     clientSocket.connect((IP_ADDRESS, PORT))
     connected = True
-    print("connection successful")
+    log("connection successful")
 except socket.error:
-    print("connection could not be established")
+    log("connection could not be established")
 
 
 while True:
-    call()
+    try:
+        call()
 
-    # if not connected: try to reconnect
-    if int(timer) % 10 == 0:
-        timer = timer + 1
-        print("attempting to send message")
-        message = "ping"
-        try:
-            clientSocket.send(message.encode())
-            print("message sent")
-        except socket.error:          # set connection status and recreate socket
-            connected = False
-            print("message could not be sent... attempting reconnect")
-            try:  # try to connect
-                clientSocket.connect((IP_ADDRESS, PORT))
-                connected = True
-                print("re-connection successful")
-            except socket.error:
-                print("connection could not be made, continuing without connection'")
+        # if not connected: try to reconnect
+        if int(timer) % 10 == 0:
+            timer = timer + 1
+            log("attempting to send message")
+            message = "ping"
+            try:
+                clientSocket.send(message.encode())
+                log("message sent")
+            except socket.error: # set connection status and recreate socket
+                connected = False
+                log("message could not be sent... attempting reconnect")
+                try:  # try to connect
+                    clientSocket.connect((IP_ADDRESS, PORT))
+                    connected = True
+                    log("re-connection successful")
+                except socket.error:
+                    log("connection could not be made, continuing without connection'")
 
-        # check if its time for smoke.
-        # in here so it doesn't check every cycle, doesn't matter if not accurate
-        time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
-        print("time diff", time_diff)
-        # if there has been no smoke in 10 minutes
-        if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
-            print("activating smoke aut")
-            Popen(['python3', 'smoke.py', '15'],
-                  cwd='/home/pi/Documents/escalatieknop')
-            date_smoke = datetime.datetime.now()
+            # check if its time for smoke.
+            # in here so it doesn't check every cycle, doesn't matter if not accurate
+            time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
+            log("time diff", time_diff)
+            # if there has been no smoke in 10 minutes
+            if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
+                log("activating smoke - interval", communicate=True)
+                Popen(['python3', 'smoke.py', '15'],
+                    cwd='/home/pi/Documents/escalatieknop')
+                date_smoke = datetime.datetime.now()
 
-        if activated_lights_party and not activated_lights_gr:
-            if random() < 0.4:  # *10 if ledstrip works again
-                ls.random_pattern()
-        elif activated_lights_party:
-            if random() < 0.2:
-                ls.random_pattern()
+            if activated_lights_party and not activated_lights_gr and not spies_mode:
+                if random() < 0.4:  
+                    ls.random_pattern()
+            elif activated_lights_party and not spies_mode:
+                if random() < 0.2:
+                    ls.random_pattern()
 
-    if timer > 10000:
-        timer = 0
+        if timer > 10000:
+            timer = 0
 
-    timer = timer + SLEEP_DURATION
-    sleep(SLEEP_DURATION)
+        timer = timer + SLEEP_DURATION
+        sleep(SLEEP_DURATION)
+    except Exception as e: 
+        log("ERROR OCCURRED", communicate=True)
+        log(e, communicate=True)
+
+
