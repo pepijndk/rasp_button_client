@@ -89,54 +89,61 @@ def registerPress(i):
     global spies_mode
     global add_player_clickable
 
-    log("btn clicked " + str(i))
-    sleep(0.11)
-    if GPIO.input(i) or last_clicked == i:
-        log("false press, returning" + str(i))
-        return
 
-    if i == PIN_K4 and spies_mode:
-        if not add_player_clickable:
+    try:
+        log("btn clicked " + str(i))
+        sleep(0.2)
+        if GPIO.input(i) or last_clicked == i:
+            log("false press, returning" + str(i))
             return
-        add_player_clickable = False
-        ls.random_spies_setup(ls.strip)
-        sleep(0.3)
-        add_player_clickable = True
-        return
 
-    log("valid press " + str(i), communicate=True)
-    last_clicked = i
+        if i == PIN_K4 and spies_mode:
+            if not add_player_clickable:
+                return
+            add_player_clickable = False
+            ls.random_spies_setup(ls.strip)
+            sleep(0.3)
+            add_player_clickable = True
+            return
 
-    if i == PIN_K1 and spies_mode:
-        rand = random()
-        flicker = 5
-        if (rand < 0.5 * TULIPS_CHANCE):
-            flicker = 20
-            ls.random_spies_activate(ls.strip, tulips=True)
-            sendToServer("start tulips")
-        else:
-            ls.random_spies_activate(ls.strip)
+        log("valid press " + str(i), communicate=True)
+        last_clicked = i
 
-        for i in range(flicker):
+        # activate random spies game
+        if i == PIN_K1 and spies_mode:
+            rand = random()
+            flicker = 5
+            if (rand < 0.5 * TULIPS_CHANCE):
+                flicker = 20
+                ls.random_spies_activate(ls.strip, tulips=True)
+                sendToServer("start tulips")
+            else:
+                ls.random_spies_activate(ls.strip)
+
+            for i in range(flicker):
+                sc.activate_normal_lights()
+                sleep(1)
+                sc.deactivate_normal_lights()
+                sleep(1)
             sc.activate_normal_lights()
-            sleep(1)
-            sc.deactivate_normal_lights()
-            sleep(1)
-        sc.activate_normal_lights()
-        ls.clearStrip(ls.strip)
-        spies_mode = False
-        sendToServer("stop")
-        last_clicked = 0
-        return
+            ls.clearStrip(ls.strip)
+            spies_mode = False
+            sendToServer("stop")
+            last_clicked = 0
+            return
 
-    sleep(HOLD_DURATION)
-    if not GPIO.input(i):
-        log("long press" + str(i), communicate=True)
-        long_press(i)
+        sleep(HOLD_DURATION)
+        if not GPIO.input(i):
+            log("long press" + str(i), communicate=True)
+            long_press(i)
 
-    else:
-        log("short press" + str(i), communicate=True)
-        short_press(i)
+        else:
+            log("short press" + str(i), communicate=True)
+            short_press(i)
+    except Exception as e:
+        log("ERROR - register button press", communicate=True)
+        log(str(e), communicate=True)
+
 
 
 def short_press(i):
@@ -238,7 +245,7 @@ GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
 
 def log(message, communicate=False):
-    log(message)
+    print(message)
     if communicate:
         sendToServer(message)
 
@@ -265,12 +272,23 @@ def call():
     global date_smoke
     global spies_mode
     global activated_lights_party_before_activation
+    global animation_mode
 
     log("activated:", + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
 
-    # Button is clicked when everything is off
+    # Button is clicked when music is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
         log("activating", communicate=True)
+
+        if not connected:
+            for i in range(3):
+                ls.clearStrip(ls.strip, ls.Color(255, 255))
+                ls.sleep(0.2)
+                ls.clearStrip(ls.strip)
+                ls.sleep(0.2)   
+            ls.clearStrip(ls.strip)
+            sleep(5)
+            return
 
         activated_music = True
         activated_lights_gr = False
@@ -317,17 +335,41 @@ def call():
             activated_music = False
 
 
+def attempt_reconnect(flash_red=False):
+    global connected
+
+    try:
+        clientSocket.connect((IP_ADDRESS, PORT))
+        connected = True
+        log("connection successful")
+
+        # flash green 
+        for i in range(3):
+            ls.clearStrip(ls.strip, ls.Color(0, 0, 255))
+            ls.sleep(0.2)
+            ls.clearStrip(ls.strip)
+            ls.sleep(0.2)   
+
+    except socket.error:
+        log("connection could not be established")
+
+        # flash red if lights are enabled
+
+        if flash_red:
+            for i in range(3):
+                ls.clearStrip(ls.strip, ls.Color(255, 255))
+                ls.sleep(0.2)
+                ls.clearStrip(ls.strip)
+                ls.sleep(0.2)   
+    
+    ls.clearStrip(ls.strip)
+
+
 # start of script
-ls.clearStrip(ls.strip)
-ls.sleep(2)
+ls.clearStrip(ls.strip, ls.Color(255, 255, 0))
+sleep(2)
 
-
-try:
-    clientSocket.connect((IP_ADDRESS, PORT))
-    connected = True
-    log("connection successful")
-except socket.error:
-    log("connection could not be established")
+attempt_reconnect(flash_red=True)
 
 
 while True:
@@ -335,7 +377,7 @@ while True:
         call()
 
         # if not connected: try to reconnect
-        if int(timer) % 10 == 0:
+        if int(timer) % 20 == 0:
             timer = timer + 1
             log("attempting to send message")
             message = "ping"
@@ -345,12 +387,8 @@ while True:
             except socket.error: # set connection status and recreate socket
                 connected = False
                 log("message could not be sent... attempting reconnect")
-                try:  # try to connect
-                    clientSocket.connect((IP_ADDRESS, PORT))
-                    connected = True
-                    log("re-connection successful")
-                except socket.error:
-                    log("connection could not be made, continuing without connection'")
+
+                attempt_reconnect()
 
             # check if its time for smoke.
             # in here so it doesn't check every cycle, doesn't matter if not accurate
@@ -364,10 +402,10 @@ while True:
                 date_smoke = datetime.datetime.now()
 
             if activated_lights_party and not activated_lights_gr and not spies_mode:
-                if random() < 0.4:  
+                if random() < 0.1:  
                     ls.random_pattern()
             elif activated_lights_party and not spies_mode:
-                if random() < 0.2:
+                if random() < 0.05:
                     ls.random_pattern()
 
         if timer > 10000:
@@ -376,7 +414,7 @@ while True:
         timer = timer + SLEEP_DURATION
         sleep(SLEEP_DURATION)
     except Exception as e: 
-        log("ERROR OCCURRED", communicate=True)
-        log(e, communicate=True)
+        log("ERROR - Main loop", communicate=True)
+        log(str(e), communicate=True)
 
 

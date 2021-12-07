@@ -594,3 +594,4 @@ def random_pattern():
         strobeRainbow(strip, iterations=1000)
 
     clearStrip(strip)
+
