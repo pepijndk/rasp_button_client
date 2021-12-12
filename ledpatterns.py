@@ -12,7 +12,6 @@ import colorsys
 from random import random
 import servo_controller as sc
 from time import sleep
-import asyncio
 
 
 # LED strip configuration:
@@ -588,7 +587,7 @@ strip.begin()
 #                        randomColor1, iterations=80)
 #     strobe(strip, randomColor1)
 
-async def random_pattern():
+def random_pattern():
     rand = random()
 
     if rand > 0.5 and rand < 0.65:
