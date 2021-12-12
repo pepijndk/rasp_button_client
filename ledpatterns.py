@@ -8,9 +8,11 @@
 import time
 from rpi_ws281x import *
 import argparse
+import colorsys
 from random import random
 import servo_controller as sc
 from time import sleep
+import asyncio
 
 
 # LED strip configuration:
@@ -27,6 +29,29 @@ LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 # corner = 91
 # pink: 250 0 250
+
+class HSVColor():
+    hue = 0
+    value = 1.0
+    saturation = 1.0
+
+    def __init__(self, hue, value=1.0, saturation=1.0):
+        self.hue = hue
+        self.value = value
+        self.saturation = saturation
+
+    def fade(percentage):
+        HSVColor.value = (1-percentage)*HSVColor.value
+    
+
+    def export():
+        r, g, b = colorsys.hsv_to_rgb(HSVColor.hue, HSVColor.saturation, HSVColor.value)
+        return Color(r, g, b)
+
+    
+        
+
+
 
 rand_colors = [
     Color(255, 0, 0),
@@ -61,6 +86,14 @@ def activatePixel(strip, pixel, color, inverted=False, wrap_around=True):
             strip.setPixelColor((LED_COUNT - (int(pixel) % LED_COUNT)), color)
         else:
             strip.setPixelColor((LED_COUNT - int(pixel)), color)
+
+def colorFadeTest(strip, color: HSVColor, wait_ms=0):
+    """Wipe color across display a pixel at a time."""
+    for i in range(strip.numPixels()):
+        activatePixel(strip, i, color.export(), wrap_around=False)
+        strip.show()
+        color.fade(1 / strip.numPixels())
+        time.sleep(wait_ms/1000.0)
 
 
 def random_spies_setup(strip):
@@ -555,7 +588,7 @@ strip.begin()
 #                        randomColor1, iterations=80)
 #     strobe(strip, randomColor1)
 
-def random_pattern():
+async def random_pattern():
     rand = random()
 
     if rand > 0.5 and rand < 0.65:
