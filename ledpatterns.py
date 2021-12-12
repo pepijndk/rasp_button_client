@@ -15,7 +15,7 @@ from time import sleep
 
 
 # LED strip configuration:
-LED_COUNT = 182  # 304      # Number of LED pixe 307
+LED_COUNT = 119  # 304      # Number of LED pixe 307
 LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -39,16 +39,17 @@ class HSVColor():
         self.value = value
         self.saturation = saturation
 
-    def fade(percentage):
+    def fade(self, percentage):
         HSVColor.value = (1-percentage)*HSVColor.value
-    
 
-    def export():
+    def export(self):
         r, g, b = colorsys.hsv_to_rgb(HSVColor.hue, HSVColor.saturation, HSVColor.value)
-        return Color(r, g, b)
+	return Color(int(r), int(g), int(b))
 
-    
-        
+
+strip = Adafruit_NeoPixel(
+    LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+strip.begin()
 
 
 
@@ -94,6 +95,8 @@ def colorFadeTest(strip, color: HSVColor, wait_ms=0):
         color.fade(1 / strip.numPixels())
         time.sleep(wait_ms/1000.0)
 
+c = HSVColor(1.0)
+colorFadeTest(strip, c)
 
 def random_spies_setup(strip):
     global spies_player_count
@@ -566,13 +569,9 @@ def nea2(strip):
     strobe_2_colors(strip, color1=Color(255, 0, 255), color2=Color(0, 255, 0))
 
 
-strip = Adafruit_NeoPixel(
-    LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-strip.begin()
-
-strip = Adafruit_NeoPixel(
-    LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-strip.begin()
+#strip = Adafruit_NeoPixel(
+#    LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+#strip.begin()
 
 
 #
