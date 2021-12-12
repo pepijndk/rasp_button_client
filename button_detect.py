@@ -92,10 +92,16 @@ def registerPress(i):
 
     try:
         log("btn clicked " + str(i))
+
+    
+
         sleep(0.2)
         if GPIO.input(i) or last_clicked == i:
             log("false press, returning" + str(i))
             return
+
+        if i == PIN_MAIN_BUTTON:
+            call()
 
         if i == PIN_K4 and spies_mode:
             if not add_player_clickable:
@@ -274,7 +280,7 @@ def call():
     global activated_lights_party_before_activation
     global animation_mode
 
-    log("activated:", + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
+    
 
     # Button is clicked when music is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
@@ -321,18 +327,27 @@ def call():
             ls.strobeColorToColor(
                 ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
+        call() # call again
+    
+    # music running
+    elif GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
+        sleep(3)
+        call()
+    
     # deactivate
-    if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
-        log("deactivation noticed", communicate=True)
-        sleep(3)  # prevent false positive
+    else:
+        sendToServer("stop")
+        ls.clearStrip(ls.strip)
+        activated_lights_gr = True
+        activated_lights_party = False
+        activated_music = False
+        activate_remote()
 
-        if not GPIO.input(PIN_MAIN_BUTTON):
-            sendToServer("stop")
-            ls.clearStrip(ls.strip)
-            activated_lights_gr = True
-            activated_lights_party = False
-            activate_remote()
-            activated_music = False
+
+
+
+
+
 
 
 def attempt_reconnect(flash_red=False):
@@ -374,7 +389,8 @@ attempt_reconnect(flash_red=True)
 
 while True:
     try:
-        call()
+
+        log("activated:", + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
 
         # if not connected: try to reconnect
         if int(timer) % 20 == 0:
@@ -401,9 +417,6 @@ while True:
                     cwd='/home/pi/Documents/escalatieknop')
                 date_smoke = datetime.datetime.now()
 
-            if activated_lights_party and not activated_lights_gr and not spies_mode:
-                if random() < 0.1:  
-                    ls.random_pattern()
             elif activated_lights_party and not spies_mode:
                 if random() < 0.05:
                     ls.random_pattern()
