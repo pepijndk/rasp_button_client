@@ -44,7 +44,7 @@ class HSVColor():
 
     def export(self):
         r, g, b = colorsys.hsv_to_rgb(HSVColor.hue, HSVColor.saturation, HSVColor.value)
-	return Color(int(r), int(g), int(b))
+        return Color(int(r), int(g), int(b))
 
 
 strip = Adafruit_NeoPixel(

@@ -31,7 +31,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
 
 
-# #!/usr/bin/env python3
+# #!/usr/bin/eazSzxsudonv python3
 
 # import socket
 # import sys
