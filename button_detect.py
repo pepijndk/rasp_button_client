@@ -288,6 +288,7 @@ def call():
     global date_smoke
     global spies_mode
     global activated_lights_party_before_activation
+    global call_running
 
     print("call called")
 
