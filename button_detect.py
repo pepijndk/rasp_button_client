@@ -34,7 +34,7 @@ SMOKE_INTERVAL = 100
 
 
 # other
-IP_ADDRESS = "192.168.0.60"
+IP_ADDRESS = "192.168.0.61"
 PORT = 65432
 SLEEP_DURATION = 0.1
 TULIPS_CHANCE = 0.1
@@ -94,11 +94,11 @@ def registerPress(i):
     try:
         log("btn clicked " + str(i))
 
-        if i == PIN_MAIN_BUTTON and not activated_music:
-            call()
+        # main button
+        if i == PIN_MAIN_BUTTON:
+            if not activated_music:
+                call()
             return
-
-    
 
         sleep(0.2)
         if GPIO.input(i) or last_clicked == i:
@@ -252,7 +252,6 @@ GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K2, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
-GPIO.add_event_detect(PIN_MAIN_BUTTON, GPIO.FALLING,   callback=registerPress)
 
 def log(message, communicate=False):
     print(message)
@@ -283,7 +282,7 @@ def call():
     global spies_mode
     global activated_lights_party_before_activation
 
-    print()
+    print("call called")
 
     
 
@@ -377,7 +376,7 @@ def attempt_reconnect(flash_red=False):
 
         if flash_red:
             for i in range(3):
-                ls.clearStrip(ls.strip, ls.Color(255, 0, 0))
+                ls.clearStrip(ls.strip, ls.Color(255, 255))
                 ls.sleep(0.2)
                 ls.clearStrip(ls.strip)
                 ls.sleep(0.2)   
@@ -395,7 +394,7 @@ attempt_reconnect(flash_red=True)
 while True:
     try:
 
-        log("activated:" + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + " smoke: " + str(activated_smoke))
+        log("activated:", + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
 
         # if not connected: try to reconnect
         if int(timer) % 20 == 0:
@@ -414,7 +413,7 @@ while True:
             # check if its time for smoke.
             # in here so it doesn't check every cycle, doesn't matter if not accurate
             time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
-            log("time diff" + str(time_diff))
+            log("time diff", time_diff)
             # if there has been no smoke in x minutes
             if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
                 log("activating smoke - interval", communicate=True)
