@@ -94,6 +94,10 @@ def registerPress(i):
     try:
         log("btn clicked " + str(i))
 
+        if i == PIN_MAIN_BUTTON and not activated_music:
+            call()
+            return
+
     
 
         sleep(0.2)
@@ -101,8 +105,6 @@ def registerPress(i):
             log("false press, returning" + str(i))
             return
 
-        if i == PIN_MAIN_BUTTON:
-            call()
 
         if i == PIN_K4 and spies_mode:
             if not add_player_clickable:
@@ -280,7 +282,8 @@ def call():
     global date_smoke
     global spies_mode
     global activated_lights_party_before_activation
-    global animation_mode
+
+    print()
 
     
 
@@ -290,7 +293,7 @@ def call():
 
         if not connected:
             for i in range(3):
-                ls.clearStrip(ls.strip, ls.Color(255, 255, 255))
+                ls.clearStrip(ls.strip, ls.Color(255, 255))
                 ls.sleep(0.2)
                 ls.clearStrip(ls.strip)
                 ls.sleep(0.2)   
