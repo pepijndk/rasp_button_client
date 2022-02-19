@@ -61,7 +61,7 @@ GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 activated_music = False  # if the main button is pressed
 activated_smoke = False
@@ -284,8 +284,6 @@ def call():
     global activated_lights_party_before_activation
 
     print("call called")
-
-    
 
     # Button is clicked when music is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
