@@ -77,6 +77,7 @@ connected = False
 start_time = 0
 # time since button is pressed
 timer = 0
+call_running = False
 
 # date when smoke machine was last activated
 date_smoke = datetime.datetime.now()
@@ -90,6 +91,7 @@ def registerPress(i):
     global last_clicked
     global spies_mode
     global add_player_clickable
+    global call_running
 
 
     try:
@@ -98,8 +100,9 @@ def registerPress(i):
         # main button
         if i == PIN_MAIN_BUTTON:
             sleep(0.1)
-            if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
+            if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False and not call_running:
                 log("main button pressed", communicate=True)
+                call_running = True
                 call()
             return
 
@@ -351,6 +354,7 @@ def call():
         activated_lights_party = False
         activated_music = False
         activate_remote()
+        call_running = False
 
 
 
