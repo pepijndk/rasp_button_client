@@ -408,11 +408,11 @@ while True:
 
         # if not connected: try to reconnect
         timer = timer + 1
-        log("attempting to send message")
+        # log("attempting to send message")
         message = "ping"
         try:
             clientSocket.send(message.encode())
-            log("message sent")
+            # log("message sent")
         except socket.error: # set connection status and recreate socket
             connected = False
             log("message could not be sent... attempting reconnect")
@@ -422,7 +422,6 @@ while True:
         # check if its time for smoke.
         # in here so it doesn't check every cycle, doesn't matter if not accurate
         time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
-        log("time diff", time_diff)
         # if there has been no smoke in x minutes
         if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
             log("activating smoke - interval", communicate=True)
