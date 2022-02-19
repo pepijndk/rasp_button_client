@@ -395,7 +395,7 @@ attempt_reconnect(flash_red=True)
 while True:
     try:
 
-        log("activated:", + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
+        log("activated:" + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
 
         # if not connected: try to reconnect
         if int(timer) % 20 == 0:
