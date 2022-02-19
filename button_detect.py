@@ -293,7 +293,7 @@ def call():
 
         if not connected:
             for i in range(3):
-                ls.clearStrip(ls.strip, ls.Color(255, 255))
+                ls.clearStrip(ls.strip, ls.Color(255, 0, 0))
                 ls.sleep(0.2)
                 ls.clearStrip(ls.strip)
                 ls.sleep(0.2)   
