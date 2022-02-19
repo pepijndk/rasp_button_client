@@ -96,7 +96,8 @@ def registerPress(i):
 
         # main button
         if i == PIN_MAIN_BUTTON:
-            if not activated_music:
+            sleep(0.1)
+            if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
                 call()
             return
 
