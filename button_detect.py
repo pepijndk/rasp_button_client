@@ -250,7 +250,7 @@ GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K2, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
-GPIO.add_event_detect(PIN_MAIN_BUTTON, GPIO.FALLING, callback=registerPress)
+GPIO.add_event_detect(PIN_MAIN_BUTTON, GPIO.FALLING,   callback=registerPress)
 
 def log(message, communicate=False):
     print(message)
