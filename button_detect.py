@@ -336,7 +336,7 @@ def call():
     # music running
     elif GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
         log("music running")
-        sleep(3)
+        sleep(1)
         call()
     
     # deactivate
