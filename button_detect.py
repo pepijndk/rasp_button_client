@@ -320,7 +320,7 @@ def call():
             sendToServer("start")
 
             Popen(['python3', 'smoke.py', '15'],
-                  cwd='/home/pi/Documents/escalatieknop')
+                  cwd='/home/pi/rasp_button_client')
 
             for i in range(16):  # weer 6 na ledstrip fix
                 ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
