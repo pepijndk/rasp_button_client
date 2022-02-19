@@ -34,7 +34,7 @@ SMOKE_INTERVAL = 100
 
 
 # other
-IP_ADDRESS = "192.168.0.61"
+IP_ADDRESS = "192.168.0.60"
 PORT = 65432
 SLEEP_DURATION = 0.1
 TULIPS_CHANCE = 0.1
@@ -376,7 +376,7 @@ def attempt_reconnect(flash_red=False):
 
         if flash_red:
             for i in range(3):
-                ls.clearStrip(ls.strip, ls.Color(255, 255))
+                ls.clearStrip(ls.strip, ls.Color(255, 0, 0))
                 ls.sleep(0.2)
                 ls.clearStrip(ls.strip)
                 ls.sleep(0.2)   
@@ -394,7 +394,7 @@ attempt_reconnect(flash_red=True)
 while True:
     try:
 
-        log("activated:", + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
+        log("activated:" + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + " smoke: " + str(activated_smoke))
 
         # if not connected: try to reconnect
         if int(timer) % 20 == 0:
@@ -413,7 +413,7 @@ while True:
             # check if its time for smoke.
             # in here so it doesn't check every cycle, doesn't matter if not accurate
             time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
-            log("time diff", time_diff)
+            log("time diff" + str(time_diff))
             # if there has been no smoke in x minutes
             if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
                 log("activating smoke - interval", communicate=True)
