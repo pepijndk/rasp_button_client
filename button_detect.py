@@ -38,7 +38,7 @@ SMOKE_INTERVAL = 100
 IP_ADDRESS = "192.168.0.60"
 PORT = 65432
 SLEEP_DURATION = 10
-TULIPS_CHANCE = 0.1
+TULIPS_CHANCE = 0.05
 
 GPIO.setmode(GPIO.BCM)
 
@@ -101,8 +101,8 @@ def registerPress(i):
         if i == PIN_MAIN_BUTTON:
             sleep(0.1)
             if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False and not call_running:
-                log("main button pressed", communicate=True)
                 call_running = True
+                log("main button pressed", communicate=True)
                 call()
             return
 
@@ -412,7 +412,7 @@ while True:
         message = "ping"
         try:
             clientSocket.send(message.encode())
-            # log("message sent")
+            # log("message sent" )
         except socket.error: # set connection status and recreate socket
             connected = False
             log("message could not be sent... attempting reconnect")
