@@ -287,9 +287,10 @@ def call():
 
     # Button is clicked when music is off
     if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
-        log("activating", communicate=True)
+        log("activating music", communicate=True)
 
         if not connected:
+            log("error - not connected")
             for i in range(3):
                 ls.clearStrip(ls.strip, ls.Color(255, 0, 0))
                 ls.sleep(0.2)
@@ -395,7 +396,7 @@ attempt_reconnect(flash_red=True)
 while True:
     try:
 
-        log("activated:" + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + "smoke" + str(activated_smoke))
+        log("activated:" + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + " smoke " + str(activated_smoke))
 
         # if not connected: try to reconnect
         if int(timer) % 20 == 0:
