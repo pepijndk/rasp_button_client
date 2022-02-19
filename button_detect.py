@@ -1,3 +1,4 @@
+from distutils.log import Log
 import RPi.GPIO as GPIO
 import time
 from time import sleep
@@ -36,7 +37,7 @@ SMOKE_INTERVAL = 100
 # other
 IP_ADDRESS = "192.168.0.60"
 PORT = 65432
-SLEEP_DURATION = 0.3
+SLEEP_DURATION = 10
 TULIPS_CHANCE = 0.1
 
 GPIO.setmode(GPIO.BCM)
@@ -92,12 +93,13 @@ def registerPress(i):
 
 
     try:
-        log("btn clicked " + str(i))
+        # log("btn clicked " + str(i))
 
         # main button
         if i == PIN_MAIN_BUTTON:
             sleep(0.1)
             if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
+                log("main button pressed", communicate=True)
                 call()
             return
 
@@ -400,33 +402,32 @@ while True:
         log("activated:" + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + " smoke " + str(activated_smoke))
 
         # if not connected: try to reconnect
-        if int(timer) % 20 == 0:
-            timer = timer + 1
-            log("attempting to send message")
-            message = "ping"
-            try:
-                clientSocket.send(message.encode())
-                log("message sent")
-            except socket.error: # set connection status and recreate socket
-                connected = False
-                log("message could not be sent... attempting reconnect")
+        timer = timer + 1
+        log("attempting to send message")
+        message = "ping"
+        try:
+            clientSocket.send(message.encode())
+            log("message sent")
+        except socket.error: # set connection status and recreate socket
+            connected = False
+            log("message could not be sent... attempting reconnect")
 
-                attempt_reconnect()
+            attempt_reconnect()
 
-            # check if its time for smoke.
-            # in here so it doesn't check every cycle, doesn't matter if not accurate
-            time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
-            log("time diff", time_diff)
-            # if there has been no smoke in x minutes
-            if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
-                log("activating smoke - interval", communicate=True)
-                Popen(['python3', 'smoke.py', '15'],
-                    cwd='/home/pi/Documents/escalatieknop')
-                date_smoke = datetime.datetime.now()
+        # check if its time for smoke.
+        # in here so it doesn't check every cycle, doesn't matter if not accurate
+        time_diff = (datetime.datetime.now() - date_smoke).total_seconds()
+        log("time diff", time_diff)
+        # if there has been no smoke in x minutes
+        if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
+            log("activating smoke - interval", communicate=True)
+            Popen(['python3', 'smoke.py', '15'],
+                cwd='/home/pi/Documents/escalatieknop')
+            date_smoke = datetime.datetime.now()
 
-            elif activated_lights_party and not spies_mode:
-                if random() < 0.05:
-                    ls.random_pattern()
+        elif activated_lights_party and not spies_mode:
+            if random() < 0.05:
+                ls.random_pattern()
 
         if timer > 10000:
             timer = 0
