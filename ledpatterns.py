@@ -13,7 +13,7 @@ import servo_controller as sc
 
 
 # LED strip configuration:
-LED_COUNT = 307      # Number of LED pixe
+LED_COUNT = 673      # Number of LED pixe
 LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -103,7 +103,6 @@ def colorWipeNoTailRainbow(strip, width=20, wait_ms=0, speed=3, inverted=False, 
 
         strip.show()
         time.sleep(wait_ms/1000.0)
-
 
 def strobe(strip, color, wait_ms=40, sections=5, iterations=50):
     """strobe"""
@@ -453,6 +452,8 @@ def strobeColorToColor(strip, color1, color2, wait_ms=30, sections=5, iterations
 strip = Adafruit_NeoPixel(
     LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 strip.begin()
+
+
 
 #
 # Patterns
