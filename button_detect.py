@@ -61,7 +61,7 @@ GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 activated_music = False  # if the main button is pressed
 activated_smoke = False
@@ -252,7 +252,7 @@ GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K2, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K3, GPIO.FALLING, callback=registerPress)
 GPIO.add_event_detect(PIN_K4, GPIO.FALLING, callback=registerPress)
-GPIO.add_event_detect(PIN_MAIN_BUTTON, GPIO.FALLING, callback=registerPress)
+GPIO.add_event_detect(PIN_MAIN_BUTTON, GPIO.RISING, callback=registerPress)
 
 def log(message, communicate=False):
     print(message)
