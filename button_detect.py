@@ -335,8 +335,8 @@ def call():
                 random_color = ls.randomColor()
                 ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
                 time.sleep(1)
-                # ls.strobeColorToColor(
-                    # ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
+                ls.strobeColorToColor(
+                    ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
             call() # call again
         
