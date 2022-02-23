@@ -343,6 +343,11 @@ def call():
         # music running
         elif GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
             log("music running")
+
+            if activated_lights_party and not spies_mode and random() < 1:
+                ls.random_pattern()
+
+
             sleep(1)
             call()
         
@@ -426,12 +431,10 @@ while True:
                 cwd='/home/pi/rasp_button_client')
             date_smoke = datetime.datetime.now()
 
-        # elif activated_lights_party and not spies_mode:
-        #     if random() < 0.05:
-        #         ls.random_pattern()
+        
 
-        # if not activated_music and not activated_lights_party and not spies_mode:
-            # ls.clearStrip(ls.clearStrip)
+        if not activated_music and not activated_lights_party and not spies_mode:
+            ls.clearStrip(ls.strip)
 
         if timer > 10000:
             timer = 0

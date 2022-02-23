@@ -174,7 +174,7 @@ def colorWipe(strip, color, wait_ms=0):
         time.sleep(wait_ms/1000.0)
 
 
-def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, tail=False):
+def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=1, inverted=False, tail=False):
     """Wipe color across display a pixel at a time."""
     for i in range(int((strip.numPixels() + width) / speed)):
         pixel = i * speed
@@ -198,7 +198,7 @@ def colorWipeNoTail(strip, color, width=20, wait_ms=0, speed=3, inverted=False, 
         clearStrip(strip)
 
 
-def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=3, tail=False):
+def colorWipeBackandForth(strip, color, width=20, wait_ms=0, speed=1, tail=False):
     if not tail:
         colorWipeNoTail(strip, color, width=width,
                         wait_ms=wait_ms, speed=speed, inverted=False)
