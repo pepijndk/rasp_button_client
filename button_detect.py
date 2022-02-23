@@ -371,7 +371,7 @@ def attempt_reconnect(flash_red=False):
 
         # flash green 
         for i in range(3):
-            ls.clearStrip(ls.strip, ls.Color(0, 0, 255))
+            ls.clearStrip(ls.strip, ls.Color(0, 255, 0))
             ls.sleep(0.2)
             ls.clearStrip(ls.strip)
             ls.sleep(0.2)   
