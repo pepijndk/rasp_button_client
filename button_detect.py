@@ -192,7 +192,7 @@ def short_press(i):
             ls.random_spies_setup(ls.strip)
         else:
             Popen(['python3', 'smoke.py', '15'],
-                  cwd='/home/pi/Documents/escalatieknop')
+                  cwd='/home/pi/rasp_button_client')
 
             if activated_lights_party:
                 ls.strobeColorToColor(ls.strip, ls.randomColor(),
@@ -291,78 +291,75 @@ def call():
     global call_running
 
     print("call called")
+    try:
+        # Button is clicked when music is off
+        if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
+            log("activating music", communicate=True)
 
-    # Button is clicked when music is off
-    if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
-        log("activating music", communicate=True)
-
-        if not connected:
-            log("error - not connected")
-            for i in range(3):
-                ls.clearStrip(ls.strip, ls.Color(255, 0, 0))
-                ls.sleep(0.2)
+            if not connected:
+                log("error - not connected")
+                for i in range(3):
+                    ls.clearStrip(ls.strip, ls.Color(255, 0, 0))
+                    ls.sleep(0.2)
+                    ls.clearStrip(ls.strip)
+                    ls.sleep(0.2)   
                 ls.clearStrip(ls.strip)
-                ls.sleep(0.2)   
+                sleep(5)
+                return
+
+            activated_music = True
+            activated_lights_gr = False
+            activated_lights_party = True
+            activate_remote()
+            date_smoke = datetime.datetime.now()
+
+            if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
+                sendToServer("start tulips")
+                sleep(0.2)
+                for i in range(30):
+                    sc.activate_normal_lights()
+                    ls.tulips(ls.strip, iterations=10)
+                    sc.deactivate_normal_lights()
+                    ls.tulips(ls.strip, iterations=10)
+                ls.clearStrip(ls.strip)
+
+            else:  # normal start
+                sendToServer("start")
+
+                Popen(['python3', 'smoke.py', '15'],
+                    cwd='/home/pi/rasp_button_client')
+
+                for i in range(16):  # weer 6 na ledstrip fix
+                    ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
+
+                random_color = ls.randomColor()
+                ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
+                time.sleep(1)
+                ls.strobeColorToColor(
+                    ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
+
+            call() # call again
+        
+        # music running
+        elif GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
+            log("music running")
+            sleep(1)
+            call()
+        
+        # deactivate
+        else:
+            log("deactivating", communicate=True)
+            sendToServer("stop")
             ls.clearStrip(ls.strip)
-            sleep(5)
-            return
-
-        activated_music = True
-        activated_lights_gr = False
-        activated_lights_party = True
-        activate_remote()
-        date_smoke = datetime.datetime.now()
-
-        if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
-            sendToServer("start tulips")
-            sleep(0.2)
-            for i in range(30):
-                sc.activate_normal_lights()
-                ls.tulips(ls.strip, iterations=10)
-                sc.deactivate_normal_lights()
-                ls.tulips(ls.strip, iterations=10)
-            ls.clearStrip(ls.strip)
-
-        else:  # normal start
-            sendToServer("start")
-
-            Popen(['python3', 'smoke.py', '15'],
-                  cwd='/home/pi/rasp_button_client')
-
-            for i in range(16):  # weer 6 na ledstrip fix
-                ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
-
-            random_color = ls.randomColor()
-            ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
-            time.sleep(1)
-            ls.strobeColorToColor(
-                ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
-
-        call() # call again
-    
-    # music running
-    elif GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
-        log("music running")
-        sleep(1)
+            activated_lights_gr = True
+            activated_lights_party = False
+            activated_music = False
+            activate_remote()
+            call_running = False
+    except Exception as e:
+        log("ERROR - call method", communicate=True)
+        log(str(e), communicate=True)
         call()
-    
-    # deactivate
-    else:
-        log("deactivating", communicate=True)
-        sendToServer("stop")
-        ls.clearStrip(ls.strip)
-        activated_lights_gr = True
-        activated_lights_party = False
-        activated_music = False
-        activate_remote()
-        call_running = False
-
-
-
-
-
-
-
 
 def attempt_reconnect(flash_red=False):
     global connected
@@ -426,7 +423,7 @@ while True:
         if time_diff > SMOKE_INTERVAL and activated_smoke and activated_lights_party:
             log("activating smoke - interval", communicate=True)
             Popen(['python3', 'smoke.py', '15'],
-                cwd='/home/pi/Documents/escalatieknop')
+                cwd='/home/pi/rasp_button_client')
             date_smoke = datetime.datetime.now()
 
         elif activated_lights_party and not spies_mode:
