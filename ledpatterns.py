@@ -15,7 +15,7 @@ from time import sleep
 
 
 # LED strip configuration:
-LED_COUNT = 620  # 673      # Number of LED pixe 307
+LED_COUNT = 630  # 673      # Number of LED pixe 307
 LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -612,9 +612,11 @@ def nea2(strip):
 
 def random_pattern():
     rand = random()
-
-    if rand > 0.5 and rand < 0.65:
-        colorWipeBackandForth(strip, randomColor())
+    if rand > 0.3 and rand < 0.4:
+        colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 40), wait_ms=int(1 + random() * 20))
+    elif rand > 0.4 and rand < 0.5:
+        colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 40), wait_ms=int(1 + random() * 20), inverted=True)
+    elif rand > 0.5 and rand < 0.65:
         colorWipeBackandForth(strip, randomColor())
     elif rand > 0.65 and rand < 0.7:
         theaterChaseWidth(
