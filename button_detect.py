@@ -329,14 +329,14 @@ def call():
                 Popen(['python3', 'smoke.py', '15'],
                     cwd='/home/pi/rasp_button_client')
 
-                for i in range(5):  # weer 6 na ledstrip fix
-                    ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
+                for i in range(2):  # weer 6 na ledstrip fix
+                    ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=10)
 
                 random_color = ls.randomColor()
                 ls.colorWipeNoTail(ls.strip, random_color, speed=8, tail=True)
                 time.sleep(1)
-                ls.strobeColorToColor(
-                    ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
+                # ls.strobeColorToColor(
+                    # ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
             call() # call again
         
