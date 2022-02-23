@@ -329,7 +329,7 @@ def call():
                 Popen(['python3', 'smoke.py', '15'],
                     cwd='/home/pi/rasp_button_client')
 
-                for i in range(16):  # weer 6 na ledstrip fix
+                for i in range(5):  # weer 6 na ledstrip fix
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=7)
 
                 random_color = ls.randomColor()
@@ -426,9 +426,12 @@ while True:
                 cwd='/home/pi/rasp_button_client')
             date_smoke = datetime.datetime.now()
 
-        elif activated_lights_party and not spies_mode:
-            if random() < 0.05:
-                ls.random_pattern()
+        # elif activated_lights_party and not spies_mode:
+        #     if random() < 0.05:
+        #         ls.random_pattern()
+
+        if not activated_music and not activated_lights_party and not spies_mode:
+            ls.clearStrip(ls.clearStrip)
 
         if timer > 10000:
             timer = 0

@@ -15,7 +15,7 @@ from time import sleep
 
 
 # LED strip configuration:
-LED_COUNT = 673  # 673      # Number of LED pixe 307
+LED_COUNT = 600  # 673      # Number of LED pixe 307
 LED_PIN = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -229,7 +229,31 @@ def colorWipeNoTailRainbow(strip, width=20, wait_ms=0, speed=3, inverted=False, 
         time.sleep(wait_ms/1000.0)
 
 
-def strobe(strip, color, wait_ms=40, sections=5, iterations=100):
+def strobe(strip, color, wait_ms=40, sections=8, iterations=100):
+    """strobe"""
+
+    size = int(LED_COUNT / sections)
+    prev_prev_section = 0
+    prev_section = 0
+
+    for i in range(iterations):
+
+        section = int(random() * (sections))
+
+        for old in range(size):
+            activatePixel(
+                strip, old + (prev_section * size) - 1, Color(0, 0, 0))
+
+        for new in range(size):
+            activatePixel(strip, new + (section * size) - 1, color)
+
+        prev_section = section
+        strip.show()
+        time.sleep(wait_ms/1000.0)
+
+    clearStrip(strip)
+
+def strobe_old(strip, color, wait_ms=40, sections=8, iterations=100):
     """strobe"""
 
     size = int(LED_COUNT / sections)
