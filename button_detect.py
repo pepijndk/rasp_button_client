@@ -430,8 +430,8 @@ while True:
         #     if random() < 0.05:
         #         ls.random_pattern()
 
-        if not activated_music and not activated_lights_party and not spies_mode:
-            ls.clearStrip(ls.clearStrip)
+        # if not activated_music and not activated_lights_party and not spies_mode:
+            # ls.clearStrip(ls.clearStrip)
 
         if timer > 10000:
             timer = 0
