@@ -612,11 +612,11 @@ def nea2(strip):
 
 def random_pattern():
     rand = random()
-    if rand > 0.3 and rand < 0.4:
-        colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 40), wait_ms=int(1 + random() * 20))
-    elif rand > 0.4 and rand < 0.5:
-        colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 40), wait_ms=int(1 + random() * 20), inverted=True)
-    elif rand > 0.5 and rand < 0.65:
+    if rand > 0.4 and rand < 0.5:
+        colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 60), wait_ms=int(1 + random() * 20))
+    elif rand > 0.5 and rand < 0.6:
+        colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 60), wait_ms=int(1 + random() * 20), inverted=True)
+    elif rand > 0.6 and rand < 0.65:
         colorWipeBackandForth(strip, randomColor())
     elif rand > 0.65 and rand < 0.7:
         theaterChaseWidth(
