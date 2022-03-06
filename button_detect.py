@@ -304,7 +304,8 @@ def call():
                     ls.clearStrip(ls.strip)
                     ls.sleep(0.2)   
                 ls.clearStrip(ls.strip)
-                sleep(5)
+                sleep(20)
+                call()
                 return
 
             activated_music = True
@@ -353,7 +354,7 @@ def call():
         
         # deactivate
         else:
-            log("deactivating", communicate=True)
+            log("deactivating from call", communicate=True)
             sendToServer("stop")
             ls.clearStrip(ls.strip)
             activated_lights_gr = True
@@ -405,8 +406,19 @@ attempt_reconnect(flash_red=True)
 
 while True:
     try:
+        log("activated:" + str(activated_music) + " main button: " + str(GPIO.input(PIN_MAIN_BUTTON)) + " smoke " + str(activated_smoke), communicate=True)
 
-        log("activated:" + str(GPIO.input(PIN_MAIN_BUTTON)) + " connected: " + str(connected) + " smoke " + str(activated_smoke))
+        if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
+            sleep(1)
+            if not GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
+                log("deactivating from loop", communicate=True)
+                sendToServer("stop")
+                ls.clearStrip(ls.strip)
+                activated_lights_gr = True
+                activated_lights_party = False
+                activated_music = False
+                activate_remote()
+                call_running = False
 
         # if not connected: try to reconnect
         timer = timer + 1
