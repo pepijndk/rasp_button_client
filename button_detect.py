@@ -345,8 +345,8 @@ def call():
         elif GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
             log("music running")
 
-            if activated_lights_party and not spies_mode and random() < 0.05:
-                ls.random_pattern()
+            # if activated_lights_party and not spies_mode and random() < 0.05:
+            #     ls.random_pattern()
 
 
             sleep(1)
@@ -447,6 +447,11 @@ while True:
 
         if not activated_music and not activated_lights_party and not spies_mode:
             ls.clearStrip(ls.strip)
+
+        # Random pattern
+
+        if activated_lights_party and not spies_mode and random() < 1:#0.05:
+                ls.random_pattern()
 
         if timer > 10000:
             timer = 0
