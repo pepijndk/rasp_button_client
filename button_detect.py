@@ -450,7 +450,7 @@ while True:
 
         # Random pattern
 
-        if activated_lights_party and not spies_mode and random() < 1:#0.05:
+        if activated_lights_party and not spies_mode and random() < 0.1:#0.05:
                 ls.random_pattern()
 
         if timer > 10000:
