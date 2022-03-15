@@ -373,14 +373,7 @@ def attempt_reconnect(flash_red=False):
     try:
         clientSocket.connect((IP_ADDRESS, PORT))
         connected = True
-        log("connection successful")
-
-        # flash green 
-        for i in range(3):
-            ls.clearStrip(ls.strip, ls.Color(0, 255, 0))
-            ls.sleep(0.2)
-            ls.clearStrip(ls.strip)
-            ls.sleep(0.2)   
+        log("connection successful")  
 
     except socket.error:
         log("connection could not be established")
@@ -392,7 +385,14 @@ def attempt_reconnect(flash_red=False):
                 ls.clearStrip(ls.strip, ls.Color(255, 0, 0))
                 ls.sleep(0.2)
                 ls.clearStrip(ls.strip)
-                ls.sleep(0.2)   
+                ls.sleep(0.2)
+
+    # flash green 
+    for i in range(3):
+        ls.clearStrip(ls.strip, ls.Color(0, 255, 0))
+        ls.sleep(0.2)
+        ls.clearStrip(ls.strip)
+        ls.sleep(0.2)    
     
     ls.clearStrip(ls.strip)
 
