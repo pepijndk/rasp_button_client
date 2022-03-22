@@ -312,6 +312,7 @@ def call():
 
             if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
                 sendToServer("start tulips")
+                activated_music = True
                 sleep(0.2)
                 for i in range(30):
                     sc.activate_normal_lights()
@@ -319,6 +320,7 @@ def call():
                     sc.deactivate_normal_lights()
                     ls.tulips(ls.strip, iterations=10)
                 ls.clearStrip(ls.strip)
+
 
             else:  # normal start
                 sendToServer("start")
@@ -341,7 +343,7 @@ def call():
                 ls.strobeColorToColor(
                     ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
-                call() # call again
+            call() # call again
         
         # music running
         elif GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
