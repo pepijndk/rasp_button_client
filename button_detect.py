@@ -341,7 +341,7 @@ def call():
                 ls.strobeColorToColor(
                     ls.strip, random_color, ls.randomColor(), iterations=80)  # reset back to 100
 
-            call() # call again
+                call() # call again
         
         # music running
         elif GPIO.input(PIN_MAIN_BUTTON) and activated_music == True:
