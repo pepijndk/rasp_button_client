@@ -99,7 +99,7 @@ def registerPress(i):
 
         # main button
         if i == PIN_MAIN_BUTTON:
-            sleep(0.1)
+            sleep(0.02)
             if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False and not call_running:
                 call_running = True
                 log("main button pressed", communicate=True)
@@ -308,11 +308,7 @@ def call():
                 call()
                 return
 
-            activated_music = True
-            activated_lights_gr = False
-            activated_lights_party = True
-            activate_remote()
-            date_smoke = datetime.datetime.now()
+
 
             if random() < TULIPS_CHANCE:  # TULIPS_CHANCE:  # small chance tulips
                 sendToServer("start tulips")
@@ -329,6 +325,12 @@ def call():
 
                 Popen(['python3', 'smoke.py', '15'],
                     cwd='/home/pi/rasp_button_client')
+
+                activated_music = True
+                activated_lights_gr = False
+                activated_lights_party = True
+                activate_remote()
+                date_smoke = datetime.datetime.now()
 
                 for i in range(2):  # weer 6 na ledstrip fix
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=10)
