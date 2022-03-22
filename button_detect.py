@@ -294,7 +294,7 @@ def call():
     try:
         # Button is clicked when music is off
         if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
-            log("activating music", communicate=True)
+            log("activating music", communicate=False)
 
             if not connected:
                 log("error - not connected")
