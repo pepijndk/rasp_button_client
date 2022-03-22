@@ -334,7 +334,7 @@ def call():
                 activate_remote()
                 date_smoke = datetime.datetime.now()
 
-                for i in range(2):  # weer 6 na ledstrip fix
+                for i in range(1):  # weer 6 na ledstrip fix
                     ls.colorWipeNoTail(ls.strip, ls.randomColor(), speed=10)
 
                 random_color = ls.randomColor()
