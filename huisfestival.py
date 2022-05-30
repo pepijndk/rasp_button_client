@@ -405,12 +405,13 @@ def attempt_reconnect(flash_red=False):
 ls.clearStrip(ls.strip, ls.Color(255, 255, 0))
 sleep(2)
 
-attempt_reconnect(flash_red=True)
+ls.clearStrip(ls.strip)
+ls.sleep(0.2)    
 
 
 while True:
     try:
-        log("activated:" + str(activated_music) + " main button: " + str(GPIO.input(PIN_MAIN_BUTTON)) + " smoke " + str(activated_smoke), communicate=True)
+        log("activated party lights:" + str(activated_lights_party) + " main button: " + str(GPIO.input(PIN_MAIN_BUTTON)) + " smoke " + str(activated_smoke), communicate=True)
 
         timer = timer + 1
         # log("attempting to send message")
