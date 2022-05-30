@@ -195,12 +195,7 @@ def short_press(i):
         if spies_mode:
             ls.random_spies_setup(ls.strip)
         else:
-            Popen(['python3', 'smoke.py', '15'],
-                  cwd='/home/pi/rasp_button_client')
-
-            if activated_lights_party:
-                ls.strobeColorToColor(ls.strip, ls.randomColor(),
-                                      ls.randomColor(), iterations=200)
+            ls.strobeRainbow(ls.strip, iterations=400)
 
 
     last_clicked = 0
