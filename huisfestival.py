@@ -59,10 +59,10 @@ GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 # reacting to control panel button pushes
 GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+# GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+# GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 activated_music = False  # if the main button is pressed
 activated_smoke = False
@@ -416,7 +416,7 @@ while True:
         # log("attempting to send message")
         
 
-        if not activated_music:
+        if not activated_lights_party:
             ls.clearStrip(ls.strip)
 
         # Random pattern
