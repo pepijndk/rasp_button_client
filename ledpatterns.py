@@ -652,3 +652,47 @@ def random_pattern():
 
     clearStrip(strip)
 
+def random_pattern_huisfeest():
+    rand = random()
+    if rand > 0.4 and rand < 0.5:
+        colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 60), wait_ms=int(1 + random() * 20))
+    elif rand > 0.5 and rand < 0.6:
+        colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 60), wait_ms=int(1 + random() * 20), inverted=True)
+    elif rand > 0.6 and rand < 0.65:
+        colorWipeBackandForth(strip, randomColor())
+    elif rand > 0.65 and rand < 0.7:
+        theaterChaseWidth(
+            strip, color=randomColor(), width=int(1 + random() * 80), iterations=400)
+    elif rand > 0.75 and rand < 0.76:
+        theaterChaseWidthRainbow(strip, width=int(
+            1 + random() * 80), iterations=500)
+    elif rand > 0.76 and rand < 0.77:
+        colorWipeNoTailRainbow(strip, 50, 1, 3)  # rainbow wipe
+        time.sleep(8)
+        colorWipeNoTailRainbow(
+            strip, 50, 1, 3, inverted=True)  # rainbow wipe
+    elif rand > 0.77 and rand < 0.85:
+        for p in range(3 + int(random() * 20)):
+            colorWipeNoTail(strip, randomColor(), speed=4)
+    elif rand > 0.85 and rand < 0.9:
+        colorWipeBackandForth(strip, randomColor(), tail=True)
+    elif rand > 0.90 and rand < 0.93:
+        theaterChase(strip, randomColor())
+    elif rand > 0.93 and rand < 0.95:
+        colorWipeNoTailRainbow(
+            strip, 30, 1, 3, tail=True)  # rainbow wipe
+        time.sleep(4)
+        colorWipeNoTail(strip, Color(0, 0, 0))
+    elif rand > 0.95 and rand < 0.97:
+        dots(strip)
+    elif rand > 0.97 and rand < 0.98:
+        nea1(strip)
+    elif rand > 0.98 and rand < 0.99:
+        usa(strip, iterations=600)
+    elif rand > 0.99 and rand < 1:
+        strobeRainbow(strip, iterations=1000)
+
+    clearStrip(strip)
+
+
+
