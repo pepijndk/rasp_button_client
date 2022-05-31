@@ -37,7 +37,7 @@ SMOKE_INTERVAL = 100
 # other
 IP_ADDRESS = "192.168.0.60"
 PORT = 65432
-SLEEP_DURATION = 150
+SLEEP_DURATION = 30
 TULIPS_CHANCE = 0.1
 
 GPIO.setmode(GPIO.BCM)
@@ -417,13 +417,14 @@ while True:
         # log("attempting to send message")
         
 
-        if not activated_lights_party:
-            ls.clearStrip(ls.strip)
+            
 
         # Random pattern
 
-        if activated_lights_party and random() < 0.5:
+        if activated_lights_party and random() < 0.1:
                 ls.random_pattern_huisfeest()
+        else:
+            ls.clearStrip(ls.strip)
 
         if timer > 10000:
             timer = 0
