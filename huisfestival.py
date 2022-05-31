@@ -221,7 +221,7 @@ def long_press(i):
             activated_lights_party_before_activation = False
     if i == PIN_K3:
         activated_smoke = False
-        ls.clearStrip(ls.strip, ls.Color(200, 0, 0))
+        ls.clearStrip(ls.strip, ls.Color(300, 0, 0))
         time.sleep(3)
         ls.clearStrip(ls.strip)
     if i == PIN_K4:
@@ -422,7 +422,7 @@ while True:
 
         # Random pattern
 
-        if activated_lights_party and random() < 0.1:
+        if activated_lights_party and random() < 1:
                 ls.random_pattern_huisfeest()
 
         if timer > 10000:
