@@ -676,9 +676,9 @@ def random_pattern_huisfeest():
         time.sleep(8)
         colorWipeNoTailRainbow(
             strip, 50, 1, 3, inverted=True)  # rainbow wipe
-    elif rand > 0.77 and rand < 0.85:
-        for p in range(3 + int(random() * 20)):
-            colorWipeNoTail(strip, randomColor(), speed=4)
+    elif rand > 0.77 and rand < 0.82:
+        for p in range(3 + int(random() * 15)):
+            colorWipeNoTail(strip, randomColor(), speed=5)
     elif rand > 0.85 and rand < 0.9:
         colorWipeBackandForth(strip, randomColor(), tail=True)
     elif rand > 0.93 and rand < 0.95:
