@@ -37,7 +37,7 @@ SMOKE_INTERVAL = 100
 # other
 IP_ADDRESS = "192.168.0.60"
 PORT = 65432
-SLEEP_DURATION = 10
+SLEEP_DURATION = 150
 TULIPS_CHANCE = 0.1
 
 GPIO.setmode(GPIO.BCM)
@@ -422,7 +422,7 @@ while True:
 
         # Random pattern
 
-        if activated_lights_party and random() < 1:
+        if activated_lights_party and random() < 0.5:
                 ls.random_pattern_huisfeest()
 
         if timer > 10000:
