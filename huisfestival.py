@@ -240,18 +240,6 @@ def activate_remote():
     log("party: " + str(activated_lights_party) +
           " gr: " + str(activated_lights_gr))
 
-    if activated_lights_party:
-        sc.activate_party_lights()
-    else:
-        sc.deactivate_party_lights()
-
-    sleep(0.5)
-
-    if activated_lights_gr:
-        sc.activate_normal_lights()
-    else:
-        sc.deactivate_normal_lights()
-
 
 GPIO.add_event_detect(PIN_K1, GPIO.FALLING, callback=registerPress)
 # GPIO.add_event_detect(PIN_K2, GPIO.FALLING, callback=registerPress)
@@ -421,10 +409,11 @@ while True:
 
         # Random pattern
 
-        if activated_lights_party and random() < 0.1:
+        if activated_lights_party and random() < 0.2:
                 ls.random_pattern_huisfeest()
         else:
-            ls.clearStrip(ls.strip)
+            if not spies_mode:
+                ls.clearStrip(ls.strip)
 
         if timer > 10000:
             timer = 0
