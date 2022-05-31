@@ -5,6 +5,7 @@
 # Direct port of the Arduino NeoPixel library strandtest example.  Showcases
 # various animations on a strip of NeoPixe
 
+from operator import invert
 import time
 from rpi_ws281x import *
 import argparse
@@ -654,7 +655,11 @@ def random_pattern():
 
 def random_pattern_huisfeest():
     rand = random()
-    if rand > 0.4 and rand < 0.5:
+    if rand > 0.3 and rand < 0.35:
+        colorWipeNoTail(strip, randomColor(), speed=int(1 + random() * 6))
+    elif rand > 0.35 and rand < 0.4:
+        colorWipeNoTail(strip, randomColor(), speed=int(1 + random() * 6), inverted=True)
+    elif rand > 0.4 and rand < 0.5:
         colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 60), wait_ms=int(1 + random() * 20))
     elif rand > 0.5 and rand < 0.6:
         colorWipeNoTail(strip, randomColor(), width=int(1 + random() * 60), wait_ms=int(1 + random() * 20), inverted=True)
