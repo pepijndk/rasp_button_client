@@ -195,7 +195,7 @@ def short_press(i):
         if spies_mode:
             ls.random_spies_setup(ls.strip)
         else:
-            ls.strobeRainbow(ls.strip, iterations=400)
+            ls.strobeRainbow(ls.strip, iterations=250)
 
 
     last_clicked = 0
@@ -422,7 +422,7 @@ while True:
 
         # Random pattern
 
-        if activated_lights_party and random() < 1:
+        if activated_lights_party and random() < 0.1:
                 ls.random_pattern_huisfeest()
 
         if timer > 10000:
