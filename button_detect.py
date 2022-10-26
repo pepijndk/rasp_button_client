@@ -290,6 +290,7 @@ def call():
     global call_running
 
     print("call called")
+    log("activated:" + str(activated_music) + " main button: " + str(GPIO.input(PIN_MAIN_BUTTON)) + " smoke " + str(activated_smoke), communicate=True)
     try:
         # Button is clicked when music is off
         if GPIO.input(PIN_MAIN_BUTTON) and activated_music == False:
