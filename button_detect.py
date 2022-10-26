@@ -54,7 +54,7 @@ clientSocket.settimeout(5)
 # PIN 21: OUTPUT, Servo 4
 
 
-GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.DOWN)
 
 
 # reacting to control panel button pushes
