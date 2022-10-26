@@ -95,7 +95,7 @@ def registerPress(i):
 
 
     try:
-        # log("btn clicked " + str(i))
+        log("btn clicked " + str(i))
 
         # main button
         if i == PIN_MAIN_BUTTON:
