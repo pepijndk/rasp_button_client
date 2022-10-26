@@ -54,7 +54,7 @@ clientSocket.settimeout(5)
 # PIN 21: OUTPUT, Servo 4
 
 
-GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
 # reacting to control panel button pushes
@@ -62,7 +62,6 @@ GPIO.setup(PIN_K1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIN_K4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(PIN_MAIN_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 activated_music = False  # if the main button is pressed
 activated_smoke = False
@@ -404,7 +403,7 @@ def attempt_reconnect(flash_red=False):
 
 # start of script
 ls.clearStrip(ls.strip, ls.Color(255, 255, 0))
-sleep(2)
+# sleep(2)
 
 attempt_reconnect(flash_red=True)
 
